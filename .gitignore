@@ -4,3 +4,4 @@
 
 output/*
 !output/.gitkeep
+vanilla_output
