@@ -4,7 +4,7 @@ use std::str::from_utf8;
 use nom::IResult;
 use nom::branch::alt;
 use nom::bytes::complete::{tag, take, take_until};
-use nom::combinator::{map, opt, peek};
+use nom::combinator::{map, opt, peek, map_parser};
 use nom::multi::{many0, many_till};
 use nom::sequence::{delimited, preceded, tuple};
 
@@ -29,9 +29,8 @@ fn article_parser(input: &str) -> IResult<&str, String> {
         many0(
             alt((
                 template_parser, 
-                quote_parser,
-                bracket_parser,
-                map(take(1 as u8), |c: &str| c.to_owned())
+                general_formatting_parser,
+                map(take(1u8), |c: &str| c.to_owned())
             ))
         ),
         |strings| { strings.join("") }
@@ -39,7 +38,6 @@ fn article_parser(input: &str) -> IResult<&str, String> {
 }
 
 fn template_parser(input: &str) -> IResult<&str, String> {
-    // TODO: This is where the transformation goes
     map(
         preceded(
             tag("{{"),
@@ -55,7 +53,7 @@ fn inner_template_parser(input: &str) -> IResult<&str, String> {
             map(
                 tuple((
                     many_till(
-                        take(1 as u8),
+                        take(1u8),
                         peek(
                             alt((tag("{{"), tag("}}")))
                         )
@@ -85,37 +83,43 @@ fn filter_templates(input: String) -> String {
     return input;
 }
 
-fn quote_parser(input: &str) -> IResult<&str, String> {
+fn general_formatting_parser(input: &str) -> IResult<&str, String> {
+    let helper = |worker: fn(_) -> _| {
+        alt((
+            map_parser(worker, article_parser),
+            map(worker, |s| s.to_owned())
+        ))
+    };
+
     alt((
-        quote_helper("'''''"),
-        quote_helper("'''"),
-        quote_helper("''")
-    ))
-(input)
+        helper(quote_parser_worker),
+        helper(link_parser_worker)
+    ))(input)
 }
 
-fn quote_helper<'a>(delimiter: &'static str) 
-    -> impl FnMut(&'a str) -> IResult<&'a str, String> 
-{
-    map(
-        preceded(
+fn quote_parser_worker(input: &str) -> IResult<&str, &str> {
+    let helper = |delimiter| {
+        delimited(
             tag(delimiter), 
-            many_till(
-                take(1 as u8), 
-                tag(delimiter)
-            ), 
-        ),
-        |(strings, _)| strings.join("")
-    )
+            take_until(delimiter), 
+            tag(delimiter)
+        )
+    };
+
+    alt((
+        helper("'''''"),
+        helper("'''"),
+        helper("''")
+    ))(input)
 }
 
-fn bracket_parser(input: &str) -> IResult<&str, String> {
+fn link_parser_worker(input: &str) -> IResult<&str, &str> {
     map(
         delimited(
             tag("[["),
             take_until("]]"),
             tag("]]")
         ),
-        |s: &str| s.split("|").last().unwrap().to_owned()
+        |s: &str| s.split("|").last().unwrap()
     )(input)
 }
