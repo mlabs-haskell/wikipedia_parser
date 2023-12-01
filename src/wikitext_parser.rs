@@ -14,6 +14,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "infobox"
 ];
 
+// Take a given wikitext-formatted string and extract the useful text
 pub fn extract_text(input: &[u8]) -> Vec<u8> {
     let input = from_utf8(input).unwrap();
 
@@ -24,6 +25,7 @@ pub fn extract_text(input: &[u8]) -> Vec<u8> {
     parsed.into_bytes()
 }
 
+// Nom parser that allows us to extract needed text while knowing the article structure
 fn article_parser(input: &str) -> IResult<&str, String> {
     map(
         many0(
@@ -37,27 +39,33 @@ fn article_parser(input: &str) -> IResult<&str, String> {
     )(input)
 }
 
+// Parse template items
 fn template_parser(input: &str) -> IResult<&str, String> {
     map(
         preceded(
             tag("{{"),
-            inner_template_parser
+            template_parser_worker
         ),
         filter_templates
     )(input)
 }
 
-fn inner_template_parser(input: &str) -> IResult<&str, String> {
+// 
+fn template_parser_worker(input: &str) -> IResult<&str, String> {
     map(
+        // Grab text and sub templates until the end of this template
         many_till(
             map(
                 tuple((
+                    // Grab until the start of a new template or end of current one
                     many_till(
                         take(1u8),
                         peek(
                             alt((tag("{{"), tag("}}")))
                         )
                     ),
+
+                    // See if next item is a template
                     opt(template_parser)
                 )),
                 |((strings, _), opt_brace)| { 
@@ -83,6 +91,7 @@ fn filter_templates(input: String) -> String {
     return input;
 }
 
+// Handle items meant to change how text is displayed
 fn general_formatting_parser(input: &str) -> IResult<&str, String> {
     let helper = |worker: fn(_) -> _| {
         alt((
@@ -97,6 +106,7 @@ fn general_formatting_parser(input: &str) -> IResult<&str, String> {
     ))(input)
 }
 
+// Handle the command codes for bolds and italics 
 fn quote_parser_worker(input: &str) -> IResult<&str, &str> {
     let helper = |delimiter| {
         delimited(
