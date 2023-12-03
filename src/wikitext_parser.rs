@@ -7,7 +7,7 @@ use nom::branch::alt;
 use nom::bytes::complete::{tag, take, take_until};
 use nom::combinator::{map, peek, eof, fail};
 use nom::multi::{many0, many_till, many1};
-use nom::sequence::{delimited, preceded, terminated};
+use nom::sequence::{delimited, preceded, terminated, tuple};
 
 const REMOVE_TEMPLATES: &[&str] = &[
     "use",
@@ -43,11 +43,16 @@ pub fn extract_text(input: &[u8]) -> Vec<u8> {
     let input = from_utf8(input).unwrap();
 
     // Convert html codes to their proper characters
-    let decoded_html = decode_html_entities(input);
+    let decoded = decode_html_entities(input);
 
     // Use nom to parse the important information from the article
-    let (_, parsed) = article_parser(decoded_html.as_ref()).unwrap();
+    let (_, parsed) = article_parser(decoded.as_ref()).unwrap();
+
+    // Perform some final cleanup
     let parsed = parsed.trim().to_owned();
+    let parsed = parsed.replace("&ndash;", "-");
+    let parsed = parsed.replace("&nbsp;", " ");
+
     parsed.into_bytes()
 }
 
@@ -69,8 +74,22 @@ fn general_content_parser(input: &str) -> IResult<&str, String> {
         link_parser,
         comment_parser,
         section_parser,
+        list_parser,
         map(take(1u8), |c: &str| c.to_owned())
     ))(input)
+}
+
+fn list_parser(input: &str) -> IResult<&str, String> {
+    map(
+        preceded(
+            tuple((
+                tag("\n"),
+                many1(tag("*"))
+            )), 
+            many_till(general_content_parser, peek(tag("\n")))
+        ),
+        |(strings, delimiter)| delimiter.to_owned() + &strings.join("")
+    )(input)
 }
 
 // Remove unneeded sections
