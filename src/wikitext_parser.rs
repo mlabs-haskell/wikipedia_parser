@@ -4,9 +4,9 @@ use std::str::from_utf8;
 use nom::IResult;
 use nom::branch::alt;
 use nom::bytes::complete::{tag, take, take_until};
-use nom::combinator::{map, opt, peek, map_parser};
+use nom::combinator::{map, opt, peek};
 use nom::multi::{many0, many_till};
-use nom::sequence::{delimited, preceded, tuple};
+use nom::sequence::{delimited, preceded, tuple, terminated};
 
 const REMOVE_TEMPLATES: &[&str] = &[
     "use",
@@ -28,19 +28,50 @@ pub fn extract_text(input: &[u8]) -> Vec<u8> {
 // Nom parser that allows us to extract needed text while knowing the article structure
 fn article_parser(input: &str) -> IResult<&str, String> {
     map(
-        many0(
-            alt((
-                template_parser, 
-                general_formatting_parser,
-                map(take(1u8), |c: &str| c.to_owned())
-            ))
-        ),
+        many0(general_content_parser),
         |strings| { strings.join("") }
     )(input)
 }
 
+// If next item is special, parse it. Otherwise, move forward one char
+fn general_content_parser(input: &str) -> IResult<&str, String> {
+    alt((
+        ref_parser,
+        template_parser, 
+        quote_parser,
+        link_parser,
+        map(take(1u8), |c: &str| c.to_owned())
+    ))(input)
+}
+
+// Parse refs and get rid of them
+fn ref_parser(input: &str) -> IResult<&str, String> {
+    // Take the opening tag
+    let (input, tag_attrs) = delimited(
+        tag("<ref"),
+        take_until(">"),
+        tag(">")
+    )(input)?;
+
+    // If the tag is empty, we have consumed it and we are done
+    if tag_attrs.ends_with("/") {
+        Ok((input, String::new()))
+    }
+
+    // Otherwise, consume until the end tag
+    else {
+        let (input, _) = terminated(
+            take_until("</ref>"),
+            tag("</ref>")
+        )(input)?;
+
+        Ok((input, String::new()))
+    }
+}
+
 // Parse template items
 fn template_parser(input: &str) -> IResult<&str, String> {
+    // Get the contents of the template and filter unneeded ones
     map(
         preceded(
             tag("{{"),
@@ -50,7 +81,7 @@ fn template_parser(input: &str) -> IResult<&str, String> {
     )(input)
 }
 
-// 
+// Returns the contents of the template
 fn template_parser_worker(input: &str) -> IResult<&str, String> {
     map(
         // Grab text and sub templates until the end of this template
@@ -91,28 +122,18 @@ fn filter_templates(input: String) -> String {
     return input;
 }
 
-// Handle items meant to change how text is displayed
-fn general_formatting_parser(input: &str) -> IResult<&str, String> {
-    let helper = |worker: fn(_) -> _| {
-        alt((
-            map_parser(worker, article_parser),
-            map(worker, |s| s.to_owned())
-        ))
-    };
-
-    alt((
-        helper(quote_parser_worker),
-        helper(link_parser_worker)
-    ))(input)
-}
-
 // Handle the command codes for bolds and italics 
-fn quote_parser_worker(input: &str) -> IResult<&str, &str> {
+fn quote_parser(input: &str) -> IResult<&str, String> {
     let helper = |delimiter| {
-        delimited(
-            tag(delimiter), 
-            take_until(delimiter), 
-            tag(delimiter)
+        preceded(
+            tag(delimiter),
+            map(
+                many_till(
+                    general_content_parser,
+                    tag(delimiter)
+                ),
+                |(strings, _)| strings.join("")
+            )
         )
     };
 
@@ -123,13 +144,19 @@ fn quote_parser_worker(input: &str) -> IResult<&str, &str> {
     ))(input)
 }
 
-fn link_parser_worker(input: &str) -> IResult<&str, &str> {
+// Handle the command codes for links to other articles and to images
+fn link_parser(input: &str) -> IResult<&str, String> {
     map(
-        delimited(
+        preceded(
             tag("[["),
-            take_until("]]"),
-            tag("]]")
+            map(
+                many_till(
+                    general_content_parser,
+                    tag("]]")
+                ),
+                |(strings, _)| strings.join("")
+            )
         ),
-        |s: &str| s.split("|").last().unwrap()
+        |s: String| s.split("|").last().unwrap().to_owned()
     )(input)
 }
