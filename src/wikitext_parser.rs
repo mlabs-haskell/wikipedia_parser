@@ -14,7 +14,8 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "infobox",
     "hidden",
     "efn",
-    "see also"
+    "see also",
+    "music ratings"
 ];
 
 // Take a given wikitext-formatted string and extract the useful text
