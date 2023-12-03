@@ -1,11 +1,12 @@
 use html_escape::decode_html_entities;
+use nom::character::complete::{none_of, anychar};
 use std::str::from_utf8;
 
 use nom::IResult;
 use nom::branch::alt;
 use nom::bytes::complete::{tag, take, take_until};
-use nom::combinator::map;
-use nom::multi::{many0, many_till};
+use nom::combinator::{map, peek, eof, fail};
+use nom::multi::{many0, many_till, many1};
 use nom::sequence::{delimited, preceded, terminated};
 
 const REMOVE_TEMPLATES: &[&str] = &[
@@ -15,7 +16,26 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "hidden",
     "efn",
     "see also",
-    "music ratings"
+    "music ratings",
+    "awards table",
+    "track listing",
+    "sup",
+    "div",
+    "col",
+    "album chart",
+    "certification table",
+    "notelist",
+    "reflist",
+    "refbegin",
+    "refend",
+    "cite"
+];
+
+const REMOVE_SECTIONS: &[&str] = &[
+    "see also",
+    "notes",
+    "references",
+    "external links"
 ];
 
 // Take a given wikitext-formatted string and extract the useful text
@@ -25,7 +45,9 @@ pub fn extract_text(input: &[u8]) -> Vec<u8> {
     // Convert html codes to their proper characters
     let decoded_html = decode_html_entities(input);
 
+    // Use nom to parse the important information from the article
     let (_, parsed) = article_parser(decoded_html.as_ref()).unwrap();
+    let parsed = parsed.trim().to_owned();
     parsed.into_bytes()
 }
 
@@ -40,13 +62,63 @@ fn article_parser(input: &str) -> IResult<&str, String> {
 // If next item is special, parse it. Otherwise, move forward one char
 fn general_content_parser(input: &str) -> IResult<&str, String> {
     alt((
+        table_parser,
         ref_parser,
         template_parser, 
         quote_parser,
         link_parser,
         comment_parser,
+        section_parser,
         map(take(1u8), |c: &str| c.to_owned())
     ))(input)
+}
+
+// Remove unneeded sections
+fn section_parser(input: &str) -> IResult<&str, String> {
+    let mut header_helper = map(
+        delimited(
+            tag("=="), 
+            many1(
+                none_of("=")
+            ),
+            tag("==")
+        ),
+        |v| {
+            let s: String = v.iter().collect();
+            s.trim().to_lowercase()
+        }
+    );
+
+    let (input, header) = header_helper(input)?;
+    if REMOVE_SECTIONS.iter().any(|r| r == &header) {
+        map(
+            many_till(
+                anychar, 
+                alt((
+                    peek(header_helper),
+                    map(eof, |s: &str| s.to_string())
+                ))
+            ), 
+            |_| String::new()
+        )(input)
+    }
+    else {
+        fail(input)
+    }
+}
+
+// For now, just remove tables
+fn table_parser(input: &str) -> IResult<&str, String> {
+    preceded(
+        alt((tag("\n|"), tag("\n!"), tag("\n{|"))),
+        map(
+            many_till(
+                general_content_parser,
+                peek(tag("\n"))
+            ),
+            |_| String::new()
+        )
+    )(input)
 }
 
 // Parse refs and get rid of them
