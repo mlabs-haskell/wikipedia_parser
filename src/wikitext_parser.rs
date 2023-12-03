@@ -4,14 +4,17 @@ use std::str::from_utf8;
 use nom::IResult;
 use nom::branch::alt;
 use nom::bytes::complete::{tag, take, take_until};
-use nom::combinator::{map, opt, peek};
+use nom::combinator::map;
 use nom::multi::{many0, many_till};
-use nom::sequence::{delimited, preceded, tuple, terminated};
+use nom::sequence::{delimited, preceded, terminated};
 
 const REMOVE_TEMPLATES: &[&str] = &[
     "use",
     "good article",
-    "infobox"
+    "infobox",
+    "hidden",
+    "efn",
+    "see also"
 ];
 
 // Take a given wikitext-formatted string and extract the useful text
@@ -40,6 +43,7 @@ fn general_content_parser(input: &str) -> IResult<&str, String> {
         template_parser, 
         quote_parser,
         link_parser,
+        comment_parser,
         map(take(1u8), |c: &str| c.to_owned())
     ))(input)
 }
@@ -69,49 +73,25 @@ fn ref_parser(input: &str) -> IResult<&str, String> {
     }
 }
 
-// Parse template items
+// Get the contents of the template and filter unneeded ones
 fn template_parser(input: &str) -> IResult<&str, String> {
-    // Get the contents of the template and filter unneeded ones
     map(
         preceded(
             tag("{{"),
-            template_parser_worker
+            map(
+                many_till(
+                    general_content_parser, 
+                    tag("}}")
+                ),
+                |(strings, _)| strings.join("")
+            )
         ),
         filter_templates
     )(input)
 }
 
-// Returns the contents of the template
-fn template_parser_worker(input: &str) -> IResult<&str, String> {
-    map(
-        // Grab text and sub templates until the end of this template
-        many_till(
-            map(
-                tuple((
-                    // Grab until the start of a new template or end of current one
-                    many_till(
-                        take(1u8),
-                        peek(
-                            alt((tag("{{"), tag("}}")))
-                        )
-                    ),
-
-                    // See if next item is a template
-                    opt(template_parser)
-                )),
-                |((strings, _), opt_brace)| { 
-                    let brace_sub = opt_brace.unwrap_or(String::new());
-                    strings.join("") + &brace_sub
-                }
-            ),
-            tag("}}")
-        ),
-        |(strings, _)| strings.join("")
-    )(input)
-}
-
 fn filter_templates(input: String) -> String {
-    // Handle templates that can be removed
+    // Handle templates that can always be totally removed
     let remove = REMOVE_TEMPLATES
         .iter()
         .any(|&s| input.to_lowercase().starts_with(s));
@@ -119,7 +99,45 @@ fn filter_templates(input: String) -> String {
         return String::new();
     }
 
-    return input;
+    // Handle simple map cases
+    let parts: Vec<_> = input.split('|').collect();
+    let num_parts = parts.len();
+    match parts[0].to_lowercase().as_str() {
+        "sic" => return article_parser(parts[num_parts - 1]).unwrap().1,
+        _ => ()
+    }
+
+    // Handle cases that need actual parsing
+    if parts[0].to_lowercase().starts_with("quote") {
+        let mut quote = "";
+        let mut author = None;
+        let mut source = None;
+        for tag in &parts[1..] {
+            let tag_pieces: Vec<_> = tag.split("=").map(|s| s.trim()).collect();
+            match tag_pieces[0] {
+                "quote" => quote = tag_pieces[1],
+                "author" => author = Some(tag_pieces[1]),
+                "source" => source = Some(tag_pieces[1]),
+                _ => ()
+            }
+        }
+
+        let caption = 
+            if let Some((author, source)) = author.zip(source) {
+                author.to_owned() + ", " + source
+            }
+            else if let Some(caption) = author.or(source) {
+                caption.to_owned()
+            }
+            else {
+                String::new()
+            };
+        
+        let output = quote.to_owned() + &caption;
+        return article_parser(&output).unwrap().1;
+    }
+
+    return String::from("{{") + &input + "}}";
 }
 
 // Handle the command codes for bolds and italics 
@@ -159,4 +177,15 @@ fn link_parser(input: &str) -> IResult<&str, String> {
         ),
         |s: String| s.split("|").last().unwrap().to_owned()
     )(input)
+}
+
+// Remove comments
+fn comment_parser(input: &str) -> IResult<&str, String> {
+    let (input, _) = delimited(
+        tag("<!--"),
+        take_until("-->"),
+        tag("-->")
+    )(input)?;
+
+    Ok((input, String::new()))
 }
