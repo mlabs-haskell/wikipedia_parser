@@ -175,7 +175,14 @@ fn link_parser(input: &str) -> IResult<&str, String> {
                 |(strings, _)| strings.join("")
             )
         ),
-        |s: String| s.split("|").last().unwrap().to_owned()
+        |s: String| {
+            if s.starts_with("File:") {
+                String::new()
+            }
+            else {
+                s.split("|").last().unwrap().to_owned()
+            }
+        }
     )(input)
 }
 
