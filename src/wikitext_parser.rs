@@ -1,10 +1,10 @@
 use html_escape::decode_html_entities;
-use nom::character::complete::{none_of, anychar};
 use std::str::from_utf8;
 
 use nom::IResult;
 use nom::branch::alt;
-use nom::bytes::complete::{tag, take, take_until};
+use nom::bytes::complete::{tag, take, take_until, tag_no_case};
+use nom::character::complete::{none_of, anychar};
 use nom::combinator::{map, peek, eof, fail};
 use nom::multi::{many0, many_till, many1};
 use nom::sequence::{delimited, preceded, terminated, tuple};
@@ -28,7 +28,11 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "reflist",
     "refbegin",
     "refend",
-    "cite"
+    "cite",
+    "short description",
+    "about",
+    "pp-protected",
+    "technical reasons"
 ];
 
 const REMOVE_SECTIONS: &[&str] = &[
@@ -43,10 +47,10 @@ pub fn extract_text(input: &[u8]) -> Vec<u8> {
     let input = from_utf8(input).unwrap();
 
     // Convert html codes to their proper characters
-    let decoded = decode_html_entities(input);
+    let input = decode_html_entities(input).to_string();
 
     // Use nom to parse the important information from the article
-    let (_, parsed) = article_parser(decoded.as_ref()).unwrap();
+    let (_, parsed) = article_parser(input.as_str()).unwrap();
 
     // Perform some final cleanup
     let parsed = parsed.trim().to_owned();
@@ -128,15 +132,28 @@ fn section_parser(input: &str) -> IResult<&str, String> {
 
 // For now, just remove tables
 fn table_parser(input: &str) -> IResult<&str, String> {
-    preceded(
-        alt((tag("\n|"), tag("\n!"), tag("\n{|"))),
-        map(
-            many_till(
-                general_content_parser,
-                peek(tag("\n"))
+    map(
+        alt((
+            preceded(
+                alt((
+                    tag("\n{|"),
+                    tag_no_case("{{Awards table"),
+                    tag_no_case("{{Certification Table Top")
+                )),
+                many_till(
+                    general_content_parser,
+                    tag("|}")
+                )
             ),
-            |_| String::new()
-        )
+            preceded(
+                tag_no_case("{{Certification Table Top"),
+                many_till(
+                    general_content_parser,
+                    tag_no_case("{{Certification Table Bottom}}")
+                )
+            )
+        )),
+        |_| String::new()
     )(input)
 }
 
@@ -167,7 +184,7 @@ fn ref_parser(input: &str) -> IResult<&str, String> {
 
 // Get the contents of the template and filter unneeded ones
 fn template_parser(input: &str) -> IResult<&str, String> {
-    map(
+    let r = map(
         preceded(
             tag("{{"),
             map(
@@ -179,7 +196,16 @@ fn template_parser(input: &str) -> IResult<&str, String> {
             )
         ),
         filter_templates
-    )(input)
+    )(input);
+
+    if input.starts_with("{{") && r.is_err() {
+        let chunk: String = input.chars().take(1000).collect();
+        println!("-------------------------");
+        println!("{}", chunk);
+        println!("-------------------------");
+    }
+
+    r
 }
 
 fn filter_templates(input: String) -> String {
