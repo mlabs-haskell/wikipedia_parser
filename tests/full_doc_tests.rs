@@ -26,12 +26,6 @@ fn test_full_doc(article_name: &str) {
 
     let processed = processed_file(article_name);
 
-    for (l, r) in output.chars().zip(processed.chars()) {
-        if l != r {
-            println!("l:{:04x} r:{:04x}", l as u32, r as u32)
-        }
-    }
-
     assert_eq!(output.trim(), processed.trim());
 }
 
