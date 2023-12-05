@@ -1,61 +1,17 @@
 use html_escape::decode_html_entities;
 use regex::Regex;
-use std::collections::LinkedList;
 use std::str::from_utf8;
 
 use nom::{IResult, Parser, InputLength};
 use nom::branch::alt;
 use nom::bytes::complete::{tag, take_until, tag_no_case};
-use nom::character::complete::{none_of, anychar};
+use nom::character::complete::{none_of, anychar, one_of};
 use nom::combinator::{map, peek, eof, fail};
 use nom::error::ParseError;
 use nom::multi::{many0, many_till, many1};
 use nom::sequence::{delimited, preceded, terminated, tuple};
 
-const REMOVE_TEMPLATES: &[&str] = &[
-    "further",
-    "letter other reps",
-    "certification cite ref",
-    "clear",
-    "charmap",
-    "main article",
-    "use",
-    "good article",
-    "infobox",
-    "hidden",
-    "efn",
-    "see also",
-    "music ratings",
-    "awards table",
-    "track listing",
-    "sup",
-    "div",
-    "col",
-    "album chart",
-    "certification table",
-    "notelist",
-    "reflist",
-    "cite",
-    "short description",
-    "about",
-    "pp-protected",
-    "technical reasons",
-    "latin letter",
-    "refn",
-    "other uses",
-    "pp",
-    "toc",
-    "main",
-    "sfn",
-    "ipa", // TODO: We can probably do something with IPA pronunciations
-    "respell", // This is another IPA-related item
-    "multiple image",
-    "cleanup",
-    "wikisource",
-    "css",
-    "additional citation needed",
-    "inflation"
-];
+use crate::template_transformers::filter_templates;
 
 const REMOVE_SECTIONS: &[&str] = &[
     "see also",
@@ -126,10 +82,7 @@ fn list_parser(input: &str) -> IResult<&str, String> {
             tuple((
                 tag("\n"),
                 many1(
-                    alt((
-                        tag("*"),
-                        tag(":")
-                    ))
+                    one_of("*:;")
                 )
             )), 
             general_content_parser, 
@@ -314,137 +267,15 @@ fn template_parser(input: &str) -> IResult<&str, String> {
         |input| {
             let input = input.concat();
             let input = article_parser(&input);
-            filter_templates(input)
+            let (needs_parsing, input) = filter_templates(input);
+            if needs_parsing {
+                article_parser(&input)
+            }
+            else {
+                input
+            }
         }
     )(input)
-}
-
-// TODO: Break this function into smaller pieces, or even move it into its own module
-fn filter_templates(input: String) -> String {
-    // Handle templates that can always be totally removed
-    let remove = REMOVE_TEMPLATES
-        .iter()
-        .any(|&s| input.to_lowercase().starts_with(s));
-    if remove {
-        return String::new();
-    }
-
-    // Handle simple map cases
-    let parts: Vec<_> = input.split('|').collect();
-    let num_parts = parts.len();
-    match parts[0].to_lowercase().as_str() {
-        "sic" => return article_parser(parts[num_parts - 1]),
-        "vr" => return article_parser(parts[num_parts - 1]),
-        "script" => return article_parser(parts[num_parts - 1]),
-        "midsize" => return article_parser(parts[num_parts - 1]),
-        "'\"" => return article_parser(parts[num_parts - 1]),
-        "convert" => return parts[1].to_string() + " " + parts[2],
-        "sclass" => return format!("{}-class {}", parts[1].trim(), parts[2].trim()),
-        "uss" => {
-            if parts.len() == 2 {
-                return format!("USS {}", parts[1].trim());
-            }
-            else if parts.len() == 3 {
-                return format!("USS {} ({})", parts[1].trim(), parts[2].trim());
-            }
-            else {
-                ()
-            }
-        },
-        _ => ()
-    }
-    if parts[0].to_lowercase().starts_with("angbr") {
-        return article_parser(parts[num_parts - 1])
-    }
-
-    // Handle cases that need actual parsing
-    if parts[0].to_lowercase().starts_with("quote") {
-        let mut quote = "";
-        let mut author = None;
-        let mut source = None;
-        for tag in &parts[1..] {
-            let tag_pieces: Vec<_> = tag.split("=").map(|s| s.trim()).collect();
-            match tag_pieces[0] {
-                "quote" => quote = tag_pieces[1],
-                "author" => author = Some(tag_pieces[1]),
-                "source" => source = Some(tag_pieces[1]),
-                _ => ()
-            }
-        }
-
-        let caption = 
-            if let Some((author, source)) = author.zip(source) {
-                author.to_owned() + ", " + source
-            }
-            else if let Some(caption) = author.or(source) {
-                caption.to_owned()
-            }
-            else {
-                String::new()
-            };
-        
-        let output = quote.to_owned() + &caption;
-        return article_parser(&output);
-    }
-
-    // Blockquotes are distinct from quote blocks.
-    if parts[0].to_lowercase().starts_with("blockquote") {
-        let mut text = "";
-        let mut author = None;
-        let mut title = None;
-        let mut source = None;
-        let mut character = None;
-        for (i, tag) in parts[1..].iter().enumerate() {
-            let tag_pieces: Vec<_> = tag.split("=").map(|s| s.trim()).collect();
-            match tag_pieces[0] {
-                "text" => text = tag_pieces[1],
-                "author" => author = Some(tag_pieces[1]),
-                "title" => title = Some(tag_pieces[1]),
-                "source" => source = Some(tag_pieces[1]),
-                "character" => character = Some(tag_pieces[1]),
-                "sign" => author = Some(tag_pieces[1]),
-                _ => match i {
-                    0 => text = tag,
-                    1 => author = Some(tag),
-                    _ => ()
-                }
-            }
-        }
-
-        let mut caption_suffix_pieces = LinkedList::new();
-        if let Some(s) = source {
-            caption_suffix_pieces.push_front(s);
-        }
-        if let Some(t) = title {
-            caption_suffix_pieces.push_front(t);
-        }
-        if let Some(a) = author {
-            caption_suffix_pieces.push_front(a);
-        }
-        let caption_suffix = caption_suffix_pieces.into_iter().collect::<Vec<_>>().join(", ");
-
-        let caption = if let Some(c) = character {
-            if caption_suffix.is_empty() {
-                c.to_owned()
-            }
-            else {
-                format!("{c}, in {caption_suffix}")
-            }
-        }
-        else {
-            caption_suffix
-        };
-        
-        let output = if caption.is_empty() {
-            text.to_owned()
-        }
-        else {
-            format!("\"{text}\"-{caption}")
-        };
-        return article_parser(&output);
-    }
-
-    return String::from("{{") + &input + "}}";
 }
 
 // Handle the command codes for bolds and italics 
