@@ -77,7 +77,8 @@ const REPLACE_TEMPLATES: &[&str] = &[
     "transliteration",
     "section link",
     "crossreference",
-    "lang"
+    "lang",
+    "isbn"
 ];
 
 const MONTHS: &[&str] = &[
@@ -147,6 +148,8 @@ pub fn filter_templates(input: String) -> (bool, String) {
         .iter()
         .any(|&s| parts[0].to_lowercase().starts_with(s));
     if replace {
+        let parts: Vec<_> = parts.iter().filter(|&s| !s.contains("=")).collect();
+        let num_parts = parts.len();
         return (true, parts[num_parts - 1].to_string());
     }
     if parts[0].to_lowercase().starts_with("angbr") {
