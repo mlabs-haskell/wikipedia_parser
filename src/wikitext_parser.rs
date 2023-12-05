@@ -1,4 +1,5 @@
 use html_escape::decode_html_entities;
+use regex::Regex;
 use std::str::from_utf8;
 
 use nom::{IResult, Parser, InputLength};
@@ -80,6 +81,12 @@ fn article_parser(input: &str) -> String {
 
     // This is safe because the above parser will always succeed
     let (_, output) = result.unwrap();
+
+    // Remove all double (or more) carriage returns
+    let re = Regex::new(r"\n\n+").unwrap();
+    let output = re.replace_all(&output, "\n");
+    let output = output.to_string();
+
     output
 }
 
