@@ -73,6 +73,7 @@ fn general_content_parser(input: &str) -> IResult<&str, String> {
         comment_parser,
         list_parser,
         html_code_parser,
+        blockquote_parser,
         map(anychar, |c| c.to_string())
     ))(input)
 }
@@ -211,6 +212,25 @@ fn div_parser(input: &str) -> IResult<&str, String> {
     )(input)
 }
 
+// Extract text from blockquote sections
+fn blockquote_parser(input: &str) -> IResult<&str, String> {
+    map(
+        look_ahead_delimited(
+            delimited(
+                tag("<blockquote"),
+                take_until(">"),
+                tag(">")
+            ),
+            anychar,
+            tag("</blockquote>")
+        ),
+        |cs| {
+            let s: String = cs.iter().collect();
+            article_parser(&s)
+        }
+    )(input)
+}
+
 fn html_code_parser(input: &str) -> IResult<&str, String> {
     let helper = |html_tag| {
         look_ahead_delimited(
@@ -243,12 +263,16 @@ fn html_code_parser(input: &str) -> IResult<&str, String> {
                 helper("sup"),
                 helper("span")
             )),
-            |strings| strings.concat()
+            |strings| {
+                let s = strings.concat();
+                article_parser(&s)
+            }
         ),
         map(
             alt((
                 helper("imagemap"),
-                helper("gallery")
+                helper("gallery"),
+                helper("math")
             )),
             |_| String::new()
         )

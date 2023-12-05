@@ -57,7 +57,11 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "alabama",
     "us census population",
     "expand",
-    "citation needed"
+    "citation needed",
+    "etymology",
+    "update",
+    "cn",
+    "failed verification"
 ];
 
 const MAPPERS: &[(&str, &str)] = &[
