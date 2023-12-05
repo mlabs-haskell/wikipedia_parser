@@ -52,13 +52,20 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "more citations needed",
     "agriculture",
     "by whom",
-    "rp"
+    "rp",
+    "maplink",
+    "alabama",
+    "us census population",
+    "expand",
+    "citation needed"
 ];
 
 const MAPPERS: &[(&str, &str)] = &[
     ("--)", ")"),
     ("'", "'"),
-    ("'\"", "'\"")
+    ("'\"", "'\""),
+    ("spaces", " "),
+    ("snd", " - ")
 ];
 
 const REPLACE_TEMPLATES: &[&str] = &[
@@ -86,6 +93,25 @@ const MONTHS: &[&str] = &[
     "October",
     "November",
     "December"
+];
+
+const CONVERSION_SEPARATORS: &[&str] = &[
+    "-",
+    "\u{2013}",
+    "and",
+    "and(-)",
+    "or",
+    "to",
+    "to(-)",
+    "to about",
+    "+/-",
+    "\u{00B1}",
+    "+",
+    ",",
+    ", and",
+    ", or",
+    "by",
+    "x"
 ];
 
 // Takes a template, processes it, and returns it and a bool flag 
@@ -129,7 +155,6 @@ pub fn filter_templates(input: String) -> (bool, String) {
 
     // Handle simple map cases
     match parts[0].to_lowercase().as_str() {
-        "convert" => return (false, parts[1].to_string() + " " + parts[2]),
         "sclass" => return (false, format!("{}-class {}", parts[1].trim(), parts[2].trim())),
         "uss" | "hms" | "hmnzs" => {
             let s = if parts.len() == 2 {
@@ -149,6 +174,25 @@ pub fn filter_templates(input: String) -> (bool, String) {
             return (true, s)
         },
         "ill" | "interlanguage link" => return (true, parts[1].trim().to_string()),
+        "frac" | "fraction" => {
+            match parts.len() {
+                1 => return (false, "/".to_string()),
+                2 => return (false, format!("1/{}", parts[1])),
+                3 => return (false, format!("{}/{}", parts[1], parts[2])),
+                4 => return (false, format!("{} {}/{}", parts[1], parts[2], parts[3])),
+                _ => ()
+            };
+        },
+        "cvt" | "convert" => {
+            if CONVERSION_SEPARATORS.iter().any(|&s| s == parts[2]) {
+                let s = format!("{} {} {} {}", parts[1], parts[2], parts[3], parts[4]);
+                return (false, s);
+            }
+            else {
+                let s = format!("{} {}", parts[1], parts[2]);
+                return (false, s);
+            }
+        },
         _ => ()
     }
 
