@@ -402,6 +402,7 @@ fn filter_templates(input: String) -> String {
                 "title" => title = Some(tag_pieces[1]),
                 "source" => source = Some(tag_pieces[1]),
                 "character" => character = Some(tag_pieces[1]),
+                "sign" => author = Some(tag_pieces[1]),
                 _ => match i {
                     0 => text = tag,
                     1 => author = Some(tag),
