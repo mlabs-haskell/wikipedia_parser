@@ -1,0 +1,1025 @@
+{{Use American English|date=January 2023}}
+{{Use mdy dates|date=December 2020}}
+{{good article}}
+{{Infobox album
+| name         = ...Baby One More Time
+| type         = studio
+| artist       = [[Britney Spears]]
+| cover        = ... Baby One More Time (album).png
+| border       = yes
+| alt          = 
+| caption      = North American edition cover
+| released     = {{start date|1999|1|12}}
+| recorded     = 1997 – June 1998 <!-- Multiple sources state the album was completed in June 1998. If known, it's better to state the exact time of recording. -->
+| studio       = 
+* 4MW East (New Jersey)
+* Battery (New York City)
+* [[Cheiron Studios|Cheiron]] (Stockholm)
+| genre        =
+* [[Pop music|Pop]]
+* [[bubblegum pop]]
+* [[dance-pop]]
+* [[teen pop]]
+| length       = 42:20
+| label        = [[Jive Records|Jive]]
+| producer     = * [[All Seeing I]]
+* [[Jörgen Elofsson]]
+* [[David Kreuger]]
+* [[Kristian Lundin]]
+* [[Per Magnusson]]
+* [[Max Martin]]
+* [[Rami Yacoub|Rami]]
+* [[Eric Foster White]]
+| prev_title   = 
+| prev_year    = 
+| next_title   = [[Oops!... I Did It Again (album)|Oops!... I Did It Again]]
+| next_year    = 2000
+| misc         = {{Extra album cover
+ | header  = International edition cover
+ | type    = studio
+ | cover   = ... Baby One More Time (International).png
+ | border  = yes
+ | alt     =
+ | caption =
+}}
+{{Singles
+ | name        = ...Baby One More Time
+ | type        = studio
+ | single1     = [[...Baby One More Time (song)|...Baby One More Time]]
+ | single1date = September 29, 1998
+ | single2     = [[Sometimes (Britney Spears song)|Sometimes]]
+ | single2date = April 6, 1999
+ | single3     = [[(You Drive Me) Crazy]]
+ | single3date = August 24, 1999
+ | single4     = [[Born to Make You Happy]]
+ | single4date = December 6, 1999
+ | single5     = [[From the Bottom of My Broken Heart]]
+ | single5date = December 14, 1999
+}}
+}}
+
+'''''...Baby One More Time''''' is the debut studio album by American singer [[Britney Spears]]. It was released on January 12, 1999, by [[Jive Records]]. Spears had been a child performer on ''[[The Mickey Mouse Club#1989–1994 revival: The All-New Mickey Mouse Club|The All-New Mickey Mouse Club]]'' from 1993 to 1994, and was looking to expand her career as a teen singer. After being turned away by several record companies, Spears signed with Jive for a multi-album deal in 1997. She travelled to Sweden to collaborate with producers [[Max Martin]] and [[Rami Yacoub]], who had been writing songs with producer [[Denniz Pop]] and others, for ''...Baby One More Time''. Their collaboration created a [[Pop music|pop]], [[bubblegum pop]], [[dance-pop]], and [[teen pop]] record, with Spears later saying that she felt excited when she heard it and knew it was going to be a hit record. The album was completed in June 1998.
+
+Upon its release, ''...Baby One More Time'' garnered mixed reviews from [[music journalism|music critics]], with many praising its commercial appeal but deeming it silly and premature. Despite its initial mixed reception, it helped Spears receive a nomination for [[Grammy Award for Best New Artist|Best New Artist]] at the [[42nd Annual Grammy Awards]] (2000). Retrospectively, it has been hailed for its major impact on [[Popular culture|pop culture]], citing it as one of the most influential pop records of all time. A massive global commercial success, it made Spears the fifth artist under the age of 18 to top the US [[Billboard 200|''Billboard'' 200]]. It has been certified [[RIAA certification|14× platinum (diamond)]] by the [[Recording Industry Association of America]] (RIAA). Spears's best-selling album, it has sold over 25 million copies worldwide, making it one of the [[List of best-selling albums|best-selling albums of all time]], as well as the [[List of best-selling albums by women|best-selling debut album by a female artist]].
+
+''...Baby One More Time'' produced five singles. The lead single, "[[...Baby One More Time (song)|...Baby One More Time]]", brought Spears tremendous global success, reaching number one in most countries it charted in and becoming one of the [[List of best-selling singles worldwide#Best-selling physical singles|best-selling physical singles of all time]]. In 2020, it was named the greatest debut single of all time by ''[[Rolling Stone]]''. Subsequent singles "[[Sometimes (Britney Spears song)|Sometimes]]" and "[[Born to Make You Happy]]" peaked within the top ten in most international countries while "[[(You Drive Me) Crazy]]" became Spears's second US [[Billboard Hot 100|''Billboard'' Hot 100]] top-ten hit. Spears heavily promoted the album through interviews and televised performances. Furthermore, she embarked on her first headlining concert tour, entitled [[...Baby One More Time Tour]] (1999) and later continued with [[(You Drive Me) Crazy Tour]] (2000).
+
+==Recording and production==
+{{Quote box|width=30%|align=left|quote="I had been in the studio for about six months listening and recording material, but I hadn't really heard a hit yet. When I started working with Max Martin in Sweden, he played the demo for 'Baby One More Time' for me, and I knew from the start it {{sic|one was}}<!--Obviously should be "was one", but the magazine stated "one was".--> of those songs you want to hear again and again. It just felt really right. I went into the studio and did my own thing with it, trying to give it a little more attitude than the demo. In 10 days, I never even saw Sweden. We were so busy."|source=—Spears talking to Chuck Taylor of ''[[Billboard (magazine)|Billboard]]''.<ref>{{cite magazine|date=1998|title=JIVE's Britney Spears Sets Top 40 Abuzz With Rhythm-Leaning 'Baby One More Time'|magazine=Billboard|volume=110|issue=43|page=104|issn=0006-2510|url=https://books.google.com/books?id=JQoEAAAAMBAJ&q=%22...baby+one+more+time%22&pg=PA80|access-date=September 21, 2011|archive-date=February 23, 2023|archive-url=https://web.archive.org/web/20230223101129/https://books.google.com/books?id=JQoEAAAAMBAJ&q=%22...baby+one+more+time%22&pg=PA80|url-status=live}}</ref>}}
+
+In June 1997, Spears was in talks with then-manager [[Lou Pearlman]] to join the female pop group [[Innosense]]. Her mother, [[Lynne Spears]], asked family friend and entertainment lawyer [[Larry Rudolph]] for his opinion and submitted a tape of Spears singing over a [[Whitney Houston]] karaoke song along with some pictures. Rudolph decided to pitch her to record labels, which required a professional demo. He sent Spears an unused song from [[Toni Braxton]]; she rehearsed for a week and recorded in a studio with an [[Audio engineering|audio engineer]]. Spears traveled from her hometown [[Kentwood, Louisiana]], to New York City with the demo and met executives from four labels, returning to Kentwood the same day. Three rejected her, arguing audiences wanted pop bands such as the [[Backstreet Boys]] and the [[Spice Girls]], and "there wasn't going to be another [[Madonna]], another [[Debbie Gibson]] or another [[Tiffany Darwish|Tiffany]]." Two weeks later, executives from [[Jive Records]] returned calls to Rudolph.<ref name="hughes145">{{harvnb|Hughes|2005|p=145}}</ref> Jive's senior vice president of [[Artists and repertoire|A&R]] Jeff Fenster stated: "It's very rare to hear someone that age who can deliver emotional content and commercial appeal. [...] For any artist, the motivation—the 'eye of the tiger'—is extremely important. And Britney had that."<ref name="rs1">{{cite magazine|title=Cover Story: Britney Spears: Britney Spears : Rolling Stone|date=April 15, 1999|magazine=[[Rolling Stone]]|last=Daly|first=Steven|url=https://www.rollingstone.com/music/music-news/britney-spears-teen-queen-rolling-stones-1999-cover-story-254871/|issn=0035-791X|access-date=June 2, 2022|archive-date=July 26, 2018|archive-url=https://web.archive.org/web/20180726051137/https://www.rollingstone.com/music/music-news/britney-spears-teen-queen-rolling-stones-1999-cover-story-254871/|url-status=live}}</ref>
+
+Jive soon appointed Britney to work with producer [[Eric Foster White]] for a month, who reportedly shaped her voice from "lower and less poppy" delivery to "distinctively, unmistakably Britney."<ref name="Hughes 2005 147">{{harvnb|Hughes|2005|p=147}}</ref> One of the first songs Spears recorded with Foster White was "[[From the Bottom of My Broken Heart]]", which was released as the album's 4th single. Foster White also produced "Autumn Goodbye", which was the [[B-side]] to Spears' debut single "[[...Baby One More Time (song)|...Baby One More Time]]". During the same session for "Autumn Goodbye", Spears and Foster White also worked on a song called "Love Is On", which ultimately did not make the album and was later given to [[Sharon Cuneta]]. Spears recorded a lot of material with [[Eric Foster White]], such as "Autumn Goodbye", "E-Mail My Heart", "[[From the Bottom of My Broken Heart]]", "I'm So Curious", "I Will Still Love You", "Way It Is Loving You", "I'll Be There For You", "Soda Pop", "Thinkin' About You", "Nothing Less Than Real", "Wishing on a Falling Star" and a cover of "[[You Got It All (The Jets song)#Britney Spears version|You Got It All]]" by [[The Jets (Minnesota band)|the Jets]].<ref name="liner">{{cite AV media|last=Spears|first=Britney|author-link=Britney Spears|title=...Baby One More Time|type=CD liner notes|publisher=[[Jive Records]]|year=1999}}</ref> She also recorded a cover of [[Sonny & Cher]]'s 1967 single "[[The Beat Goes On (Sonny & Cher song)|The Beat Goes On]]".<ref name="liner" /> White was responsible for the vocal recording and song production, while additional production was handled by English electronic music group [[All Seeing I]].<ref name="liner" /> After hearing the material, Jive Records president [[Clive Calder]] ordered a full studio album.<ref name="Hughes 2005 147" />
+
+Spears flew to [[Cheiron Studios]] in Stockholm, where half of ''...Baby One More Time'' was recorded from May 1998,<ref>{{cite web|url=http://www.jorgenelofsson.com/biography/the-story-behind-britney-spears-sometimes/|title=The story behind Britney Spears' "Sometimes"|website=jorgenelofsson.com|access-date=September 9, 2019|archive-date=October 21, 2019|archive-url=https://web.archive.org/web/20191021095706/http://www.jorgenelofsson.com/biography/the-story-behind-britney-spears-sometimes/|url-status=live}}</ref> with producers [[Max Martin]] and [[Rami Yacoub]], and contributions from others, including songwriting from [[Denniz Pop]], who was too ill to attend any recording sessions.{{efn|Denniz Pop had [[stomach cancer]] and died on August 30, 1998. Spears never met him.}}<ref name="rs1" /><ref name="rsintw">{{cite magazine|url=https://www.rollingstone.com/artists/britneyspears/articles/story/5938512/cover_story_britney_spears|title=Cover Story: Britney Spears|date=April 15, 1999|magazine=[[Rolling Stone]]|access-date=March 5, 2011|url-status=dead|archive-url=https://web.archive.org/web/20080505011004/http://www.rollingstone.com/artists/britneyspears/articles/story/5938512/cover_story_britney_spears|archive-date=May 5, 2008}}</ref><ref name=Seabrook2015>{{harvnb|Seabrook|2015|p=82}}</ref> Martin showed Spears and her management a track titled "Hit Me Baby One More Time", originally written for American group [[TLC (band)|TLC]], who had rejected it. Spears later said that she felt excited when she heard it and knew it was going to be a hit.<ref name="especial">{{cite AV media|title=E! Entertainment Special: Britney Spears|url=https://www.imdb.com/title/tt0427200/|first=Ray W.|last=Keziah|type=TV production|publisher=[[E!]]|date=March 14, 2004|archive-url=https://web.archive.org/web/20120614153215/http://www.imdb.com/title/tt0427200/|archive-date=June 14, 2012}}</ref> "We at Jive said, 'This is a fuckin' smash{{'"}}, revealed the label's A&R executive, Steven Lunt;<ref>{{harvnb|Knopper|2009|p=93}}</ref> however, other executives were concerned that the line "Hit Me" would condone [[domestic violence]], and later revised it to "...Baby One More Time".<ref name="especial" /> Spears revealed that she "didn't do well at all the first day in the studio [recording the song], I was just too nervous. So I went out that night and had some fun. The next day I was completely relaxed and nailed it. You gotta be relaxed singing '... Baby One More Time'."<ref name="blender">{{cite magazine|title=The 500 Greatest Songs Since You Were Born|magazine=[[Blender (magazine)|Blender]]|publisher=Alpha Media Group|author=((Blender Staff))|issn=1534-0554}}</ref> By June 1998, the album had been completed.<ref>{{harvnb|Parish|2002|p=243}}</ref>
+
+==Music and lyrics==
+Spears originally envisioned "[[Sheryl Crow]] music, but younger &ndash; more [[Adult contemporary music|adult contemporary]]" for ''...Baby One More Time'', but acquiesced to the wishes of her label, since "It made more sense to go [[Pop music|pop]], because I can dance to it—it's more me."<ref name="rs1" /> The album opens with its lead single, "[[...Baby One More Time (song)|...Baby One More Time]]", a [[teen pop]] and [[dance-pop]] song beginning with a three-note [[motif (music)|motif]] in the bass range of the piano. Its opening was compared to many other songs, such as "[[We Will Rock You]]" (1977), "[[Start Me Up]]" (1981), "[[These Words]]" (2004) and the theme song of the film ''[[Jaws (film)|Jaws]]'' due to the fact the track "makes its presence known in exactly one second".<ref name="blender" /><ref>{{cite web|url=http://www.musicnotes.com/sheetmusic/mtdVPE.asp?ppn=MN0027207|title=Britney Spears Baby One More Time – Sheet Music|work=Music Notes|date=December 15, 1999|publisher=[[Alfred Music Publishing]]|access-date=November 21, 2009|archive-url=https://web.archive.org/web/20120225042903/http://www.musicnotes.com/sheetmusic/mtdVPE.asp?ppn=MN0027207|archive-date=February 25, 2012}}</ref><ref>{{cite web|url=https://allmusic.com/album/baby-one-more-time-us-cd-single-r377377|title=...Baby One More Time (US CD Single) – Britney Spears|website=[[AllMusic]]|publisher=[[Rovi Corporation]]|access-date=September 26, 2011|date=April 20, 1999|archive-url=https://web.archive.org/web/20110513122455/http://www.allmusic.com/album/baby-one-more-time-us-cd-single-r377377|archive-date=May 13, 2011}}</ref> According to ''[[Blender (magazine)|Blender]]'', "...Baby One More Time" is composed of "[[wah-wah (music)|wah-wah]] guitar lines and [[electrocardiography|EKG]]-machine bass-slaps".<ref name="blender" /> Claudia Mitchell and Jacqueline Reid-Walsh, authors of ''Girl Culture: Studying Girl Culture: A Readers' Guide'' (2008), observed that the lyrics of the song "gesture toward [Spears] longing for the return of an ex-boyfriend."<ref>{{harvnb|Mitchell|Reid-Walsh|2008|p=547}}</ref> "[[(You Drive Me) Crazy]]" runs through a [[down-tempo|moderately slow]] dance [[beat (music)|beat]],<ref>{{cite web|url=http://www.musicnotes.com/sheetmusic/mtdVPE.asp?ppn=MN0028943|title=Britney Spears (You Drive Me) Crazy – Sheet Music|work=Music Notes|date=February 25, 2000|publisher=[[Alfred Music Publishing]]|access-date=November 21, 2009|archive-url=https://web.archive.org/web/20120225042904/http://www.musicnotes.com/sheetmusic/mtdVPE.asp?ppn=MN0028943|archive-date=February 25, 2012}}</ref> and has an [[Contemporary R&B|R&B]] [[melody]] mixed with edgy synthesized instrumentals.<ref>{{harvnb|Bennett|Peterson|2004|p=92}}</ref> "[[Sometimes (Britney Spears song)|Sometimes]]" is a [[Ballad (music)|ballad]],<ref>{{cite web|url=http://buzzworthy.mtv.com/2010/09/15/snooki-britney-spears/|title=Snooki Lip-Synchs To Britney Spears' 'Sometimes'|last=Ryan|first=Chris|date=September 15, 2010|website=MTV|publisher=[[MTV Networks]]|access-date=March 6, 2011|archive-url=https://web.archive.org/web/20140312000909/http://buzzworthy.mtv.com/2010/09/15/snooki-britney-spears/|archive-date=March 12, 2014}}</ref> which Spears begins with the lines "You tell me you're in love with me / That you can't take your pretty eyes away from me / It's not that I don't wanna stay / But every time you come too close I move away".<ref>{{cite web|url=http://www.musicnotes.com/sheetmusic/mtd.asp?ppn=MN0026598|title=Britney Spears – Sometimes Sheet Music (Digital Download)|work=Music Notes|date=December 15, 1999|publisher=[[Alfred Music Publishing]]|access-date=November 21, 2009|archive-url=https://web.archive.org/web/20130529192123/http://www.musicnotes.com/sheetmusic/mtd.asp?ppn=MN0026598|archive-date=May 29, 2013}}</ref> [[Stephen Thomas Erlewine]] of [[AllMusic]] noted the song has "a catchy hook and endearing melody, with a reminiscent [[Eurodance|euro-dance]] rhythm."<ref name="allmusic">{{cite web|url=https://www.allmusic.com/album/baby-one-more-time-mw0000045914|title=Britney Spears ...Baby One More Time – Album Review|date=January 12, 1999|last=Erlewine|first=Stephen Thomas|website=[[AllMusic]]|publisher=[[Rovi Corporation]]|access-date=April 12, 2022|archive-url=https://web.archive.org/web/20111231041334/http://www.allmusic.com/album/baby-one-more-time-r384763/review|archive-date=December 31, 2011}}</ref>
+
+"Soda Pop" draws influences from [[Bubblegum music|bubblegum pop]] and [[dancehall]],<ref name="allmusic" /> and features background vocals from co-writer Mikey Bassie.<ref name="liner" /> Spears' vocals on the fifth track, "[[Born to Make You Happy]]" span more than an [[octave]].<ref>{{cite web|url=http://www.musicnotes.com/sheetmusic/mtd.asp?ppn=MN0028935|title=Britney Spears Born to Make You Happy – Digital Sheet Music|work=Music Notes|date=February 25, 2000|publisher=[[Universal Music Publishing Group]]|access-date=December 23, 2010|archive-url=https://web.archive.org/web/20090502034128/http://www.musicnotes.com/sheetmusic/mtd.asp?ppn=MN0028935|archive-date=May 2, 2009}}</ref> Its lyrics allude to a relationship that a woman desires to repair, not quite understanding what went wrong, as she comes to realize that "I don't know how to live without your love / I was born to make you happy".<ref name="popology">{{cite web|url=http://www.mtv.com/news/2577982/britney-spears-baby-one-more-time-2/|title=Britney Spears Goes Back To Her Schoolgirl Days For The First Installment Of 'Popology'|date=March 3, 2010|last=Anderson|first=Kyle|website=MTV|access-date=April 12, 2022|archive-url=https://web.archive.org/web/20131012024406/http://newsroom.mtv.com/2010/03/03/britney-spears-baby-one-more-time/|archive-date=October 12, 2013}}</ref> "[[From the Bottom of My Broken Heart]]" is a sentimental slow-tempo teen pop ballad.<ref>{{cite web|url=http://music.yahoo.com/britney-spears/tracks/from-the-bottom-of-my-broken-heart--1486509|title=From the Bottom of My Broken Heart by Britney Spears|website=Yahoo! Music|access-date=March 4, 2011|archive-url=https://archive.today/20121210192919/http://music.yahoo.com/britney-spears/tracks/from-the-bottom-of-my-broken-heart--1486509|archive-date=December 10, 2012|url-status=dead}}</ref><ref>{{cite web|url=http://www.mtv.com/news/2294391/vintage-video-britney-spears-flashback/|title=Vintage Video: Britney Spears Flashback|author=Ryan, Chris|date=September 28, 2009|website=[[MTV]]|access-date=April 12, 2022|archive-url=https://web.archive.org/web/20131012045017/http://buzzworthy.mtv.com/2009/09/28/vintage-video-britney-spears-flashback/|archive-date=October 12, 2013}}</ref><ref>{{cite web|url=http://www.musicnotes.com/sheetmusic/mtdVPE.asp?ppn=MN0028938|title=Britney Spears From The Bottom Of My Broken Heart – Digital Sheet Music|work=Music Notes|date=February 25, 2000|publisher=[[Universal Music Publishing Group]]|access-date=November 15, 2010|archive-url=https://web.archive.org/web/20120225042908/http://www.musicnotes.com/sheetmusic/mtdVPE.asp?ppn=MN0028938|archive-date=February 25, 2012}}</ref> "I Will Be There" is a [[pop rock]] song featuring a guitar riff similar to [[Natalie Imbruglia]]'s "[[Torn (Natalie Imbruglia song)|Torn]]" (1997), with a "rousing chorus about standing by your man (or a best friend or a house pet)", as noted by Kyle Anderson of [[MTV]]. "E-Mail My Heart" is a sensitive piano ballad on which Spears sings: "E-mail me back / And say our love will stay alive".<ref name="popology" /> The cover of [[Sonny & Cher]]'s 1967 single "[[The Beat Goes On (Sonny & Cher song)|The Beat Goes On]]" is influenced by [[bossa nova]] and [[trip hop]],<ref name="popology" /><ref name="toronto">{{cite news|url=http://travel.canoe.ca/AllPop-SpearsBritney/cd_baby2.html|title=Britney Spears' debut rather lackluster|last=Stevenson|first=Jane|date=January 17, 1999|access-date=September 3, 2011|newspaper=[[Toronto Sun]]|publisher=Mike Power|archive-url=https://archive.today/20130608075458/http://travel.canoe.ca/AllPop-SpearsBritney/cd_baby2.html|archive-date=June 8, 2013|url-status=dead}}</ref> and features a sound similar to [[spy film]] themes.<ref name="popology" /> Among the bonus tracks included on select editions of the album is a cover of [[J'Son (singer)|J'Son]]'s 1996 song "I'll Never Stop Loving You".<ref>{{cite web|url=https://www.bustle.com/articles/102950-13-britney-spears-covers-that-showcase-just-how-versatile-an-artist-the-pop-queen-is|author=Kristie Rohwedder|title=13 Britney Spears Covers That Showcase Just How Versatile An Artist The Pop Queen Is|work=Bustle|date=August 7, 2015|access-date=March 19, 2019|archive-date=April 3, 2019|archive-url=https://web.archive.org/web/20190403203105/https://www.bustle.com/articles/102950-13-britney-spears-covers-that-showcase-just-how-versatile-an-artist-the-pop-queen-is|url-status=live}}</ref><ref>{{cite web|url=http://www.newnownext.com/baby-one-more-time-album-20th-anniversary/01/2019/|author=Lester Fabian Brathwaite|title=20 Years Later, Has Britney Spears Ever Lived Up to Her Debut Album?|work=NewNowNext|date=January 10, 2019|access-date=March 19, 2019|archive-date=April 3, 2019|archive-url=https://web.archive.org/web/20190403190441/http://www.newnownext.com/baby-one-more-time-album-20th-anniversary/01/2019/|url-status=live}}</ref>
+
+==Release and promotion==
+{{see also|...Baby One More Time Tour|(You Drive Me) Crazy Tour}}
+[[File:Britney Spears 'Piece of Me' - Las Vegas IMG 6676 (26906264843) (cropped).jpg|200px|thumb|Spears performing "[[(You Drive Me) Crazy]]" at her Las Vegas residency show, [[Britney: Piece of Me]], in February 2016]]
+
+Promotion for ''...Baby One More Time'' began in May 1998, when Spears performed "[[...Baby One More Time (song)|...Baby One More Time]]", "[[Sometimes (Britney Spears song)|Sometimes]]" and "[[You Got It All (The Jets song)#Britney Spears version|You Got It All]]" at the Singapore Jazz Festival.<ref>{{cite web |last1=Stern |first1=Bradley |title=Excluusive: Britney's 1998 Showcase in Singapore |url=https://muumuse.com/2016/06/britney-spears-1998-singapore-showcase-live.html/ |website=MuuMuse |access-date=November 26, 2022 |date=June 2, 2016 |archive-date=November 26, 2022 |archive-url=https://web.archive.org/web/20221126094049/https://muumuse.com/2016/06/britney-spears-1998-singapore-showcase-live.html/ |url-status=live }}</ref> Subsequently, she embarked on the [[L'Oréal]]-sponsored promotional tour titled L'Oreal Hair Zone Mall Tour, visiting malls and food courts across North America from June to August.<ref name="blandford28">{{harvnb|Blandford|2002|p=28}}</ref> In December, "...Baby One More Time" first showed up on [[MTV]]'s and [[The Box (American TV channel)|The Box]]'s most-requested video charts.<ref name="britneyfirstperformances">{{cite web|first=Wendy|last=Hermanson|title=Britney Spears: New Teen Queen?|date=December 22, 1998|website=Yahoo! Music News|url=http://www.music.yahoo.ca/read/news/12050778|archive-url=https://web.archive.org/web/20120312102050/http://ca.music.yahoo.com/read/news/12050778|archive-date=March 12, 2012|url-status=dead|access-date=July 23, 2009}}</ref> In the United States, ''...Baby One More Time'' was originally set for an October 1998 release, but was pushed back to January 12, 1999, due to marketing issues, with its international release occurring within the following three months.<ref>{{harvnb|Blandford|2002|p=30}}</ref> Spears had appeared on ''[[Ricki Lake (TV series)|Ricki Lake]]'', ''[[The Howie Mandel Show]]'', and was a presenter at the [[American Music Awards of 1999|1999 American Music Awards]] prior to the release.<ref name="britneyfirstperformances" /> However, after hurting her knee in February, she rescheduled appearances on several shows, such as ''[[The Tonight Show with Jay Leno]]'' and ''[[Live with Regis and Kelly|Live with Regis and Kathie Lee]]''.<ref name="sidelined">{{cite web|first=Craig|last=Rosen|title=Britney Spears Sidelined With Bum Knee|date=March 4, 1999|website=Yahoo! Music|url=http://www.music.yahoo.ca/read/news/12049598|archive-url=https://web.archive.org/web/20120312102050/http://ca.music.yahoo.com/read/news/12049598|archive-date=March 12, 2012|url-status=dead|access-date=July 23, 2009}}</ref> Additionally, she appeared on ''[[MTV Spring Break]]'' and on the hundredth episode of [[Nickelodeon]]'s ''[[All That]]''.<ref name="sidelined" /> After recovering, Spears embarked on another promotional schedule, appearing at the [[1999 Kids' Choice Awards]] on May 1, ''Live with Regis and Kathie Lee'' on May 3, MTV's ''[[FANatic]]'' on May 12, and ''[[The Rosie O'Donnell Show]]'' on May 25.<ref name="britneyfirsttour">{{cite web|first=Craig|last=Rosen|title=Britney Spears Ready To Hit The Road|date=April 9, 1999|website=Yahoo! Music News|url=http://www.music.yahoo.ca/read/news/12032891|archive-url=https://web.archive.org/web/20120312102050/http://ca.music.yahoo.com/read/news/12032891|archive-date=March 12, 2012|url-status=dead|access-date=July 23, 2009}}</ref>
+
+Outside the US, Spears visited the German shows ''[[Wetten, dass..?]]'' and ''[[Top of the Pops]]'' on June 25.<ref name="britneylateperformances" /> She also went to the United Kingdom, making appearances on programmes such as ''[[This Morning (TV series)|This Morning]]'', ''[[CD:UK]]'' and ''[[National Lottery (United Kingdom)|National Lottery]]''.<ref name="britneylateperformances" /> Spears visited the music variety show ''[[Hey! Hey! Hey! Music Champ]]'' in Japan, and performed at the Festival Bar in Italy.<ref name="britneylateperformances" /> Spears was also featured on an episode of the [[American Broadcasting Company|ABC]] sitcom ''[[Sabrina, the Teenage Witch]]'', in which she played herself.<ref name="britneylateperformances">{{cite web|first=Craig|last=Rosen|title=Britney Spears: In Drag And On TV|date=August 4, 1999|website=Yahoo! Music News|url=http://www.music.yahoo.ca/read/news/12045032|archive-url=https://archive.today/20130115200155/http://www.music.yahoo.ca/read/news/12045032|archive-date=January 15, 2013|url-status=dead|access-date=July 23, 2009}}</ref> According to ''[[People (magazine)|People]]'', Spears was returning a favor to actress [[Melissa Joan Hart]], who played a cameo role in Spears' [[music video]] for "[[(You Drive Me) Crazy]]".<ref name="britneylateperformances" /> The episode aired on September 24.<ref name="britneylateperformances" /> The same month, Spears performed on ''The Rosie O'Donnell Show'' on September 27, and visited [[Carson Daly]] on MTV's ''[[Total Request Live]]'' the following day.<ref>{{cite web|first=Craig|last=Rosen|title=Britney Spears Is All Over TV|date=September 24, 1999|website=Yahoo! Music |url=http://www.music.yahoo.ca/read/news/12041209|archive-url=https://web.archive.org/web/20120312102050/http://ca.music.yahoo.com/read/news/12041209|archive-date=March 12, 2012|url-status=dead|access-date=July 23, 2009}}</ref> Spears also performed live with [[Joey McIntyre]] in the [[Disney Channel]] taped concert event titled Britney Spears & Joey McIntyre in Concert.<ref>{{cite web|first=Craig|last=Rosen|title=Nirvana, Paul McCartney, And Britney Spears In Today's TV Tips|date=October 16, 1999|website=Yahoo! Music|url=http://www.music.yahoo.ca/read/news/12039519|archive-url=https://web.archive.org/web/20120312101240/http://ca.music.yahoo.com/read/news/12039519|archive-date=March 12, 2012|url-status=dead|access-date=July 23, 2009}}</ref> In November, Spears performed "...Baby One More Time" and "(You Drive Me) Crazy" at the [[1999 MTV Europe Music Awards]]. Promotion for the album continued in early 2000, when Spears performed at the [[American Music Awards of 2000|2000 American Music Awards]],<ref name="britneynewalbum" /> and also performed "[[From the Bottom of My Broken Heart]]" in a medley with "...Baby One More Time" at the [[42nd Annual Grammy Awards]].<ref name="britneynewalbum" />
+
+On March 5, 1999, it was reported that Spears was planning her first headlining tour.<ref name="headlining">{{cite magazine|url=https://ew.com/article/1999/03/05/britney-spears-and-nsync-blow-pop-music/|title=Britney Spears and N'Sync blow up pop music|date=March 5, 1999|access-date=April 12, 2022|last1=Essex|first1=Andrew|last2=Karger|first2=Dave|magazine=[[Entertainment Weekly]]|archive-url=https://web.archive.org/web/20131019071816/http://www.ew.com/ew/article/0%2C%2C1099891_0_274628_6%2C00.html|archive-date=October 19, 2013}}</ref> She announced that the tour would start in July.<ref name="tuesday">{{cite web|url=http://www.mtv.com/news/1434415/britney-spears-back-in-action-plans-summer-tour/|title=Britney Spears Back In Action, Plans Summer Tour|date=March 23, 1999|access-date=April 12, 2022|website=[[MTV]]|archive-date=February 7, 2015|archive-url=https://web.archive.org/web/20150207061157/http://www.mtv.com/news/1434415/britney-spears-back-in-action-plans-summer-tour/|url-status=live}}</ref> On May 12, [[Tommy Hilfiger]] was announced as the main tour sponsor, as Spears was being featured in the company's "AllStars" campaign at the time.<ref name="Hilfiger">{{cite press release|title=Hilfiger to back Spears Tour|url=https://variety.com/1999/music/news/hilfiger-to-back-spears-tour-1117500358/|publisher=Variety|date=May 13, 1999|access-date=April 23, 2017|archive-date=August 21, 2017|archive-url=https://web.archive.org/web/20170821171408/http://variety.com/1999/music/news/hilfiger-to-back-spears-tour-1117500358/|url-status=live}}</ref> On December 17, during the premiere of the music video of "From the Bottom of My Broken Heart" on ''Total Request Live'', Spears called the show to announce the March 2000 US tour dates. The extension, entitled [[(You Drive Me) Crazy Tour]], was considered a prelude to her future world tour, [[Oops!... I Did It Again Tour]].<ref name="newtour">{{cite news|url=http://www.mtv.com/news/1434396/britney-spears-phones-trl-to-announce-us-tour-dates/|title=Britney Spears Phones "TRL" To Announce U.S. Tour Dates|date=December 17, 1999|access-date=April 12, 2022|last=Basham|first=David|website=[[MTV]]|archive-url=https://web.archive.org/web/20010626083309/http://www.mtv.com/news/articles/1434396/19991217/spears_britney.jhtml|archive-date=June 26, 2001}}</ref><ref name="rolling">{{cite magazine|title=The Girl Can't Help It|date=May 25, 2000|magazine=[[Rolling Stone]]|last=Mundy|first=Chris|issn=0035-791X}}</ref> The leg's main sponsor was [[Got Milk?]], whose media director Peter Gardiner explained: "Britney is magic with teen-age girls, and that's an absolutely crucial target for milk". Spears shot an advertising campaign to be shown before her performances began.<ref name="milk">{{cite news|url=http://www.accessmylibrary.com/article-1G1-60047306/milk-producers-back-britney.html|title=Milk producers back Britney Spears tour|date=March 6, 2000|access-date=January 16, 2010|last=Thompson|first=Stephanie|work=[[Advertising Age]]|publisher=[[Crain Communications Inc.]]|archive-date=July 23, 2012|archive-url=https://archive.today/20120723070736/http://www.accessmylibrary.com/search/?q=Milk%20producers%20back%20Britney%20Spears%20tour.(Brief%20Article)|url-status=live}}</ref> The secondary sponsor was [[Polaroid Corporation|Polaroid]], who released [[I-Zone]] as the tour's official camera. Spears used the I-Zone onstage to take pictures of the audience and further promote the product.<ref name="polaroid">{{cite press release|url=http://www.highbeam.com/doc/1G1-61398528.html|title=Polaroid and Britney Spears Will Drive You Crazy|date=April 7, 2000|access-date=January 16, 2010|work=[[PR Newswire]]|archive-url=https://web.archive.org/web/20120225042944/http://www.highbeam.com/doc/1G1-61398528.html|archive-date=February 25, 2012|url-status=dead}}</ref> The show was divided into segments, separated by interludes, and ended with an encore.<ref name="sfc" /> The set list consisted of songs from ''...Baby One More Time'' and several [[cover version|covers]].<ref name="sfc">{{cite news|url=https://www.sfgate.com/news/article/The-musical-equivalent-of-cotton-candy-3073244.php|title=The musical equivalent of cotton candy|date=July 30, 1999|access-date=April 12, 2022|last=Ganahl|first=Jane|work=[[San Francisco Chronicle]]|archive-url=https://web.archive.org/web/20110629055854/http://www.sfgate.com/cgi-bin/article.cgi?f=%2Fe%2Fa%2F1999%2F07%2F30%2FWEEKEND10994.dtl&type=printable|archive-date=June 29, 2011}}</ref> Some changes were made during the 2000 leg, with the covers replaced by songs from her second studio album ''[[Oops!... I Did It Again (album)|Oops!... I Did It Again]]'' (2000). The tour received positive critical reception.<ref name="usatoday">{{cite news|url=http://jam.canoe.ca/Music/Artists/S/Spears_Britney/1999/07/10/749831.html|title=Spears takes aim at fame|date=July 10, 1999|access-date=January 1, 2010|last=Stevenson|first=Jane|work=[[Jam!]]|publisher=[[Quebecor Inc.]]|archive-url=https://web.archive.org/web/20131013010943/http://jam.canoe.ca/Music/Artists/S/Spears_Britney/1999/07/10/749831.html|archive-date=October 13, 2013|url-status=dead}}</ref> During the tour, Spears was accused of lip synching, although she denied those claims.<ref name="rolling" /> On April 20, the concert at [[Hilton Hawaiian Village]] in [[Honolulu]], Hawaii, was taped.<ref name="tusca">{{cite news|url=https://news.google.com/newspapers?id=Tc8yAAAAIBAJ&pg=5725,2814536&dq=britney+honolulu&hl=en|title=Spears special to include concert|date=April 15, 2000|access-date=January 18, 2010|author=<!--Not stated-->|work=[[The Tuscaloosa News]]|archive-date=April 4, 2022|archive-url=https://web.archive.org/web/20220404181919/https://news.google.com/newspapers?id=Tc8yAAAAIBAJ&pg=5725,2814536&dq=britney+honolulu&hl=en|url-status=live}}</ref> It was slightly altered from its tour incarnation and featured different costumes. On June 5, it was broadcast on [[Fox Broadcasting Company|Fox]],<ref name="fox">{{cite news|url=https://www.orlandosentinel.com/news/os-xpm-2000-06-05-0006020397-story.html|title=FOR FOX, IT'S GAMES – FOR BRITNEY, IT'S ALOHA|date=June 5, 2000|access-date=April 12, 2022|last=Abbott|first=Jim|work=[[Orlando Sentinel]]|archive-date=April 12, 2022|archive-url=https://web.archive.org/web/20220412051441/https://www.orlandosentinel.com/news/os-xpm-2000-06-05-0006020397-story.html|url-status=live}}</ref> airing several times during the year. On November 21, Jive Records released the video album ''[[Britney Spears: Live and More!]]'', which included the Fox special.<ref name="herald">{{cite news|url=https://news.google.com/newspapers?id=lugpAAAAIBAJ&pg=4339,4328192&dq=britney+live+and+more&hl=en|title=Britney Spears 'Stronger'|date=November 10, 2000|access-date=January 18, 2010|work=[[The Herald Journal]]|publisher=Pioneer Newspapers|archive-date=April 4, 2022|archive-url=https://web.archive.org/web/20220404181918/https://news.google.com/newspapers?id=lugpAAAAIBAJ&pg=4339,4328192&dq=britney+live+and+more&hl=en|url-status=live}}</ref> It was certified [[RIAA certification|triple platinum]] by the [[Recording Industry Association of America]] (RIAA) for shipping 300,000 units.<ref>{{cite web|url=https://www.riaa.com/goldandplatinumdata.php?resultpage=1&table=SEARCH_RESULTS&action=&title=live%20and%20more!&artist=Britney%20Spears&format=VIDEO%20LONGFORM&debutLP=&category=&sex=&releaseDate=&requestNo=&type=&level=&label=&company=&certificationDate=&awardDescription=&catalogNo=&aSex=&rec_id=&charField=&gold=&platinum=&multiPlat=&level2=&certDate=&album=&id=&after=&before=&startMonth=1&endMonth=1&startYear=1958&endYear=2009&sort=Artist&perPage=25|title=Britney Spears – Live and More!|website=[[Recording Industry Association of America]]|date=November 15, 2001|access-date=January 22, 2010|url-status=dead|archive-url=https://web.archive.org/web/20150924153708/http://www.riaa.com/goldandplatinumdata.php?resultpage=1&table=SEARCH_RESULTS&action=&title=live%20and%20more%21&artist=Britney%20Spears&format=VIDEO%20LONGFORM&debutLP=&category=&sex=&releaseDate=&requestNo=&type=&level=&label=&company=&certificationDate=&awardDescription=&catalogNo=&aSex=&rec_id=&charField=&gold=&platinum=&multiPlat=&level2=&certDate=&album=&id=&after=&before=&startMonth=1&endMonth=1&startYear=1958&endYear=2009&sort=Artist&perPage=25|archive-date=September 24, 2015}}</ref>
+
+On August 14, 2017, 18 years after the release of ''...Baby One More Time'', it was announced that 2,500 pink-and-white-swirl copies of the album would be released on [[Phonograph record|vinyl]] exclusively through [[Urban Outfitters]] on November 3.<ref name=PinkSwirl/> During the celebration of the 20th anniversary of Spears' debut single "...Baby One More Time", on October 19, 2018, [[Legacy Recordings]] announced the global release of the album on vinyl for November 23.<ref name="2018vinyl"/>
+
+==Singles==
+[[...Baby One More Time (song)|The title track]] was released as the [[lead single]] from ''...Baby One More Time'' and Spears' debut single on September 28, 1998.<ref>{{harvnb|Gaines|1999|p=26}}</ref> It received generally favorable critical reviews, which mostly praised its composition.<ref name="rs1" /><ref name="allmusic" /> After its accompanying [[music video]] premiered in late November, the single attained worldwide success in early 1999, peaking atop the US [[Billboard Hot 100|''Billboard'' Hot 100]] and in most countries it charted in.<ref>{{cite web|url=http://australian-charts.com/showitem.asp?interpret=Britney+Spears&titel=...Baby+One+More+Time&cat=s|title=Britney Spears – ...Baby One More Time – Charts Around the World|website=[[ARIA Charts|ARIA Top 50 Singles]]. Hung Medien|date=February 28, 1999|access-date=October 23, 2010|archive-url=https://web.archive.org/web/20131106213415/http://australian-charts.com/showitem.asp?interpret=Britney+Spears&titel=...Baby+One+More+Time&cat=s|archive-date=November 6, 2013}}</ref> It received numerous certifications around the world, and is one of the [[List of best-selling singles worldwide|best-selling singles of all time]], selling over ten million copies.<ref>{{cite news|url=http://news.bbc.co.uk/2/hi/entertainment/6376213.stm|work=[[BBC News]]|publisher=BBC|title=How Disney's TV gang has grown up|date=February 20, 2007|access-date=May 2, 2011|archive-url=https://web.archive.org/web/20120802121440/http://news.bbc.co.uk/2/hi/entertainment/6376213.stm|archive-date=August 2, 2012}}</ref> The music video, directed by [[Nigel Dick]], portrays Spears as a high school student who starts to sing and dance around the school, while watching her love interest from afar.<ref>{{cite web|website=[[MTV]]|title=Britney Spears Shoots For Fun With Video Debut|date=December 18, 1998|url=http://www.mtv.com/news/1434423/britney-spears-shoots-for-fun-with-video-debut/|access-date=April 12, 2022|archive-url=https://web.archive.org/web/20100424051911/http://www.mtv.com/news/articles/1434423/19981218/spears_britney.jhtml|archive-date=April 24, 2010|url-status=dead}}</ref> In 2010, the video was voted the third most influential video in the history of pop music on [[Jam!]].<ref>{{cite web|url=http://jam.canoe.ca/Music/2010/05/03/13804931-wenn-story.html|title='Thriller' tops best video poll|website=[[Jam!]]. [[Sun Media]]|date=May 3, 2010|access-date=May 2, 2011|archive-url=https://web.archive.org/web/20131219194309/http://jam.canoe.ca/Music/2010/05/03/13804931-wenn-story.html|archive-date=December 19, 2013}}</ref>
+
+"[[Sometimes (Britney Spears song)|Sometimes]]" was released as the second single from ''...Baby One More Time'' on April 6, 1999.<ref name="britstory">{{cite web|url=http://www.britney.com/us/making-britstory|title=Making BRITstory|author=BRITannica|access-date=October 3, 2011|website=Britney.com. [[Sony Music Entertainment]]|archive-url=https://web.archive.org/web/20120306110653/http://www.britney.com/us/making-britstory|archive-date=March 6, 2012|url-status=dead}}</ref> It achieved commercial success internationally, reaching number one in Belgium, the Netherlands and New Zealand.<ref name="sometimes">{{cite web|url=http://hitparade.ch/showitem.asp?interpret=Britney+Spears&titel=Sometimes&cat=s|title=Britney Spears – Sometimes Chart History|website=Hung Medien|access-date=March 2, 2011|archive-url=https://web.archive.org/web/20131105130017/http://hitparade.ch/showitem.asp?interpret=Britney+Spears&titel=Sometimes&cat=s|archive-date=November 5, 2013}}</ref> In the United States, however, it missed the top 20, peaking at number 21 on the ''Billboard'' Hot 100.<ref>{{cite web|url=https://allmusic.com/artist/britney-spears-p320976/charts-awards/billboard-singles|title=Britney Spears Billboard Charts|access-date=September 28, 2011|website=[[AllMusic]]. [[Rovi Corporation]]|archive-url=https://web.archive.org/web/20120225042927/http://allmusic.com/artist/britney-spears-p320976/charts-awards/billboard-singles|archive-date=February 25, 2012}}</ref> The song's accompanying music video was directed by Nigel Dick.<ref name="trl">{{cite web|url=http://www.mtv.com/news/1431411/will-smith-britney-spears-jennifer-lopez-star-wars-among-videos-set-to-debut/|title=Will Smith, Britney Spears, Jennifer Lopez, "Star Wars" Among Videos Set To Debut|date=April 29, 1999|website=[[MTV]]|access-date=April 12, 2022|archive-url=https://web.archive.org/web/20131213135655/http://www.mtv.com/news/articles/1431411/will-smith-britney-spears-jennifer-lopez-star-wars-among-videos-set-debut.jhtml|archive-date=December 13, 2013}}</ref> During rehearsals, on February 11, 1999, Spears injured her left knee and needed surgery.<ref name="injuree">{{cite web|url=http://www.mtv.com/news/1434419/britney-spears-knee-injury-delays-video-shoot-tonight-show-appearance/|title=Britney Spears' Knee Injury Delays Video Shoot, "Tonight Show" Appearance|date=February 18, 1999|website=[[MTV]]|access-date=April 12, 2022|archive-url=https://web.archive.org/web/20131213135652/http://www.mtv.com/news/articles/1434419/britney-spears-knee-injury-delays-video-shoot-tonight-show-appearance.jhtml|archive-date=December 13, 2013}}</ref> After recuperating in [[Kentwood, Louisiana]],<ref name="injuree" /> the video was filmed on April 9–10 at Paradise Cove in [[Malibu, California]].<ref>{{cite web|url=http://www.mtv.com/photos/mtv-buzzworthy-blog-best-of-britney/1649473/5296696/photo.jhtml|title=Britney shooting 'Sometimes' video in April 1999|website=[[MTV]]|date=October 6, 2010|access-date=February 7, 2011|archive-url=https://web.archive.org/web/20131213135657/http://www.mtv.com/photos/mtv-buzzworthy-blog-best-of-britney/1649473/5296696/photo.jhtml|archive-date=December 13, 2013|url-status=dead}}</ref> It premiered on [[MTV]]'s ''[[Total Request Live]]'' on May 6.<ref name="trl" />
+
+In May 1999, Max Martin and Spears went to the Battery Studios in New York City to re-record the vocals of "[[(You Drive Me) Crazy]]",<ref>{{cite AV media notes|type=Liner notes|title=(You Drive Me) Crazy [The Stop! Remix]|date=1999|last=Spears|first=Britney|publisher=JIVE Records|id=0550672}}</ref> for a reproduced version subtitled "The Stop! Remix", which was going to be included on the original motion picture soundtrack for the film ''[[Drive Me Crazy]]'' (1999).<ref>{{cite web|url=https://www.amazon.com/Drive-Me-Crazy-1999-Film/dp/B00001O2UF|title=Drive Me Crazy (1999 Film): Various Artists – Soundtracks: Music|date=September 28, 1999|access-date=September 28, 2011|website=[[Amazon.com]]|archive-date=April 9, 2012|archive-url=https://web.archive.org/web/20120409044749/http://www.amazon.com/Drive-Me-Crazy-1999-Film/dp/B00001O2UF|url-status=live}}</ref> The remix was subsequently released as the third single from ''...Baby One More Time'' on August 24.<ref name="britstory" /> It features the addition of a stanza in which Spears yells "Stop!", then all sound cutting out, followed by a transition, while omitting the lines "Lovin' you mean so much more, more than anything I ever loved before". The video was directed by Nigel Dick, and featured actors [[Melissa Joan Hart]] and [[Adrian Grenier]].<ref>{{cite web|url=http://www.mtv.com/news/1626386/britney-spears-wanted-you-drive-me-crazy-video-to-take-her-to-the-next-level/|title=Britney Spears Wanted '(You Drive Me) Crazy' Video To Take Her 'To The Next Level'|last=Vena|first=Jocelyn|date=November 16, 2009|access-date=April 12, 2022|website=[[MTV]]|archive-url=https://web.archive.org/web/20130921075354/http://www.mtv.com/news/articles/1626386/director-recalls-making-britney-spears-drive-me-crazy-video.jhtml|archive-date=September 21, 2013|url-status=dead}}</ref>
+
+"[[Born to Make You Happy]]" was released as the fourth and final European single from ''...Baby One More Time'' on December 6, 1999, to a mixed critical reception.<ref name="popology" /><ref>{{cite web|url=http://www.musicomh.com/albums/britney-spears.htm|last=Petch-Jex|first=Andy|title=Britney Spears – Greatest Hits: My Prerogative – Album Review|date=November 8, 2004|website=musicOMH|access-date=March 5, 2011|archive-url=https://web.archive.org/web/20110629103633/http://www.musicomh.com/albums/britney-spears.htm|archive-date=June 29, 2011|url-status=dead}}</ref> A commercial success, it peaked within the top five in 11 countries and atop the [[UK Singles Chart]].<ref>{{cite web|url=http://www.swedishcharts.com/showitem.asp?interpret=Britney+Spears&titel=Born+to+Make+You+Happy&cat=s|title= Britney Spears – Born to Make You Happy|website=Swedish Charts|access-date=March 5, 2011|archive-url=https://web.archive.org/web/20140408043502/http://swedishcharts.com/showitem.asp?interpret=Britney+Spears&titel=Born+To+Make+You+Happy&cat=s|archive-date=April 8, 2014}}</ref><ref>{{cite web|url=https://www.officialcharts.com/charts/singles-chart/20000129/7501/|title=Official Singles Chart Top 100|publisher=[[Official Charts Company]]|accessdate=January 16, 2023|archive-date=February 23, 2023|archive-url=https://web.archive.org/web/20230223101145/https://www.officialcharts.com/charts/singles-chart/20000123/7501/|url-status=live}}</ref> Its accompanying music video was directed by [[Bille Woodruff]],<ref>{{cite video|people=Spears, Britney|date=November 9, 2004|title=Greatest Hits: My Prerogative|type=DVD|publisher=Zomba/JIVE Label Group|url=https://www.imdb.com/title/tt0480109/|access-date=February 4, 2011|asin=B00064AM62|archive-url=https://web.archive.org/web/20140421095631/http://www.imdb.com/title/tt0480109/|archive-date=April 21, 2014}}</ref> and choreographed by [[Wade Robson]].<ref>{{cite web|url=http://www.msaagency.com/waderobson/|title=Wade Robson, Producer/Director/Choreographer|website=McDonald / Selznick Associates|access-date=May 7, 2011|archive-url=https://web.archive.org/web/20131004213142/http://www.msaagency.com/waderobson/|archive-date=October 4, 2013|url-status=dead}}</ref> Despite its success in Europe, the song was never released as a single in the US.<ref>{{cite magazine|url=https://www.billboard.com/music/pop/britney-spears-baby-one-more-time-tracks-ranked-8493246/|author=Chuck Arnold|title=Britney Spears' '...Baby One More Time' at 20: All the Songs, Ranked|magazine=Billboard|date=January 12, 2019|access-date=April 12, 2022|archive-date=April 12, 2022|archive-url=https://web.archive.org/web/20220412151427/https://www.billboard.com/music/pop/britney-spears-baby-one-more-time-tracks-ranked-8493246/|url-status=live}}</ref><ref>{{cite web|url=https://www.officialcharts.com/chart-news/number-1-today-in-2000-britney-spears-born-to-make-you-happy__7916/|author=Justin Myers|title=Number 1 today in 2000: Britney Spears – Born To Make You Happy|work=[[Official Charts Company]]|date=January 23, 2015|access-date=January 14, 2019|archive-date=January 14, 2019|archive-url=https://web.archive.org/web/20190114211902/https://www.officialcharts.com/chart-news/number-1-today-in-2000-britney-spears-born-to-make-you-happy__7916/|url-status=live}}</ref>
+
+"[[From the Bottom of My Broken Heart]]" was released as the fourth and final North American and Oceanian single from ''...Baby One More Time'' on December 14, 1999.<ref>{{cite web|url=http://www.mtv.com/news/1431167/britney-spears-to-announce-tour-with-lfo/|title=Britney Spears To Announce Tour With LFO|author=Johnson, Tine|date=December 8, 1999|website=[[MTV]]|access-date=April 12, 2022|archive-url=https://web.archive.org/web/20131213062631/http://www.mtv.com/news/articles/1431167/britney-spears-announce-tour-with-lfo.jhtml|archive-date=December 13, 2013}}</ref> The song received mixed critical reviews, which branded it a classic hit and competent single, despite considering it an unremarkable song referring only to kissing.<ref name="popology" /><ref name="sputnik" /> It achieved moderate commercial success, peaking at number 14 on the US ''Billboard'' Hot 100.<ref>{{cite magazine|date=2000|title=Hot 100 Spotlight|magazine=[[Billboard (magazine)|Billboard]]|volume=112|issue=9|page=108|issn=0006-2510|url=https://books.google.com/books?id=ag4EAAAAMBAJ&q=%22from+the+bottom+of+my+broken+heart%22&pg=PA97|access-date=December 25, 2010|archive-date=February 23, 2023|archive-url=https://web.archive.org/web/20230223101143/https://books.google.com/books?id=ag4EAAAAMBAJ&q=%22from+the+bottom+of+my+broken+heart%22&pg=PA97|url-status=live}}</ref> In Oceania, it peaked at number 37 in Australia and number 23 in New Zealand.<ref>{{cite web|url=http://www.australian-charts.com/search.asp?search=britney+spears&cat=s|title=Britney Spears – From the Bottom of My Broken Heart|website=Australian-charts|access-date=November 15, 2010|archive-url=https://web.archive.org/web/20140202190223/http://australian-charts.com/search.asp?search=britney+spears&cat=s|archive-date=February 2, 2014}}</ref> It was certified [[RIAA certification|platinum]] by the [[Recording Industry Association of America]] (RIAA) on March 28, 2000.<ref>{{cite web|url=http://riaa.com/goldandplatinumdata.php?resultpage=1&table=SEARCH_RESULTS&action=&title=From%20The%20Bottom%20of%20My%20Broken%20Heart&artist=Britney%20Spears&format=&debutLP=&category=&sex=&releaseDate=&requestNo=&type=&level=&label=&company=&certificationDate=&awardDescription=&catalogNo=&aSex=&rec_id=&charField=&gold=&platinum=&multiPlat=&level2=&certDate=&album=&id=&after=&before=&startMonth=1&endMonth=1&startYear=1958&endYear=2009&sort=Artist&perPage=25|title=RIAA certification searchable database – "Britney Spears"|website=[[Recording Industry Association of America]]|date=March 28, 2000|access-date=November 15, 2010|archive-date=July 23, 2012|archive-url=https://archive.today/20120723134626/http://riaa.com/goldandplatinumdata.php?resultpage=1&table=SEARCH_RESULTS&action=&title=From%20The%20Bottom%20of%20My%20Broken%20Heart&artist=Britney%20Spears&format=&debutLP=&category=&sex=&releaseDate=&requestNo=&type=&level=&label=&company=&certificationDate=&awardDescription=&catalogNo=&aSex=&rec_id=&charField=&gold=&platinum=&multiPlat=&level2=&certDate=&album=&id=&after=&before=&startMonth=1&endMonth=1&startYear=1958&endYear=2009&sort=Artist&perPage=25}}</ref> The song's accompanying music video, directed by [[Gregory Dark]], was released on December 17, 1999.<ref name="newtour" /> It elicited controversy due to the fact that Dark had previously directed [[pornographic film]]s.<ref>{{cite web|url=https://www.laweekly.com/the-devil-in-miss-spears/|title=The Devil in Miss Spears|last=Bemis|first=Alec Hanley|date=February 10, 2000|work=[[LA Weekly]]|access-date=April 12, 2022|archive-url=https://web.archive.org/web/20131013225403/http://www.laweekly.com/2000-02-10/music/the-devil-in-miss-spears/|archive-date=October 13, 2013}}</ref><ref>{{cite magazine|url=https://ew.com/article/2000/02/04/why-britney-spears-and-mandy-moore-hired-former-porn-director/|title=Why Britney Spears and Mandy Moore hired a former porn director|last=Seymour|first=Craig|date=February 4, 2000|magazine=[[Entertainment Weekly]]|access-date=April 12, 2022|archive-url=https://web.archive.org/web/20131004214309/http://www.ew.com/ew/article/0%2C%2C84970%2C00.html|archive-date=October 4, 2013}}</ref>
+
+==Critical reception==
+{{Music ratings
+| rev1 = [[AllMusic]]
+| rev1score = {{Rating|4|5}}<ref name=allmusic />
+| rev2 = ''[[Christgau's Consumer Guide]]''
+| rev2score = {{Rating-Christgau|hm1}}<ref name="christgau">{{cite book|last=Christgau|first=Robert|author-link=Robert Christgau|date=2000|title=Christgau's Consumer Guide: Albums of the '90s|title-link=Christgau's Consumer Guide: Albums of the '90s|publisher=[[Macmillan Publishers|Macmillan]]|isbn=0312245602|chapter=CG Book '90s: S|chapter-url=https://www.robertchristgau.com/get_chap.php?k=S&bk=90|access-date=March 30, 2019|via=robertchristgau.com|archive-date=August 4, 2019|archive-url=https://web.archive.org/web/20190804172033/https://www.robertchristgau.com/get_chap.php?k=S&bk=90|url-status=live}}</ref>
+| rev3 = ''[[Entertainment Weekly]]''
+| rev3score = B+<ref>{{cite magazine|url=https://ew.com/article/1999/01/15/britney-spears/|title=Britney Spears|last=Lanham|first=Tom|date=January 15, 1999|magazine=[[Entertainment Weekly]]|accessdate=January 16, 2023|archive-date=January 16, 2023|archive-url=https://web.archive.org/web/20230116181619/https://ew.com/article/1999/01/15/britney-spears/|url-status=live}}</ref>
+| rev4 = ''[[NME]]''
+| rev4score = 1/10<ref name="nme"/>
+| rev5 = ''[[Q (magazine)|Q]]''
+| rev5score = {{rating|2|5}}<ref>{{cite web |last1=Duerden |first1=Nick |title=Britney Spears - Baby One More Time |url=http://www.qonline.co.uk/reviews/server.asp?id=17813 |website=[[Q (magazine)|Q]] |accessdate=26 February 2023 |date=12 September 1999 |archive-date=September 12, 1999 |archive-url=https://web.archive.org/web/19990912020438/http://www.qonline.co.uk/reviews/server.asp?id=17813 |url-status=dead }}</ref>
+| rev6 = ''[[Rolling Stone]]''
+| rev6score = {{Rating|2|5}}<ref name="...Baby One More Time Album Review">{{cite magazine|first=Barry|last=Walters|url=https://www.rollingstone.com/music/music-album-reviews/baby-one-more-time-184264/|title=...Baby One More Time Music Review|magazine=[[Rolling Stone]]|date=January 13, 2003|access-date=April 12, 2011|archive-url=https://web.archive.org/web/20131211231544/http://www.rollingstone.com/music/albumreviews/baby-one-more-time-20030113|archive-date=December 11, 2013}}</ref>
+| rev7 = ''[[Sonic.net]]''
+| rev7score = {{Rating|3|5}}<ref name=sonic.net>{{cite news|last1=Solomon|first1=Angela|title=Britney Soars Over Oft-Vapid Songs|url=http://www.sonicnet.com/artists/ai_album.jhtml?id=513833&ai_id=501686|archive-url=https://web.archive.org/web/20001213173800/http://www.sonicnet.com/artists/ai_album.jhtml?id=513833&ai_id=501686|archive-date=December 13, 2000|access-date=June 26, 2014|work=[[Sonic.net]]|date=April 20, 1999}}</ref>
+| rev8 = ''Sputnikmusic''
+| rev8score = 2/5<ref name=sputnik />
+}}
+
+''...Baby One More Time'' received mixed reviews from [[Music journalism|music critics]] upon its release. In a positive review, [[Stephen Thomas Erlewine]] of [[AllMusic]] gave the album four out of five stars.<ref name="allmusic"/> Paul Verna from [[Billboard (magazine)|''Billboard'']] considered the album "a [[Contemporary hit radio|top 40]]-ready workout filled with hook-laden songs from the same bag as the title cut".<ref name="spotlightbill">{{cite magazine|url=https://books.google.com/books?id=1Q0EAAAAMBAJ|title=Albums|date=January 30, 1999|magazine=[[Billboard (magazine)|Billboard]]|access-date=October 8, 2011|last=Verna|first=Paul|issn=0006-2510}}</ref> ''[[The Village Voice]]'' critic [[Robert Christgau]] highlighted the title track and "Soda Pop" while summing the album up as a "[[girl next door]]" version of [[Madonna (entertainer)|Madonna]].<ref name="christgau"/> Kyle Anderson of [[MTV]] said he "was surprised in more ways than one" with his first listening of ''...Baby One More Time'', commenting he "expected there to be a lot of filler (there sort of is), though I didn't expect it to be as odd (at least sonically) as it ended up being. There has never been any mystery to why Spears became such a superstar, but these songs probably would have been huge even if Britney wore burlap sacks in all of her videos."<ref name="popology" />
+
+Barry Walters of ''[[Rolling Stone]]'' gave the album two stars out of five,<ref name="...Baby One More Time Album Review" /> and compared the album's sound to early hits of [[Debbie Gibson]], [[Mariah Carey]] and [[Samantha Fox]].<ref name="...Baby One More Time Album Review" /> Walters also said that "while several Cherion-crafted kiddie-funk jams serve up beefy hooks, shameless schlock slowies, like 'E-Mail My Heart', is pure spam."<ref name="...Baby One More Time Album Review" /> An ''[[NME]]'' reviewer rated ''...Baby One More Time'' one out of ten, saying that "we seem to have reached crisis point: pubescent pop is now so rife that 17-year-old Britney 'lizard-lounge' Spears is already halfway through her lucrative showbiz career".<ref name="nme">{{cite web|url=https://www.nme.com/reviews/britney-spears/853|title=...Baby One More Time|date=March 6, 1999|access-date=October 4, 2011|work=[[NME]]|archive-url=https://web.archive.org/web/20131029201446/http://www.nme.com/reviews/britney-spears/853|archive-date=October 29, 2013}}</ref> He also found the album premature, commenting: "hopefully, if she starts to live the wretched life that we all eventually do, her voice will show the scars, she'll stop looking so fucking smug, she'll find solace in drugs and we'll be all the happier for it. Now grow up, girl. Quick!"<ref name="nme" /> Amanda Murray of Sputnikmusic felt that "with the exception of the terrific title track, ''...Baby One More Time'' is a collection of either competent pop songs underwhelmingly executed or underwhelmingly written pop songs competently executed."<ref name="sputnik">{{cite web|url=https://www.sputnikmusic.com/review/5825/Britney-Spears-...Baby-One-More-Time/|title=Britney Spears – ...Baby One More Time (staff review)|author=Murray, Amanda|date=March 26, 2006|website=Sputnikmusic|access-date=December 25, 2010|archive-url=https://archive.today/20131029185644/http://www.sputnikmusic.com/review/5825/Britney-Spears-...Baby-One-More-Time/|archive-date=October 29, 2013}}</ref>
+
+==Accolades==
+{{Awards table|5|caption=Awards and nominations for ''...Baby One More Time''}}
+|-
+! scope="row"| [[Juno Awards of 1999|1999]]
+| [[Juno Award]]
+| [[Juno Award for International Album of the Year|Best Selling Album (Foreign or Domestic)]]
+| rowspan="2"| ''...Baby One More Time''
+| {{nom}}
+| style="text-align:center;"|<ref>{{cite web|url=https://junoawards.ca/nomination/2000-best-selling-album-foreign-or-domestic-britney-spears/|title=1999 Best Selling Foreign Album|website=junoawards.ca|access-date=November 28, 2019|archive-date=November 28, 2019|archive-url=https://web.archive.org/web/20191128110326/https://junoawards.ca/nomination/2000-best-selling-album-foreign-or-domestic-britney-spears/|url-status=live}}</ref>
+|-
+! scope="row"| [[1999 Teen Choice Awards|1999]]
+| [[Teen Choice Award]]
+| Choice Music &ndash; Album
+| {{won}}
+| style="text-align:center;"|<ref>{{cite web|url=https://www.courant.com/news/connecticut/hc-xpm-1999-08-12-9908120634-story.html|title=Funky Categories Set Teen Choice Awards Apart|last=Passero|first=Laura|work=[[Hartford Courant]]|date=August 12, 1999|access-date=April 12, 2022|archive-date=March 4, 2016|archive-url=https://web.archive.org/web/20160304074505/http://articles.courant.com/1999-08-12/entertainment/9908120634_1_teen-choice-awards-blockbuster-awards-award-show|url-status=live}}</ref>
+|-
+! scope="row"| [[YoungStar Award#Fourth Annual YoungStar Awards|1999]]
+| [[YoungStar Award]]
+| Best Young Recording Artist or Musical Group
+| rowspan="2"| Britney Spears
+| {{won}}
+| style="text-align:center;"|<ref>{{cite web|title=Rachel Leigh Cook, Britney Spears, Jonathan Jackson, Haley Joel Osment, Leelee Sobieski Among Winners at The Hollywood Reporter's 4th Annual YoungStar Awards|url=https://www.thefreelibrary.com/Rachel+Leigh+Cook%2c+Britney+Spears%2c+Jonathan+Jackson%2c+Haley+Joel...-a057401156|work=Gale Group|publisher=Business Wire|access-date=February 2, 2013|date=November 8, 1999|archive-url=https://web.archive.org/web/20151117020151/https://www.thefreelibrary.com/Rachel+Leigh+Cook%2c+Britney+Spears%2c+Jonathan+Jackson%2c+Haley+Joel...-a057401156|archive-date=November 17, 2015}}</ref>
+|-
+! scope="row"| [[1999 Billboard Music Awards|1999]]
+| [[Billboard Music Awards|''Billboard'' Music Award]]
+| Female Albums Artist of the Year
+| {{won}}
+| style="text-align:center;"|<ref>{{cite speech|last=Stephanie|first=Noemi|title=Britney Spears Wins 4 Awards At The 1999 Billboard Music Awards|event=1999 Billboard Music Awards|date=December 8, 1999|location=Las Vegas|publisher=Billboard|url=https://www.youtube.com/watch?v=6u3aMU1uN1k| archive-url=https://ghostarchive.org/varchive/youtube/20211115/6u3aMU1uN1k| archive-date=2021-11-15 | url-status=live|access-date=November 23, 2019|language=en}}{{cbignore}}</ref>
+|-
+! scope="row"| 2000
+| ''[[Guinness World Record]]''
+| Best Selling Album in the US by a Female Artist
+| rowspan="5"| ''...Baby One More Time''
+| {{won}}
+| style="text-align:center;"|<ref>{{cite web|title=Britney Spears has 7 Guinness World Records|url=https://universe.absolutebritney.com/topic/7773-britney-guinness-world-records/|date=August 21, 2014|access-date=November 28, 2019|work=[[Guinness World Records]]|archive-date=November 28, 2019|archive-url=https://web.archive.org/web/20191128145256/https://universe.absolutebritney.com/topic/7773-britney-guinness-world-records/|url-status=live}}</ref>
+|-
+! scope="row"| [[American Music Awards of 2000|2000]]
+| [[American Music Award]]
+| [[American Music Award for Favorite Pop/Rock Album|Favorite Pop/Rock Album]]
+| {{nom}}
+| style="text-align:center;"|<ref>{{cite web|url=http://www.rockonthenet.com/archive/2000/amas.htm|title=List of winner and nominees at the 27th American Music Awards|author=<!--Not stated-->|date=January 17, 2000|website=Rock on the Net|publisher=American Music Awards|access-date=November 22, 2019|archive-date=April 9, 2002|archive-url=https://web.archive.org/web/20020409082014/http://www.rockonthenet.com/archive/2000/amas.htm|url-status=live}}</ref>
+|-
+! scope="row"| [[6th Blockbuster Entertainment Awards|2000]]
+| [[Blockbuster Entertainment Award]]
+| Favorite CD
+| {{nom}}
+| style="text-align:center;"|<ref>{{cite web|url=http://www.prnewswire.com/news-releases/nominees-announced-for-sixth-annual-blockbuster-entertainment-awardsr-to-air-in-june-on-fox-72458137.html|title=Nominees Announced for 'Sixth Annual Blockbuster Entertainment Awards(R)' To Air in June on FOX|author=<!--Not stated-->|website=PR Newswire|archive-url=https://web.archive.org/web/20140112094712/http://www.prnewswire.com/news-releases/nominees-announced-for-sixth-annual-blockbuster-entertainment-awardsr-to-air-in-june-on-fox-72458137.html|access-date=November 23, 2019|archive-date=January 12, 2014 }}</ref>
+|-
+! scope="row"| 2000
+| [[Hungarian Music Awards|Hungarian Music Award]]
+| Foreign Pop Album of the Year
+| {{nom}}
+| style="text-align:center;"|<ref>{{cite web|url=http://www.fonogram.hu/?menu=jeloltek_2000|title=A 2000-es Arany Zsiráf Díj jelöltjei|website=fonogram.hu|publisher=[[Association of Hungarian Record Companies|Hungarian Recording Industry Association]]|archive-url=https://web.archive.org/web/20070721090324/http://www.fonogram.hu/?menu=jeloltek_2000|language=hu|access-date=December 31, 2019|archive-date=July 21, 2007}}</ref>
+|-
+! scope="row"| 2003
+| ''Guinness World Record''
+| Best Selling Album by a Teenage Solo Artist
+| {{won}}
+| style="text-align:center;"|<ref name="folkard"/>
+|}
+
+==Commercial performance==
+[[File:Femme Fatale Vancouver 13.jpg|left|200px|thumb|Spears and some of her dancers performing lead single "[[...Baby One More Time (song)|...Baby One More Time]]" during her 2011 [[Femme Fatale Tour]]]]
+
+In the United States, ''...Baby One More Time'' debuted atop the [[Billboard 200|''Billboard'' 200]], selling 121,000 copies in its first week.<ref name="britneyfirstweekstats">{{cite web|first=Craig|last=Rosen|title=Britney Spears Debuts On Top; 'N Sync At No. 2|date=January 20, 1999|website=Yahoo! Music News|url=http://www.music.yahoo.ca/read/news/12040569|archive-url=https://web.archive.org/web/20120312102050/http://ca.music.yahoo.com/read/news/12040569|archive-date=March 12, 2012|url-status=dead|access-date=July 23, 2009}}</ref> Spears broke several records by doing so.<ref name="records" /> The singer became the first new female artist to have a number-one single on the ''Billboard'' Hot 100 and number one album on the ''Billboard'' 200 at the same time;<ref name="records" /> the first new artist (male or female) to have a single go to the number one spot the same week that the album debuted at number one;<ref name="records" /> and the first new female artist to have the first single and first album at number one the same week.<ref name="records" /> Spears is also the youngest female in ''Billboard'' history to have a simultaneous single and album at number one in the same week,<ref name="records">{{cite web|url=http://www.music.yahoo.ca/read/news/12050537|archive-url=https://archive.today/20130116011649/http://www.music.yahoo.ca/read/news/12050537|url-status=dead|archive-date=January 16, 2013|title='99 REWIND: The Year Of Britney Spears|website=Yahoo! Music News|last=Rosen|first=Craig|date=December 30, 1999|access-date=December 28, 2012}}</ref> and became the fifth artist under the age of 18 to top the ''Billboard'' 200.<ref>{{cite magazine|url=https://www.billboard.com/photos/number-1-album-under-18-solo-artists/|title=Solo Artists Who Scored a No. 1 Album Before Turning 18|magazine=Billboard|access-date=May 23, 2021|first=Joe|last=Lynch|date=April 29, 2015|archive-date=December 1, 2021|archive-url=https://web.archive.org/web/20211201023104/https://www.billboard.com/photos/number-1-album-under-18-solo-artists/|url-status=live}}</ref> After fluctuating within the top five, the album went back to the summit in its fourth week.<ref>{{cite web|first=Craig|last=Rosen|title=Britney Still On Top, Offspring Up To No. 2, Cher In Top 10|date=February 17, 1999|website=Yahoo! Music|url=http://www.music.yahoo.ca/read/news/12058414|archive-url=https://archive.today/20130115194514/http://www.music.yahoo.ca/read/news/12058414|archive-date=January 15, 2013|url-status=dead|access-date=July 23, 2009}}</ref> It sold over 500,000 copies within its first month, according to [[Nielsen SoundScan]].<ref>{{cite web|first=Craig|last=Rosen|title=Britney Spears Back On Top|date=February 10, 1999|website=Yahoo! Music News|url=http://www.music.yahoo.ca/read/news/12063283|archive-url=https://archive.today/20130115144904/http://www.music.yahoo.ca/read/news/12063283|url-status=dead|archive-date=January 15, 2013|access-date=May 10, 2011}}</ref> Its fifth week became the album's highest-selling week with 229,000 copies sold, bringing the total to 804,000 copies. ''...Baby One More Time'' spent a total of six non-consecutive weeks at number one,<ref name="britneyfirsttour" /> and sold over 1.8&nbsp;million copies in the US within its first two months.<ref name="britneyfifthweek">{{cite web|first=Craig|last=Rosen|title=Britney Spears 'One More Time' Again|date=March 31, 1999|website=Yahoo! Music News|url=http://www.music.yahoo.ca/read/news/12039233|archive-url=https://web.archive.org/web/20120312102050/http://ca.music.yahoo.com/read/news/12039233|archive-date=March 12, 2012|url-status=dead|access-date=July 23, 2009}}</ref> In its 47th week on the ''Billboard'' 200, the album held strong at number three, reaching the ten-million sales mark in the country.<ref name="diamond">{{cite web|first=Craig|last=Rosen|title=Britney Spears Backstage At The 'Billboard Awards'|date=December 10, 1999|website=Yahoo! Music News|url=http://www.music.yahoo.ca/read/news/12046646|archive-url=https://web.archive.org/web/20120312102050/http://ca.music.yahoo.com/read/news/12046646|archive-date=March 12, 2012|url-status=dead|access-date=July 23, 2009}}</ref> The album was certified [[RIAA certification|diamond]] by the [[Recording Industry Association of America]] (RIAA) on December 9, 1999,<ref name="riaadiamond" /> making then-18-year-old Spears the youngest artist to receive that certification, breaking the record held by [[Alanis Morissette]], who was 21 when her album ''[[Jagged Little Pill]]'' (1995) was certified diamond.<ref name="riaadiamond">{{cite web|url=https://www.riaa.com/newsitem.php?content_selector=newsandviews&news_month_filter=12&news_year_filter=1999&id=C29FB2E9-763C-3D37-9153-6E3E41FA6DD1&searchterms=britney%20diamond&terminclude=&termexact=|title=Recording Industry Announces 1999 Gold and Platinum Awards|website=[[Recording Industry Association of America]]|date=December 21, 1999|access-date=October 5, 2011|archive-url=https://web.archive.org/web/20120406112234/http://www.riaa.com/newsitem.php?content_selector=newsandviews&news_month_filter=12&news_year_filter=1999&id=C29FB2E9-763C-3D37-9153-6E3E41FA6DD1&searchterms=britney%20diamond&terminclude=&termexact=|archive-date=April 6, 2012|url-status=dead}}</ref> It became the 14th album since 1991 to sell over ten million copies in the US,<ref>{{cite magazine|last=Caulfield|first=Keith|title=Usher's 'Confessions' Album Hits 10 Million in U.S. Sales|url=https://www.billboard.com/music/music-news/ushers-confessions-album-hits-10-million-in-us-sales-1084806/|magazine=[[Billboard (magazine)|Billboard]]|date=July 5, 2012|access-date=April 12, 2022|archive-url=https://web.archive.org/web/20130905220338/http://www.billboard.com/articles/news/482065/ushers-confessions-album-hits-10-million-in-us-sales|archive-date=September 5, 2013}}</ref> and Spears became the best-selling female artist of 1999.<ref name="riaadiamond" /> ''...Baby One More Time'' spent a total of 51 weeks within the top ten on the ''Billboard'' 200. It was the second best-selling album of 1999 in the US, only behind ''[[Millennium (Backstreet Boys album)|Millennium]]'' by the [[Backstreet Boys]].<ref name="britneynewalbum">{{cite web|first=Wendy|last=Hermanson|title=Britney Spears Readies A Funky New Album|date=January 7, 2000|website=Yahoo! Music|url=http://ca.music.yahoo.com/read/news/12045573|archive-url=https://web.archive.org/web/20120312102050/http://ca.music.yahoo.com/read/news/12045573|archive-date=March 12, 2012|url-status=dead|access-date=July 23, 2009}}</ref> The album has spent a total of 103 weeks on the ''Billboard'' 200.<ref name="bb200"/> ''...Baby One More Time'' landed at number three on [[BMG Music Club]]'s all-time best-sellers list, selling 1.6&nbsp;million units through the club.<ref name="BMG">{{cite web|first=Barry|last=David|title=Shania, Backstreet, Britney, Eminem and Janet Top All-Time Sellers|website=Music Industry News Network|date=February 18, 2003|url=http://www.mi2n.com/press.php3?press_nb=47877|access-date=May 17, 2009|archive-url=https://web.archive.org/web/20090817152522/http://www.mi2n.com/press.php3?press_nb=47877|archive-date=August 17, 2009|url-status=dead}}</ref> As of May 2020, it has sold 10.7 million copies in the US according to Nielsen SoundScan,<ref name=billboard2015>{{cite magazine|url=https://www.billboard.com/pro/britney-spears-oops-i-did-it-again-ask-billboard-mailbag/|title=Britney Spears' Career Sales & Streams, In Honor of 20 Years of 'Oops!...I Did It Again': Ask Billboard Mailbag|last=Trust|first=Gary|magazine=[[Billboard (magazine)|Billboard]]|date=May 15, 2020|access-date=April 12, 2022|archive-date=May 16, 2020|archive-url=https://web.archive.org/web/20200516032445/https://www.billboard.com/articles/business/chart-beat/9378793/britney-spears-oops-i-did-it-again-ask-billboard-mailbag|url-status=live}}</ref> with the BMG Music Club sales bringing its total to 12.3 million units.
+
+''...Baby One More Time'' debuted atop the [[Canadian Albums Chart]], spending nine non-consecutive weeks at the summit.<ref>{{cite magazine|title=Canadian Albums Chart|magazine=[[Billboard (magazine)|Billboard]]|url=https://www.billboard.com/charts/1999-01-30/canadian-albums|date=January 30, 1999|access-date=May 8, 2011|archive-date=February 23, 2023|archive-url=https://web.archive.org/web/20230223101134/https://www.billboard.com/charts/canadian-albums/|url-status=live}}</ref><ref>{{cite magazine|title=Canadian Albums Chart|magazine=[[Billboard (magazine)|Billboard]]|url=https://www.billboard.com/charts/1999-03-27/canadian-albums|date=March 27, 1999|access-date=May 8, 2011|archive-date=February 23, 2023|archive-url=https://web.archive.org/web/20230223101145/https://www.billboard.com/charts/canadian-albums/|url-status=live}}</ref><ref>{{cite magazine|title=Canadian Albums Chart|magazine=[[Billboard (magazine)|Billboard]]|url=https://www.billboard.com/charts/1999-04-17/canadian-albums|date=April 17, 1999|access-date=May 8, 2011|archive-date=February 23, 2023|archive-url=https://web.archive.org/web/20230223101146/https://www.billboard.com/charts/canadian-albums/|url-status=live}}</ref> On December 12, 1999, the [[Canadian Recording Industry Association]] (CRIA) certified it diamond, for sales of over one million units.{{Certification Cite Ref|region=Canada|title=Baby One More Time|artist=Britney Spears|type=album|certyear=1999|access-date=September 28, 2011}} The album spent two weeks at number two on the [[European Top 100 Albums]],<ref name="1990sbb" /> and sold over four million copies across Europe, being certified quadruple platinum by the [[International Federation of the Phonographic Industry]] (IFPI).<ref name="EuropeCertification"/> It peaked at number two on the [[UK Albums Chart]],<ref name="UK charts">{{cite web|url=https://www.officialcharts.com/archive/official-albums-chart/|title=The Official Charts Company – Britney Spears – Baby One More Time|publisher=[[The Official Charts Company]]|date=February 5, 2000|access-date=July 13, 2009|archive-date=October 26, 2019|archive-url=https://web.archive.org/web/20191026144532/https://www.officialcharts.com/archive/official-albums-chart/|url-status=live}}</ref> and has been certified quadruple platinum by the [[British Phonographic Industry]] (BPI).<ref name=BPI/> It peaked at number four in France,<ref name="French charts">{{cite web|url=http://lescharts.com/showitem.asp?interpret=Britney+Spears&titel=...Baby+One+More+Time&cat=a|title=French Albums Chart|publisher=[[Syndicat National de l'Édition Phonographique]]|date=January 1, 2000|access-date=July 13, 2009|archive-url=https://web.archive.org/web/20111211001001/http://lescharts.com/showitem.asp?interpret=Britney+Spears&titel=%2E%2E%2EBaby+One+More+Time&cat=a|archive-date=December 11, 2011}}</ref> being certified double platinum by the [[Syndicat National de l'Édition Phonographique]] (SNEP).<ref name="FranceCertification"/> In addition, it has been certified triple [[Gold certification|gold]] in Germany,{{Certification Cite Ref|region=Germany|title=Baby One More Time|artist=Britney Spears|type=album}} and decuple platinum (diamond) by the [[Polish Society of the Phonographic Industry]] (ZPAV).{{Certification Cite Ref|region=Poland|title=Baby One More Time|artist=BritneySpears|type=album|award=Platinum|number=1|certyear=1999}} In Australia, it debuted at number nine on the [[ARIA Charts|ARIA Albums Chart]], reaching number two nine weeks later.<ref name="ARIA charts">{{cite web|url=http://australian-charts.com/showitem.asp?interpret=Britney+Spears&titel=...Baby+One+More+Time&cat=a|title=Australian Albums Chart|publisher=[[Australian Recording Industry Association]]|date=July 18, 1999|access-date=July 13, 2009|archive-url=https://web.archive.org/web/20120225042955/http://australian-charts.com/showitem.asp?interpret=Britney+Spears&titel=...Baby+One+More+Time&cat=a|archive-date=February 25, 2012}}</ref> The album became the seventh highest-selling of 1999 in the country, and was certified quadruple platinum by the [[Australian Recording Industry Association]] (ARIA) the following year after shipping 280,000 copies to retailers.<ref name="AustraliaCertification"/><ref>{{cite web|url=http://www.aria.com.au/pages/aria-charts-end-of-year-charts-top-100-albums-1999.htm|title=Australian Annual Chart|author=Australian Recording Industry Association|date=1999|access-date=July 19, 2009|archive-url=https://web.archive.org/web/20090912162022/http://aria.com.au/pages/aria-charts-end-of-year-charts-top-100-albums-1999.htm|archive-date=September 12, 2009}}</ref> The album debuted at number three in New Zealand,<ref name="RIANZ">{{cite web|url=http://www.rianz.org.nz/rianz/chart.asp|title=New Zealand Music Charts|publisher=[[Recording Industry Association of New Zealand]]|date=May 30, 1999|access-date=July 13, 2009|archive-url=https://web.archive.org/web/20070625161959/http://www.rianz.org.nz/rianz/chart.asp|archive-date=June 25, 2007|url-status=dead}} Album Chart#1161</ref> later being certified triple platinum by the [[Recording Industry Association of New Zealand]] (RIANZ).{{Certification Cite Ref|region=New Zealand|title=Baby One More Time|artist=Britney Spears|type=album|id=1212}}
+
+==Impact and legacy==
+Spears was at the forefront of the female teen pop explosion starting in 1999 and extending through the 2000s, leading the pack of [[Christina Aguilera]], [[Jessica Simpson]], and [[Mandy Moore]].<ref>{{cite web |url=https://www.eonline.com/news/954879/mandy-moore-reflects-on-her-early-days-in-pop-music-alongside-britney-spears |title=Mandy Moore Reflects on Her Early Days in Pop Music Alongside Britney Spears |last=Cohen |first=Jess |date=July 25, 2018 |website=[[E!]] |access-date=July 15, 2021 |archive-date=August 14, 2021 |archive-url=https://web.archive.org/web/20210814105730/https://www.eonline.com/news/954879/mandy-moore-reflects-on-her-early-days-in-pop-music-alongside-britney-spears |url-status=live }}</ref> All of these performers had been developing material in 1998, but the market changed dramatically in December 1998 when Spears' debut single and video were charting highly. [[RCA Records]] signed Aguilera and rushed her debut single to capitalize on Spears' success, producing the hit single "[[Genie in a Bottle]]" in May 1999 and Aguilera's [[Christina Aguilera (album)|eponymous debut studio album]] in August.<ref>{{harvnb|Dominguez|2003|p=45}}</ref> Aguilera's album sold millions but not as many as ''...Baby One More Time''.<ref>{{cite news |url=https://apnews.com/article/21968649002059c232a7fb91b627c3b9 |work=Associated Press |date=May 15, 2000 |first=Nekesa Mumbi |last=Moody |title=Can Britney Do It 'One More Time'? |access-date=July 15, 2021 |archive-date=July 16, 2021 |archive-url=https://web.archive.org/web/20210716005957/https://apnews.com/article/21968649002059c232a7fb91b627c3b9 |url-status=live }}</ref> Simpson consciously modeled her persona as more mature than Spears; her single "[[I Wanna Love You Forever]]" charted in September 1999, and her album ''[[Sweet Kisses]]'' followed shortly after.<ref>{{cite web |url=https://www.allmusic.com/album/sweet-kisses-mw0000247597 |title=Jessica Simpson – Sweet Kisses |authorlink=Stephen Thomas Erlewine |first=Stephen Thomas |last=Erlewine |website=[[AllMusic]] |access-date=July 15, 2021 |archive-date=June 28, 2021 |archive-url=https://web.archive.org/web/20210628095549/https://www.allmusic.com/album/sweet-kisses-mw0000247597 |url-status=live }}</ref><ref>{{harvnb|Dougherty|2005|p=52}}</ref> Moore's first single, "[[Candy (Mandy Moore song)|Candy]]", hit the airwaves a month before Simpson's single, but it did not perform as well on the charts; Moore was often seen as less accomplished than Spears and the others, coming in fourth of the "pop princesses".<ref>{{cite web |url=https://www.bustle.com/articles/142358-who-was-really-the-best-pop-princess-britney-christina-jessica-or-mandy |title=Rankings The '00s Pop Princesses |first=Caitlyn |last=Callegari |date=February 19, 2016 |website=[[Bustle (magazine)|Bustle]] |access-date=July 14, 2021 |archive-date=August 14, 2021 |archive-url=https://web.archive.org/web/20210814140541/https://www.bustle.com/articles/142358-who-was-really-the-best-pop-princess-britney-christina-jessica-or-mandy |url-status=live }}</ref><ref>{{cite web |url=https://hollywoodlife.com/2020/03/06/mandy-moore-britney-spears-christina-aguilera-comparison-interview/ |title=Mandy Moore on Being Compared to Britney Spears & Christina Aguilera: I Never Had Their 'Success' |last=Brow |first=Jason |date=March 6, 2020 |website=Hollywood Life |access-date=July 15, 2021 |archive-date=July 16, 2021 |archive-url=https://web.archive.org/web/20210716005956/https://hollywoodlife.com/2020/03/06/mandy-moore-britney-spears-christina-aguilera-comparison-interview/ |url-status=live }}</ref> Fueling media stories about their competition for first place, Spears and Aguilera traded barbs but also compliments through the 2000s.<ref>{{cite web |url=https://www.eonline.com/news/933841/the-complete-history-of-christina-aguilera-and-britney-spears-long-running-rivalry-including-everything-you-forgot |title=The Complete History of Christina Aguilera and Britney Spears' Long-Running Rivalry—Including Everything You Forgot |last=Grossbart |first=Sarah |date=May 9, 2018 |website=[[E!]] |access-date=July 15, 2021 |archive-date=July 16, 2021 |archive-url=https://web.archive.org/web/20210716005955/https://www.eonline.com/news/933841/the-complete-history-of-christina-aguilera-and-britney-spears-long-running-rivalry-including-everything-you-forgot |url-status=live }}</ref>
+
+{{Quote box|width=30%|align=left|quote="With ''...Baby One More Time'', I didn't get to show my voice off. The songs were great, but they weren't very challenging."|source=—Spears reflects on ''...Baby One More Time'' in December 1999.<ref>{{cite news|title='One more time' for Spears|newspaper=[[San Antonio Express-News]]|pages=4F|date=December 16, 1999}}</ref>}}
+''[[The Daily Yomiuri]]'' reported that "critics have hailed her as the most gifted teenage pop idol for many years, but Spears has set her sights a little higher-she is aiming for the level of superstardom that has been achieved by Madonna and Janet Jackson."<ref>{{cite news|title=Teen pop idols stage comeback|newspaper=Yomiuri Shimbun|page=1|date=November 25, 1999}}</ref> ''Rolling Stone'' wrote: "Britney Spears carries on the classic archetype of the rock & roll teen queen, the dungaree doll, the angel baby who just has to make a scene."<ref>{{cite magazine|title=Oops!...I Did It Again|date=2000|magazine=Rolling Stone|issn=0035-791X}}</ref> Rami Yacoub who co-produced Spears's debut album with lyricist Max Martin commented: "I know from Denniz Pop and Max's previous productions, when we do songs, there's kind of a nasal thing. With N' Sync and the Backstreet Boys, we had to push for that mid-nasal voice. When Britney did that, she got this kind of raspy, sexy voice."<ref name="billboard book">{{harvnb|Bronson|2003|p=377}}</ref> Chuck Taylor of ''Billboard'' observed, "Spears has become a consummate performer, with snappy dance moves, a clearly real-albeit young-and funkdified voice&nbsp;... "(You Drive Me) Crazy", her third single&nbsp;... demonstrates Spears' own development, proving that the 17-year-old is finding her own vocal personality after so many months of steadfast practice."<ref>{{cite news|last=Taylor|first=Chuck|title=Britney Spears: (You Drive Me) Crazy|newspaper=Billboard|volume=111|issue=35|page=27|date=August 28, 1999}}</ref> Stephen Thomas Erlewine of AllMusic referred to her music as a "blend of infectious, rap-inflected dance-pop and smooth balladry."<ref name="allmusic" /> Sputnikmusic writer Amanda Murray noted the album "offers a marker for Spears' progression as an artist, as a celebrity, and as a woman."<ref name="sputnik" /> In 2010, the album was included in the book ''[[1001 Albums You Must Hear Before You Die]]''.<ref>{{harvnb|Dimery|Lydon|2010}}</ref>
+
+Spears became an international [[pop icon|pop culture icon]] immediately after launching her recording career. ''Rolling Stone'' wrote: "One of the most controversial and successful female vocalists of the 21st century," she "spearheaded the rise of post-millennial teen pop&nbsp;... Spears early on cultivated a mixture of innocence and experience that generated lots of cash".<ref>{{cite magazine|title=Britney Spears: Biography: Rolling Stone|magazine=Rolling Stone|date=2008|url=https://www.rollingstone.com/music/artists/britney-spears/biography|access-date=August 9, 2008|archive-url=https://web.archive.org/web/20131112115709/http://www.rollingstone.com/music/artists/britney-spears/biography|archive-date=November 12, 2013|url-status=dead}}</ref> She is listed by the ''[[Guinness World Records]]'' as having the "Best-selling album by a teenage solo artist".<ref name="folkard">{{harvnb|Folkard|2003|p=288}}</ref> Melissa Ruggieri of the ''[[Richmond Times-Dispatch]]'' reported, "She's also marked for being the best-selling teenage artist. Before she turned 20 in 2001, Spears sold more than 25 million albums worldwide".<ref>{{cite news|last=Ruggieri|first=Melissa|title=Music Notes|newspaper=[[Richmond Times-Dispatch]]|pages=D.13|date=December 19, 2000}}</ref> Barbara Ellen of ''[[The Observer]]'' reported: "Spears is famously one of the 'oldest' teenagers pop has ever produced, almost middle aged in terms of focus and determination. Many 19-year-olds haven't even started working by that age, whereas Britney, a former Mouseketeer, was that most unusual and volatile of American phenomena&nbsp;— a child with a full-time career. While other little girls were putting posters on their walls, Britney was wanting to be the poster on the wall. Whereas other children develop at their own pace, Britney was developing at a pace set by the ferociously competitive American entertainment industry".<ref>{{cite news|last=Ellen|first=Barbara|title=Comment: Britney Spears: Growing up is hard to do: America's apple- pie cheerleader is feeling the pressure as she tries to break free from her clean teen image. So is it all proving too much for Britney Inc, as she pulls out of tonight's Smash Hits Poll Winners' party and takes to her bed: The Observer Profile: Britney Spears|newspaper=[[The Observer]]|page=27|date=December 10, 2000|issn=0029-7712}}</ref> ''...Baby One More Time'' is Spears' most commercially successful album to date, with worldwide sales of 25 million copies.<ref name="BOMTsales"/> It was ranked at number 41 on the all-time US ''Billboard'' 200 chart,<ref>{{cite magazine|title=Greatest of All Time Billboard 200 Albums|url=https://www.billboard.com/charts/greatest-billboard-200-albums|magazine=[[Billboard (magazine)|Billboard]]|date=November 12, 2015|access-date=November 12, 2015|archive-url=https://web.archive.org/web/20161001122709/http://www.billboard.com/charts/greatest-billboard-200-albums|archive-date=October 1, 2016}}</ref> and at number 16 on the ''Billboard'' 200 albums by women.<ref name=Billboard>{{cite magazine|url=https://www.billboard.com/charts/greatest-billboard-200-albums-by-women|title=Greatest of All Time Billboard 200 Albums by Women Chart|magazine=Billboard|date=November 30, 2017|access-date=March 6, 2018|archive-date=February 1, 2018|archive-url=https://web.archive.org/web/20180201173545/https://www.billboard.com/charts/greatest-billboard-200-albums-by-women|url-status=live}}</ref>
+
+==Track listing==
+{{Track listing
+| headline = ''...Baby One More Time''{{nobold|&nbsp;– North American edition<ref name="liner"/>}}
+| extra_column = Producer(s)
+| total_length = 42:20
+
+| title1 = [[...Baby One More Time (song)|...Baby One More Time]]
+| writer1 = [[Max Martin]]
+| extra1 = {{Flat list|
+*Martin
+*[[Rami Yacoub|Rami]]
+}}
+| length1 = 3:30
+
+| title2 = [[(You Drive Me) Crazy]]
+| writer2 = {{Flat list|
+*[[Jörgen Elofsson]]
+*[[Per Magnusson]]
+*[[David Kreuger]]
+*Martin
+}}
+| extra2 = {{Flat list|
+*Magnusson
+*Kreuger
+*Martin
+}}
+| length2 = 3:17
+
+| title3 = [[Sometimes (Britney Spears song)|Sometimes]]
+| writer3 = Elofsson
+| extra3 = {{Flat list|
+*Magnusson
+*Kreuger
+*Elofsson{{ref|a|[a]}}
+}}
+| length3 = 4:05
+
+| title4 = Soda Pop 
+| writer4 = {{Flat list|
+*Mikey Bassie
+*[[Eric Foster White]]
+}}
+| extra4 = White
+| length4 = 3:20
+
+| title5 = [[Born to Make You Happy]]
+| writer5 = {{Flat list|
+*[[Kristian Lundin]]
+*[[Andreas Carlsson]]
+}}
+| extra5 = Lundin
+| length5 = 4:03
+
+| title6 = [[From the Bottom of My Broken Heart]]
+| writer6 = White
+| extra6 = White
+| length6 = 5:11
+
+| title7 = I Will Be There
+| writer7 = {{Flat list|
+*Martin
+*Carlsson
+}}
+| extra7 = {{Flat list|
+*Martin
+*Rami
+}}
+| length7 = 3:53
+
+| title8 = I Will Still Love You
+| note8 = with Don Philip
+| writer8 = White
+| extra8 = White
+| length8 = 4:02
+
+| title9 = Thinkin' About You
+| writer9 = {{Flat list|
+*Bassie
+*White
+}}
+| extra9 = White
+| length9 = 3:35
+
+| title10 = E-Mail My Heart
+| writer10 = White
+| extra10 = White
+| length10 = 3:41
+
+| title11 = [[The Beat Goes On (Sonny & Cher song)|The Beat Goes On]]
+| writer11 = {{Flat list|
+*[[Sonny Bono]]
+*White
+}}
+| extra11 = {{Flat list|
+*White
+*[[All Seeing I|The All Seeing I]]{{ref|b|[b]}}
+}}
+| length11 = 3:43
+}}
+{{Track listing
+| extra_column = Producer(s)
+| headline = ''...Baby One More Time''{{nobold|&nbsp;– International edition<ref name="INT edition">{{cite AV media notes|title=...Baby One More Time|last=Spears|first=Britney|date=1999|type=International CD liner notes|publisher=[[JIVE Records]]|id=7243 8 47275 0 5}}</ref>}}
+| total_length = 45:54
+
+| title9 = Deep in My Heart
+| writer9 = {{Flat list|
+*Magnusson
+*Kreuger
+*Carlsson
+}}
+| extra9 = {{Flat list|
+*Magnusson
+*Kreuger
+}}
+| length9 = 3:36
+
+| title10 = Thinkin' About You
+| writer10 = {{Flat list|
+*Bassie
+*White
+}}
+| extra10 = White
+| length10 = 3:35
+
+| title11 = E-Mail My Heart
+| writer11 = White
+| extra11 = White
+| length11 = 3:41
+
+| title12 = The Beat Goes On
+| writer12 = {{Flat list|
+*Bono
+*White
+}}
+| extra12 = {{Flat list|
+*White
+*The All Seeing I{{ref|b|[b]}}
+}}
+| length12 = 3:43
+}}
+{{Track listing
+| headline = ''...Baby One More Time''{{nobold|&nbsp;– Asian edition (bonus tracks)<ref name="Asian edition">{{cite AV media notes|title=...Baby One More Time|last=Spears|first=Britney|date=1999|type=Asian CD liner notes|publisher=[[JIVE Records]]|id=FR CD 20575}}</ref>}}
+| extra_column = Producer(s)
+| total_length = 53:23
+
+| title13 = I'll Never Stop Loving You
+| writer13 = {{Flatlist|
+*Jason Blume
+*Steve Diamond
+}}
+| extra13 = {{Flatlist|
+*Magnusson
+*Kreuger
+}}
+| length13 = 3:43
+
+| title14 = ...Baby One More Time
+| note14 = Davidson Ospina Radio Mix
+| writer14 = Martin
+| extra14 = {{Flatlist|
+*Martin
+*Rami
+*Davidson Ospina{{ref|c|[c]}}
+}}
+| length14 = 3:26
+}}
+{{Track listing
+| extra_column = Producer(s)
+| headline = ''...Baby One More Time''{{nobold|&nbsp;– Japanese, Australian and 2003 deluxe edition (bonus tracks)<ref name="JAP edition">{{cite AV media notes|title=...Baby One More Time|last=Spears|first=Britney|date=1999|type=Japanese CD liner notes|publisher=[[JIVE Records]]|id=AVCZ-95114}}</ref><ref name="AUS edition">{{cite AV media notes|title=...Baby One More Time|last=Spears|first=Britney|date=1999|type=Australian CD liner notes|publisher=[[JIVE Records]]|id=0523032}}</ref>}}
+| total_length = 60:20
+| title13 = I'll Never Stop Loving You
+| writer13 = {{Flatlist|
+*Blume
+*Diamond
+}}
+| extra13 = {{Flatlist|
+*Magnusson
+*Kreuger
+}}
+| length13 = 3:43
+| title14 = Autumn Goodbye
+| writer14 = White
+| extra14 = White
+| length14 = 3:42
+| title15 = ...Baby One More Time
+| note15 = Davidson Ospina Radio Mix
+| writer15 = Martin
+| extra15 = {{Flatlist|
+*Martin
+*Rami
+*Ospina{{ref|c|[c]}}
+}}
+| length15 = 3:26
+| title16 = ...Baby One More Time
+| note16 = Boy Wunder Radio Mix
+| writer16 = Martin
+| extra16 = {{Flatlist|
+*Martin
+*Rami
+*Boy Wunder{{ref|c|[c]}}
+}}
+| length16 = 3:27
+| all_writing = 
+| title6 = 
+| title10 = 
+| length9 = 
+| title9 = 
+| length8 = 
+| title8 = 
+| length7 = 
+| title7 = 
+| length6 = 
+| length5 = 
+| title1 = 
+| title5 = 
+| length4 = 
+| title4 = 
+| length3 = 
+| title3 = 
+| length2 = 
+| title2 = 
+| length1 = 
+| length10 = 
+}}
+
+{{Track listing
+| extra_column = Producer(s)
+| headline = ''...Baby One More Time''{{nobold|&nbsp;– South Korean limited edition (bonus disc)<ref name="KOREA edition">{{cite AV media notes|title=...Baby One More Time|last=Spears|first=Britney|date=1999|type=South Korean limited edition CD liner notes|publisher=[[JIVE Records]]|id=RZBD004}}</ref>}}
+| total_length = 27:01
+
+| title1 = (You Drive Me) Crazy
+| note1 = The Stop! Remix
+| writer1 = {{Flat list|
+*Elofsson
+*Magnusson
+*Kreuger
+*Martin
+}}
+| extra1 = {{Flat list|
+*Martin
+*Rami
+}}
+| length1 = 3:16
+
+| title2 = (You Drive Me) Crazy
+| note2 = Spacedust Club Mix
+| writer2 = {{Flat list|
+*Elofsson
+*Magnusson
+*Kreuger
+*Martin
+}}
+| extra2 = {{Flat list|
+*Martin
+*Rami
+*Spacedust{{ref|c|[c]}}
+}}
+| length2 = 7:20
+
+| title3 = Sometimes
+| note3 = Soul Solution&nbsp;– Mid Tempo Mix
+| writer3 = Elofsson
+| extra3 = {{Flat list|
+*Magnusson
+*Kreuger
+*Elofsson{{ref|a|[a]}}
+*[[Soul Solution]]{{ref|c|[c]}}
+}}
+| length3 = 3:29
+
+| title4 = ...Baby One More Time
+| note4 = Davidson Ospina Club Mix
+| writer4 = Martin
+| extra4 = {{Flatlist|
+*Martin
+*Rami
+*Ospina{{ref|c|[c]}}
+}}
+| length4 = 5:40
+
+| title5 = I'll Never Stop Loving You
+| writer5 = {{Flatlist|
+*Blume
+*Diamond
+}}
+| extra5 = {{Flatlist|
+*Magnusson
+*Kreuger
+}}
+| length5 = 3:41
+
+| title6 = I'm So Curious
+| writer6 = {{flat list|
+*[[Britney Spears]]
+*White
+}}
+| extra6 = White
+| length6 = 3:35
+}}
+{{Track listing
+| extra_column = Producer(s)
+| headline = ''...Baby One More Time''{{nobold|&nbsp;– Singaporean limited edition (bonus disc)<ref name="SIG edition">{{cite AV media notes|title=...Baby One More Time|last=Spears|first=Britney|date=1999|type=Singaporean limited edition CD liner notes|publisher=[[JIVE Records]]|id=0523002}}</ref>}}
+| total_length = 11:27
+
+| title1 = Born to Make You Happy
+| note1 = Radio Edit
+| writer1 = {{Flat list|
+*Lundin
+*Carlsson
+}}
+| extra1 = Lundin
+| length1 = 3:35
+
+| title2 = Born to Make You Happy
+| note2 = Bonus Remix
+| writer2 = {{Flat list|
+*Lundin
+*Carlsson
+}}
+| extra2 = Lundin
+| length2 = 3:40
+
+| title3 = (You Drive Me) Crazy
+| note3 = Jazzy Jim's Hip-Hop Mix
+| writer3 = {{Flat list|
+*Elofsson
+*Magnusson
+*Kreuger
+*Martin
+}}
+| extra3 = {{Flat list|
+*Martin
+*Rami
+*Jazzy Jim{{ref|c|[c]}}
+*Ricky Brown{{ref|c|[c]}}
+}}
+| length3 = 3:40
+
+| title4 = ...Baby One More Time
+| note4 = Answering Machine Message
+| length4 = 0:21
+}}
+
+'''Notes'''
+*The very first pressings of the album feature a hidden spoken message by Spears after "The Beat Goes On". In it, Spears thanks fans and promotes the then-upcoming [[Backstreet Boys]] album, ''[[Millennium (Backstreet Boys album)|Millennium]]'', with snippets of songs featured on the album.<ref name="popology" />
+*"Soda Pop" originally appeared on the [[Sabrina the Teenage Witch (soundtrack)|soundtrack]] to the TV series ''[[Sabrina the Teenage Witch (1996 TV series)|Sabrina the Teenage Witch]]'' in 1998, in a slightly longer version.<ref>{{Cite web|url = https://music.apple.com/us/album/sabrina-teenage-witch-album-soundtrack-from-tv-show/1446862191|title = Sabrina the Teenage Witch: The Album (Soundtrack from the TV Show) by Various Artists|date = October 27, 1998|access-date = November 21, 2021|archive-date = December 4, 2021|archive-url = https://web.archive.org/web/20211204022306/https://music.apple.com/us/album/sabrina-teenage-witch-album-soundtrack-from-tv-show/1446862191|url-status = live}}</ref>
+*{{sup|{{note|a|a}}}} signifies a co-producer
+*{{sup|{{note|b|b}}}} signifies an additional producer
+*{{sup|{{note|c|c}}}} signifies a [[remix]]er
+
+==Personnel==
+Credits are adapted from the liner notes of ''...Baby One More Time'', except where noted.<ref name="liner"/>
+
+{{div col}}
+* Mikey Bassie – vocals (track 4)
+* Daniel Boom – engineering
+* Jimmy Bralower – drum programming
+* Jason Buckler – production
+* Larry Busacca – photography
+* [[Andreas Carlsson]] – backing vocals
+* Tom Coyne – mastering
+* [[Denniz Pop]] – production (uncredited)<ref name=Seabrook2015/>
+* Nikki Gregoroff – backing vocals
+* Nana Hedin – backing vocals
+* Andy Hess – bass
+* Dean Honer – production
+* [[David Kreuger]] – production
+* Tim Latham – engineering, mixing
+* Tomas Lindberg – bass
+* [[Kristian Lundin]] – production
+* [[Per Magnusson]] – keyboards, production, programming
+* [[Max Martin]] – backing vocals, engineering, keyboards, mixing, production, programming
+* Charles McCrorey – engineering assistance
+* Andrew McIntyre – electric guitar
+* Jackie Murphy – art direction, design
+* Lisa Peardon – photography
+* Dan Petty – acoustic guitar, electric guitar
+* Doug Petty – keyboards
+* Don Philip – vocals (track 8)
+* [[Rami (producer)|Rami]] – production
+* Albert Sanchez – photography
+* [[Aleese Simmons]] – backing vocals
+* [[Britney Spears]] – vocals
+* Chris Trevett – engineering, mixing
+* [[Eric Foster White]] – arrangement, bass, drum programming, electric guitar, engineering, keyboards, mixing, production
+* Timothy White – photography
+{{div col end}}
+
+==Charts==
+<!--
+NOTE TO EDITORS: Please provide a reliable source when adding or changing chart positions, sales figures and certifications. Unreferenced information will be challenged and can and will be removed by any editor. Read Wikipedia:Verifiability, Wikipedia:Reliable sources and Wikipedia:Citing sources for more information. Thanks.
+-->
+{{Col-begin}}
+{{Col-2}}
+
+===Weekly charts===
+{|class="wikitable sortable plainrowheaders" style="text-align:center;"
+|-
+! scope="col" style="text-align:center;"| Chart (1999&ndash;2000)
+! scope="col" style="text-align:center;"| Peak<br />position
+|-
+{{album chart|Australia|2|artist=Britney Spears|album=...Baby One More Time|rowheader=yes|refname="aus"}}
+|-
+!scope="row"|Australian Dance Albums ([[ARIA Charts|ARIA]])<ref>{{cite journal|url=http://pandora.nla.gov.au/pan/23790/20020221-0000/www.aria.com.au/issue568.PDF|archive-url=https://webarchive.nla.gov.au/awa/20080222222432/http://pandora.nla.gov.au/pan/23790/20020221-0000/www.aria.com.au/issue568.PDF|url-status=dead|date=January 15, 2001|archive-date=February 23, 2008|title=ARIA Dance - Week Commencing 15th January 2001|journal=[[The ARIA Report]]|page=15|via=[[National Library of Australia]]|issue=568|access-date=April 17, 2023}}{{cbignore|bot=medic}}</ref>
+|1
+|-
+{{Album chart|Austria|2|artist=Britney Spears|album=...Baby One More Time|rowheader=yes}}
+|-
+{{Album chart|Flanders|2|artist=Britney Spears|album=...Baby One More Time|rowheader=yes}}
+|-
+{{Album chart|Wallonia|2|artist=Britney Spears|album=...Baby One More Time|rowheader=yes}}
+|-
+{{album chart|BillboardCanada|1|artist=Britney Spears|access-date=September 18, 2021|rowheader=yes}}
+|-
+! scope="row"| Canadian Top Albums/CDs (''[[RPM (magazine)|RPM]]'')<ref>{{cite web|url=http://www.collectionscanada.gc.ca/rpm/028020-119.01-e.php?&file_num=nlc008388.7489&type=1&interval=50&PHPSESSID=c6btf3r8hs459qqt5ln3o3dcv5|title=Top Albums/CDs – Volume 68, No. 15,&nbsp;February&nbsp;01, 1999|work=[[RPM (magazine)|RPM]]|access-date=January 31, 2011|archive-url=https://web.archive.org/web/20120225043025/http://www.collectionscanada.gc.ca/rpm/028020-119.01-e.php?&file_num=nlc008388.7489&type=1&interval=50&PHPSESSID=c6btf3r8hs459qqt5ln3o3dcv5|archive-date=February 25, 2012}}</ref>
+| 1
+|-
+!scope="row"|Czech Albums ([[International Federation of the Phonographic Industry|ČNS IFPI]])<ref>{{cite web|url=https://worldradiohistory.com/UK/Music-and-Media/90s/1999/MM-1999-09-04.pdf|title=Top national sellers|work=Music & Media|access-date=April 30, 2023|archive-date=2023-02-16|archive-url=https://web.archive.org/web/20230216184941/https://worldradiohistory.com/UK/Music-and-Media/90s/1999/MM-1999-09-04.pdf|url-status=live}}</ref>
+| 5
+|-
+! scope="row"| Danish Albums ([[Hitlisten]])<ref>{{cite news|title=Listen – Danmarks Officielle Hitliste – Udarbejdet af AIM Nielsen for IFPI Danmark – Uge 14|work=[[Ekstra Bladet]]|location=[[Copenhagen]]|language=da|date=April 11, 1999}}</ref>
+| 7
+|-
+{{Album chart|Netherlands|3|artist=Britney Spears|album=...Baby One More Time|rowheader=yes}}
+|-
+!scope="row"|[[European Top 100 Albums]] (''[[Music & Media]]'')<ref>{{cite magazine|url=https://worldradiohistory.com/UK/Music-and-Media/90s/1999/MM-1999-04-24.pdf |archive-url=https://ghostarchive.org/archive/20221009/https://worldradiohistory.com/UK/Music-and-Media/90s/1999/MM-1999-04-24.pdf |archive-date=2022-10-09 |url-status=live|title=Hits of the World|magazine=Billboard|access-date=November 6, 2015}}</ref>
+| 2
+|-
+{{Album chart|Finland|11|artist=Britney Spears|album=...Baby One More Time|rowheader=yes}}
+|-
+{{album chart|France|4|artist=Britney Spears|album=...Baby One More Time|rowheader=yes}}
+|-
+{{Album chart|Germany4|1|id=2943|artist=Britney Spears|album=...Baby One More Time|rowheader=yes}}
+|-
+! scope="row"| Greek Albums ([[IFPI Greece|IFPI]])<ref>{{cite magazine|url=https://worldradiohistory.com/UK/Music-and-Media/00s/2000/MM-2000-04-15.pdf |archive-url=https://ghostarchive.org/archive/20221009/https://worldradiohistory.com/UK/Music-and-Media/00s/2000/MM-2000-04-15.pdf |archive-date=2022-10-09 |url-status=live|title=Top national sellers|magazine=Billboard|access-date=August 18, 2015}}</ref>
+| 5
+|-
+! scope="row"| Hungarian Albums ([[MAHASZ]])<ref>{{cite web|url=http://www.mahasz.hu/?menu=slagerlistak&menu2=archivum&lista=top40&ev=1999&het=17&submit_=Keres%E9s|title=Hungarian Albums Chart|publisher=[[MAHASZ]]|date=April 26, 1999|access-date=December 3, 2009|archive-date=January 16, 2021|archive-url=https://web.archive.org/web/20210116232432/https://www.mahasz.hu/?menu=slagerlistak&menu2=archivum&lista=top40&ev=1999&het=17&submit_=Keres%E9s|url-status=live}}</ref>
+| 4
+|-
+{{album chart|Ireland2|6|artist=Britney Spears|rowheader=true|access-date=September 18, 2021}}
+|-
+! scope="row"| Italian Albums ([[Federazione Industria Musicale Italiana|FIMI]])<ref>{{cite magazine|url=https://worldradiohistory.com/Archive-Billboard/90s/1999/BB-1999-04-24.pdf |archive-url=https://ghostarchive.org/archive/20221009/https://worldradiohistory.com/Archive-Billboard/90s/1999/BB-1999-04-24.pdf |archive-date=2022-10-09 |url-status=live|title=Hits of the world|magazine=Billboard|access-date=August 18, 2015}}</ref>
+| 8
+|-
+! scope="row"| Japanese Albums ([[Oricon]])<ref name="Oricon">{{cite web|title=Japanese Main Albums Chart|url=http://www.oricon.co.jp/|access-date=July 13, 2009|archive-url=https://web.archive.org/web/20100131231235/http://www.oricon.co.jp/|publisher=[[Oricon]]|archive-date=January 31, 2010}}</ref>
+| 9
+|-
+!scope="row"|Malaysian Albums ([[Recording Industry Association of Malaysia|RIM]])<ref name="Billboard's Hits of the World (August 14, 1999)">{{cite book |url=https://books.google.co.in/books?id=mggEAAAAMBAJ&pg=PA79&dq=britney+greece+malaysia+billboard&hl=en&sa=X&ved=2ahUKEwiYx6XisJaBAxW1ZvUHHc_dCwQQ6AF6BAgIEAI#v=onepage&q=britney%20greece%20malaysia%20billboard&f=false|title=Billboard: Hits of the World (August 14, 1999)|publisher=[[Billboard magazine|Billboard]]|accessdate=2023-09-06|date=1999-08-14}}</ref>
+|7
+|-
+! scope="row"| Mexican Albums ([[AMPROFON]])<ref>{{cite web|url=http://h.elsiglodetorreon.com.mx/Default/Scripting/ArticleWin.asp?From=Search&Key=EDT%2F2000%2F01%2F16%2F65%2FAr06502.xml&CollName=EDT_2000_2009&DOCID=8133&PageLabelPrint=65&skin=ElSiglo&AppName=2&sLanguage=English&Content=ALL&selLanguage=&sPublication=EDT&sDateFrom=01%252F01%252F2000&sDateTo=12%252F31%252F2000&dummy=2000&sQuery=DISCOS%2BMAS%2BVENDIDOS&x=0&y=0&ViewMode=HTML|title=Pepe Aguilar sigue en el primer sitio|work=[[El Siglo de Torreón]]|date=January 16, 2000|language=Spanish|access-date=August 12, 2022|archive-date=August 12, 2022|archive-url=https://web.archive.org/web/20220812175817/http://h.elsiglodetorreon.com.mx/Default/Scripting/ArticleWin.asp?From=Search&Key=EDT%2F2000%2F01%2F16%2F65%2FAr06502.xml&CollName=EDT_2000_2009&DOCID=8133&PageLabelPrint=65&skin=ElSiglo&AppName=2&sLanguage=English&Content=ALL&selLanguage=&sPublication=EDT&sDateFrom=01%2F01%2F2000&sDateTo=12%2F31%2F2000&dummy=2000&sQuery=DISCOS+MAS+VENDIDOS&x=0&y=0&ViewMode=HTML|url-status=live}}</ref>
+|align="center"|1
+|-
+{{Album chart|New Zealand|3|artist=Britney Spears|album=...Baby One More Time|rowheader=yes}}
+|-
+{{Album chart|Norway|5|artist=Britney Spears|album=...Baby One More Time|rowheader=yes}}
+|-
+! scope="row"| Portuguese Albums ([[Associação Fonográfica Portuguesa|AFP]])<ref>{{cite web|url=https://www.americanradiohistory.com/UK/Music-and-Media/90s/1999/MM-1999-07-10.pdf |archive-url=https://ghostarchive.org/archive/20221009/https://www.americanradiohistory.com/UK/Music-and-Media/90s/1999/MM-1999-07-10.pdf |archive-date=2022-10-09 |url-status=live|title=Music and Media|access-date=May 6, 2020}}</ref>
+| 1
+|-
+{{album chart|Scotland|6|date=20000130|access-date=September 13, 2018|rowheader=yes}}
+|-
+! scope="row"| Spanish Albums ([[Productores de Música de España|PROMUSICAE]])<ref>{{cite magazine|url=https://books.google.com/books?id=nwgEAAAAMBAJ&q=britney+spears+...baby+one+more+time&pg=PA69|title=Hits of the World – Spain|magazine=[[Billboard (magazine)|Billboard]]|publisher=|date=September 4, 1999|page=69|access-date=July 21, 2017|archive-date=February 23, 2023|archive-url=https://web.archive.org/web/20230223101136/https://books.google.com/books?id=nwgEAAAAMBAJ&q=britney+spears+...baby+one+more+time&pg=PA69|url-status=live}}</ref>
+| 2
+|-
+{{Album chart|Sweden|10|artist=Britney Spears|album=...Baby One More Time|rowheader=yes}}
+|-
+{{Album chart|Switzerland|1|artist=Britney Spears|album=...Baby One More Time|rowheader=yes}}
+|-
+!scope="row"|Taiwanese Albums ([[International Federation of the Phonographic Industry|IFPI]])<ref>{{cite news|url=http://ifpi.org.tw/chart/1999/intl12.htm|title=IFPI Taiwan International Top 10|date=December 25, 1999|archive-url=https://archive.today/19991225111241/http://ifpi.org.tw/chart/1999/intl12.htm#selection-497.0-500.0|access-date=April 14, 2023|archive-date=December 25, 1999}}</ref>
+|1
+|-
+{{album chart|UK|2|artist=Britney Spears|album=...Baby One More Time|rowheader=yes}}
+|-
+{{album chart|UKIndependent|2|date=20000130|accessdate=July 25, 2023|rowheader=yes}}
+|-
+{{Album chart|Billboard200|1|artist=Britney Spears|rowheader=yes|refname="bb200"}}
+|}
+{| class="wikitable sortable plainrowheaders" style="text-align:center"
+|+2022 weekly charts for ''Baby One More Time''
+! scope="col"|Chart (2022)
+! scope="col"|Peak<br />position
+|-
+! scope="row" | Greek Albums ([[IFPI Greece|IFPI]])<ref>{{cite web|url=https://www.ifpi.gr/charts_el.html|title=Official IFPI Charts – Top-75 Albums Sales Chart (Combined) Week: 45/2022|publisher=[[IFPI Greece]]|language=el|archive-url=https://web.archive.org/web/20221116190424/https://www.ifpi.gr/charts_el.html|archive-date=November 16, 2022|url-status=dead|access-date=September 6, 2023}}</ref>
+| 65
+|}
+{{col-2}}
+
+===Monthly charts===
+{| class="wikitable plainrowheaders sortable" style="text-align:center;"
+|-
+!Chart (1999)
+!Peak<br>position
+|-
+|-
+!scope="row"|South Korean Albums ([[Gaon Chart|RIAK]])<ref>{{cite web|url=http://www.miak.or.kr/stat/pop_199903.htm|title=1999.03월 - POP 음반 판매량|publisher=[[Gaon Music Chart|Recording Industry Association of Korea]]|language=ko|archive-url=https://web.archive.org/web/20070718172619/http://www.miak.or.kr/stat/pop_199903.htm|archive-date=July 18, 2007|access-date=May 29, 2022}}</ref>
+| 13
+|}
+
+===Year-end charts===
+{| class="wikitable sortable plainrowheaders" style="text-align:center;"
+|-
+! scope="col"| Chart (1999)
+! scope="col"| Position
+|-
+! scope="row"| Australian Albums (ARIA)<ref>{{cite web|url=http://www.aria.com.au/pages/aria-charts-end-of-year-charts-top-100-albums-1999.htm|title=ARIA Charts – End Of Year Charts – Top 100 Albums 1999|publisher=[[Australian Recording Industry Association]] (ARIA)|access-date=July 14, 2017|archive-date=May 28, 2011|archive-url=https://web.archive.org/web/20110528193057/http://www.aria.com.au/pages/aria-charts-end-of-year-charts-top-100-albums-1999.htm|url-status=live}}</ref>
+| align="center"| 7
+|-
+! scope="row"| Austrian Albums (Ö3 Austria)<ref>{{cite web|url=http://austriancharts.at/1999_album.asp|title=Jahreshitparade 1999|publisher=[[Ö3 Austria Top 40|Ö3 Austria]]|access-date=July 14, 2017|archive-url=https://web.archive.org/web/20101127164945/http://austriancharts.at/1999_album.asp|archive-date=November 27, 2010}}</ref>
+| align="center"| 4
+|-
+! scope="row"| Belgian Albums (Ultratop Flanders)<ref>{{cite web|url=http://www.ultratop.be/fr/annual.asp?year=1999&cat=a|title=1999 – ultratop (Flanders)|publisher=[[Ultratop]]|access-date=July 14, 2017|archive-date=March 4, 2016|archive-url=https://web.archive.org/web/20160304025231/http://www.ultratop.be/fr/annual.asp?year=1999&cat=a|url-status=live}}</ref>
+| align="center"| 3
+|-
+! scope="row"| Belgian Albums (Ultratop Wallonia)<ref>{{cite web|url=http://www.ultratop.be/fr/annual.asp?year=1999&cat=a|title=1999 – ultratop (Wallonia)|publisher=[[Ultratop]]|access-date=July 14, 2017|archive-date=March 4, 2016|archive-url=https://web.archive.org/web/20160304025231/http://www.ultratop.be/fr/annual.asp?year=1999&cat=a|url-status=live}}</ref>
+| align="center"| 4
+|-
+! scope="row"| Canadian Top Albums/CDs (''RPM'')<ref>{{cite magazine|url=http://www.collectionscanada.gc.ca/rpm/028020-119.01-e.php?brws_s=1&file_num=nlc008388.9954&type=1&interval=24&PHPSESSID=mhe12pta2k83e08udtq66ot062|title=RPM 1999 Top 100 CDs|magazine=[[RPM (magazine)|RPM]]|date=December 13, 1999|access-date=July 14, 2017|archive-date=October 21, 2012|archive-url=https://web.archive.org/web/20121021021617/http://www.collectionscanada.gc.ca/rpm/028020-119.01-e.php?brws_s=1&file_num=nlc008388.9954&type=1&interval=24&PHPSESSID=mhe12pta2k83e08udtq66ot062|url-status=live}}</ref>
+| align="center"| 2
+|-
+! scope="row"| Danish Albums (Hitlisten)<ref>{{cite web|url=http://top20.dk/chart/1999 |title=1999 |publisher=[[Hitlisten]] |access-date=October 3, 2017 |url-status=dead|archive-url=https://web.archive.org/web/20150113024328/http://top20.dk/chart/1999 |archive-date=January 13, 2015}}</ref>
+| align="center"| 27
+|-
+! scope="row"| Dutch Albums (Album Top 100)<ref>{{cite web|url=http://dutchcharts.nl/jaaroverzichten.asp?year=1999&cat=a|title=Jaaroverzichten – Album 1999|publisher=dutchcharts.nl|access-date=July 14, 2017|archive-date=March 6, 2016|archive-url=https://web.archive.org/web/20160306031124/http://dutchcharts.nl/jaaroverzichten.asp?year=1999&cat=a|url-status=live}}</ref>
+| align="center"| 11
+|-
+! scope="row"| European Top 100 Albums (''Music & Media'')<ref>{{cite magazine|url=http://www.americanradiohistory.com/Archive-Billboard/90s/1999/BB-1999-12-25.pdf |archive-url=https://ghostarchive.org/archive/20221009/http://www.americanradiohistory.com/Archive-Billboard/90s/1999/BB-1999-12-25.pdf |archive-date=2022-10-09 |url-status=live|title=The Year in Music: 1999|magazine=[[Billboard (magazine)|Billboard]]|date=December 25, 1999|access-date=October 3, 2017}}</ref>
+| align="center"| 5
+|-
+! scope="row"| French Albums (SNEP)<ref>{{cite web|url=http://www.snepmusique.com/fr/pag-259376-Classements-Annuels.html?year=1999&type=2|title=Classement Albums – année 1999|publisher=[[Syndicat National de l'Édition Phonographique]] (SNEP)|access-date=July 14, 2017|language=fr|url-status=dead|archive-url=https://web.archive.org/web/20120925061146/http://www.snepmusique.com/fr/pag-259376-Classements-Annuels.html?year=1999&type=2|archive-date=September 25, 2012}}</ref>
+| align="center"| 21
+|-
+! scope="row"| German Albums (Offizielle Top 100)<ref>{{cite web|url=https://www.offiziellecharts.de/charts/album-jahr/for-date-1999|title=Top 100 Album-Jahrescharts|language=de|work=[[GfK Entertainment]]|publisher=offiziellecharts.de|access-date=February 27, 2017|archive-date=May 9, 2015|archive-url=https://web.archive.org/web/20150509161536/https://www.offiziellecharts.de/charts/album-jahr/for-date-1999|url-status=live}}</ref>
+| align="center"| 8
+|-
+! scope="row"| Japanese Albums (Oricon)<ref name="1999Japan">{{cite web|url=http://www.geocities.jp/object_ori/1999a.html|title=1999-nen arubamu nenkan TOP 100|script-title=ja:1999年 アルバム年間TOP100|trans-title=1999 Album Annual TOP 100|language=ja|publisher=[[Yahoo! GeoCities]]|work=[[Oricon]]|date=November 21, 1999|access-date=October 4, 2017|archive-date=January 8, 2008|archive-url=https://web.archive.org/web/20080108044518/http://www.geocities.jp/object_ori/1999a.html|url-status=live}}</ref>
+| align="center"| 85
+|-
+! scope="row"| New Zealand Albums (RMNZ)<ref>{{cite web|url=http://nztop40.co.nz/chart/albums?chart=4049|title=Top Selling Albums of 1999|publisher=[[The Official New Zealand Music Chart]]|access-date=October 3, 2017|archive-date=March 3, 2016|archive-url=https://web.archive.org/web/20160303201548/http://nztop40.co.nz/chart/albums?chart=4049|url-status=live}}</ref>
+| align="center"| 15
+|-
+! scope="row"| Swiss Albums (Schweizer Hitparade)<ref>{{cite web|url=http://swisscharts.com/charts/jahreshitparade/1999|title=Swiss Year-End Charts 1999 – swisscharts.com|publisher=[[Schweizer Hitparade]]|access-date=October 3, 2017|archive-url=https://web.archive.org/web/20140819084203/http://swisscharts.com/charts/jahreshitparade/1999|archive-date=August 19, 2014}}</ref>
+| align="center"| 11
+|-
+! scope="row"| UK Albums (OCC)<ref>{{cite magazine|title=Best Sellers of 1999: Albums Top 100|magazine=Music Week|page=29|date=January 22, 2000}}</ref>
+| align="center"| 14
+|-
+! scope="row"| US ''Billboard'' 200<ref>{{cite magazine|url=https://www.billboard.com/charts/year-end/1999/the-billboard-200|title=Billboard 200 Albums – Year-End 1999|magazine=[[Billboard (magazine)|Billboard]]|date=1999|access-date=July 14, 2017|archive-date=September 5, 2017|archive-url=https://web.archive.org/web/20170905103401/http://www.billboard.com/charts/year-end/1999/the-billboard-200|url-status=live}}</ref>
+| align="center"| 2
+|}
+
+{| class="wikitable sortable plainrowheaders" style="text-align:center;"
+|-
+! scope="col"| Chart (2000)
+! scope="col"| Position
+|-
+! scope="row"| Australian Albums (ARIA)<ref>{{cite web|url=http://aria.com.au/pages/aria-charts-end-of-year-charts-top-100-albums-2000.htm|title=ARIA Charts – End of Year Charts – Top 100 Albums 2000|publisher=[[ARIA Charts]]|access-date=October 3, 2017|archive-date=February 29, 2016|archive-url=https://web.archive.org/web/20160229042015/http://www.aria.com.au/pages/aria-charts-end-of-year-charts-top-100-albums-2000.htm|url-status=live}}</ref>
+| align="center"| 94
+|-
+! scope="row"| Belgian Albums (Ultratop Flanders)<ref>{{cite web|url=http://www.ultratop.be/nl/annual.asp?year=2000&cat=a|title=Jaaroverzichten 2000|language=nl|publisher=[[Ultratop]]|access-date=October 3, 2017|archive-date=August 24, 2013|archive-url=https://web.archive.org/web/20130824072704/http://www.ultratop.be/nl/annual.asp?year=2000|url-status=live}}</ref>
+| align="center"| 34
+|-
+! scope="row"| Belgian Albums (Ultratop Wallonia)<ref>{{cite web|url=http://www.ultratop.be/fr/annual.asp?year=2000&cat=a|title=Rapports Annuels 2000|language=fr|publisher=[[Ultratop]]|access-date=October 3, 2017|archive-date=July 1, 2013|archive-url=https://web.archive.org/web/20130701054303/http://www.ultratop.be/fr/annual.asp?year=2000|url-status=live}}</ref>
+| align="center"| 42
+|-
+! scope="row"|Canadian Albums (Nielsen SoundScan)<ref>{{cite web|archiveurl=https://web.archive.org/web/20040812032100/http://www.jamshowbiz.com/JamMusicCharts/2000_1.html|archivedate=August 12, 2004|url=http://www.jamshowbiz.com/JamMusicCharts/2000_1.html|title=Canada's Top 200 Albums of 2000|website=[[Jam!]]|accessdate=March 24, 2022}}</ref>
+| 71
+|-
+! scope="row"| Dutch Albums (Album Top 100)<ref>{{cite web|url=http://dutchcharts.nl/jaaroverzichten.asp?year=2000&cat=a|title=JAAROVERZICHTEN – ALBUM 2000|language=nl|publisher=[[MegaCharts]]|access-date=October 3, 2017|archive-date=March 15, 2016|archive-url=https://web.archive.org/web/20160315053115/http://www.dutchcharts.nl/jaaroverzichten.asp?year=2000&cat=a|url-status=live}}</ref>
+| align="center"| 64
+|-
+! scope="row"| European Top 100 Albums (''Music & Media'')<ref>{{cite magazine|url=https://worldradiohistory.com/UK/Music-and-Media/00s/2000/MM-2000-12-23.pdf |archive-url=https://ghostarchive.org/archive/20221009/https://worldradiohistory.com/UK/Music-and-Media/00s/2000/MM-2000-12-23.pdf |archive-date=2022-10-09 |url-status=live|title=European Top 100 Albums 200|magazine=Music & Media|volume=17|issue=52|date=December 23, 2000|page=9|oclc=29800226|access-date=June 15, 2020|via=American Radio History}}</ref>
+| 22
+|-
+! scope="row"| French Albums (SNEP)<ref>{{cite web|url=http://www.snepmusique.com/fr/pag-259376-Classements-Annuels.html?year=2000&type=2|title=Classement Albums – année 2000|publisher=[[Syndicat National de l'Édition Phonographique]]|language=fr|access-date=October 3, 2017|url-status=dead|archive-url=https://web.archive.org/web/20120924122538/http://www.snepmusique.com/fr/pag-259376-Classements-Annuels.html?year=2000&type=2|archive-date=September 24, 2012}}</ref>
+| align="center"| 45
+|-
+! scope="row"| German Albums (Offizielle Top 100)<ref>{{cite web|url=https://www.offiziellecharts.de/charts/album-jahr/for-date-2000|title=Top 100 Album-Jahrescharts|language=de|work=[[GfK Entertainment]]|publisher=offiziellecharts.de|access-date=February 27, 2017|archive-date=May 9, 2015|archive-url=https://web.archive.org/web/20150509163952/https://www.offiziellecharts.de/charts/album-jahr/for-date-2000|url-status=live}}</ref>
+| align="center"| 61
+|-
+! scope="row"| Swiss Albums (Schweizer Hitparade)<ref>{{cite web|url=http://swisscharts.com/charts/jahreshitparade/2000|title=Swiss Year-End Charts 2000|publisher=[[Schweizer Hitparade]]|access-date=October 3, 2017|archive-date=October 6, 2014|archive-url=https://web.archive.org/web/20141006150256/http://swisscharts.com/charts/jahreshitparade/2000|url-status=live}}</ref>
+| align="center"| 27
+|-
+! scope="row"| UK Albums (OCC)<ref>{{cite web|url=http://www.officialcharts.com/charts/end-of-year-artist-albums-chart/20000109/37502/|title=End of Year Album Chart Top 100 – 2000|publisher=[[Official Charts Company]]|access-date=October 3, 2017|archive-date=March 7, 2016|archive-url=https://web.archive.org/web/20160307190242/http://www.officialcharts.com/charts/end-of-year-artist-albums-chart/20000109/37502/|url-status=live}}</ref>
+| align="center"| 36
+|-
+! scope="row"| US ''Billboard'' 200<ref>{{cite magazine|url=http://www.americanradiohistory.com/Archive-Billboard/00s/2000/BB-2000-12-30.pdf |archive-url=https://ghostarchive.org/archive/20221009/http://www.americanradiohistory.com/Archive-Billboard/00s/2000/BB-2000-12-30.pdf |archive-date=2022-10-09 |url-status=live|title=The Year in Music: 2000|magazine=Billboard|date=December 30, 2000|access-date=October 3, 2017}}</ref>
+| align="center"| 17
+|}
+
+===Decade-end charts===
+{| class="wikitable sortable plainrowheaders"
+|-
+! scope="col"| Chart (1990–1999)
+! scope="col"| Position
+|-
+! scope="row"| US ''Billboard'' 200<ref name="1990sbb">{{cite magazine|first=Geoff|last=Mayfield|url=https://books.google.com/books?id=9w0EAAAAMBAJ|title=1999 The Year in Music Totally '90s: Diary of a Decade – The listing of Top Pop Albums of the '90s & Hot 100 Singles of the '90s|magazine=Billboard|date=December 25, 1999|access-date=October 15, 2010|archive-date=January 15, 2023|archive-url=https://web.archive.org/web/20230115113618/https://books.google.com/books?id=9w0EAAAAMBAJ|url-status=live}}</ref>
+| style="text-align:center;"| 29
+|}
+
+{| class="wikitable sortable plainrowheaders"
+|-
+! scope="col"| Chart (2000–2009)
+! scope="col"| Position
+|-
+! scope="row"| US ''Billboard'' 200<ref>{{cite magazine|url=https://www.billboard.com/charts-decade-end/billboard-200-albums?year=2009|title=Best of the 2000s Billboard 200 Albums|magazine=Billboard|date=December 31, 2009|access-date=December 2, 2011|archive-url=https://web.archive.org/web/20101202141237/http://www.billboard.com/charts-decade-end/billboard-200-albums?year=2009|archive-date=December 2, 2010|url-status=dead}}</ref>
+| style="text-align:center;"| 81
+|}
+
+===All-time charts===
+{| class="wikitable sortable plainrowheaders"
+|-
+! scope="col"| Chart
+! scope="col"| Position
+|-
+! scope="row"| US ''Billboard'' 200<ref>{{cite magazine|url=https://www.billboard.com/charts/greatest-billboard-200-albums|title=Greatest of All Time Billboard 200 Albums|magazine=[[Billboard (magazine)|Billboard]]|access-date=December 5, 2015|archive-date=October 1, 2016|archive-url=https://web.archive.org/web/20161001122709/http://www.billboard.com/charts/greatest-billboard-200-albums|url-status=live}}</ref>
+| style="text-align:center;"| 41
+|-
+!scope="row"|US ''Billboard'' 200 (Women)<ref>{{cite web|url=https://www.billboard.com/charts/greatest-billboard-200-albums-by-women|title=Greatest of All Time Billboard 200 Albums By Women|magazine=[[Billboard (magazine)|Billboard]]|access-date=December 1, 2017|archive-date=February 1, 2018|archive-url=https://web.archive.org/web/20180201173545/https://www.billboard.com/charts/greatest-billboard-200-albums-by-women|url-status=live}}</ref>
+| align="center"| 16
+|}
+
+{{col-end}}
+
+==Certifications and sales==
+{{Certification Table Top|caption=Certifications and sales for ''...Baby One More Time''}}
+{{Certification Table Entry|region=Argentina|title=Baby One More Time|artist=Britney Spears|type=album|award=Platinum|number=4|relyear=1999|certref=<ref>{{cite web|url=http://www.capif.org.ar/Default.asp?PerDesde_MM=0&PerDesde_AA=0&PerHasta_MM=10&PerHasta_AA=2007&interprete=britney+spears&album=baby+one+more+time&LanDesde_MM=0&LanDesde_AA=0&LanHasta_MM=0&LanHasta_AA=0&Galardon=O&Tipo=1&ACCION2=+Buscar+&ACCION=Buscar&CO=5&CODOP=ESOP|title=Discos de Oro y Platino - Britney Spears - Baby One More Time|archive-url=https://web.archive.org/web/20080220000051/http://www.capif.org.ar/Default.asp?PerDesde_MM=0&PerDesde_AA=0&PerHasta_MM=10&PerHasta_AA=2007&interprete=britney+spears&album=baby+one+more+time&LanDesde_MM=0&LanDesde_AA=0&LanHasta_MM=0&LanHasta_AA=0&Galardon=O&Tipo=1&ACCION2=+Buscar+&ACCION=Buscar&CO=5&CODOP=ESOP|archive-date=February 20, 2008|url-status=dead|access-date=August 26, 2021}}</ref>}}
+{{Certification Table Entry|region=Australia|title=Baby One More Time|artist=Britney Spears|type=album|award=Platinum|number=4|certyear=2000|access-date=September 28, 2011|refname=AustraliaCertification}}
+{{Certification Table Entry|region=Austria|title=Baby One More Time|artist=Britney Spears|type=album|award=Platinum|relyear=1999|access-date=September 28, 2011}}
+{{Certification Table Entry|region=Belgium|title=Baby One More Time|artist=Britney Spears|type=album|award=Platinum|number=3|certyear=2000|relyear=1999|access-date=September 28, 2011}}
+{{Certification Table Entry|region=Brazil|type=album|artist=Britney Spears|title=Baby One More Time|award=Gold|certyear=1999|relyear=1999|salesamount=250,000|salesref=<ref>{{cite web|url=http://www.terra.com.br/istoegente/77/reportagem/rep_britiney_spears.htm|title=O fenômeno Britney Spears|publisher=[[Terra Networks]]|work=[[ISTOÉ]]|date=January 22, 2001|access-date=January 5, 2016|language=pt|archive-url=https://web.archive.org/web/20010712135943/http://www.terra.com.br/istoegente/77/reportagem/rep_britiney_spears.htm|archive-date=July 12, 2001}}</ref>}}
+{{Certification Table Entry|region=Canada|title=Baby One More Time|artist=Britney Spears|type=album|award=Diamond|relyear=1999|certyear=1999|access-date=September 28, 2011}}
+{{Certification Table Entry|region=Denmark|artist=Britney Spears|title=Baby One More Time|award=Platinum|number=3|type=album|relyear=1999|certyear=2023|id=12851|accessdate=September 19, 2023}}
+{{Certification Table Entry|region=Finland|title=Baby One More Time|artist=Britney Spears|type=album|award=Gold|salesamount=37,865|access-date=September 28, 2011}}
+{{Certification Table Entry|region=France|title=Baby One More Time|artist=Britney Spears|type=album|award=Platinum|number=2|refname=FranceCertification|certyear=2001|relyear=1999|access-date=September 28, 2011}}
+{{Certification Table Entry|region=Germany|title=Baby One More Time|artist=Britney Spears|type=album|award=Gold|number=3|relyear=1999|relmonth=1}}
+{{Certification Table Entry|region=Iceland|nocert=true|salesamount=5,000|salesref=<ref>{{cite web|url=https://timarit.is/page/1986153#page/n15/mode/2up|title=16 Erlend útgáfa|work=[[Morgunblaðið]]|access-date=May 17, 2021|language=is|date=December 1, 2000|archive-date=May 17, 2021|archive-url=https://web.archive.org/web/20210517143614/https://timarit.is/page/1986153#page/n15/mode/2up|url-status=live}}</ref>}}
+{{certification Table Entry|type=album|region=Italy|artist=Britney Spears|title=Baby One More Time|nocert=true|relyear=1999|salesamount=200,000|salesref=<ref>{{cite magazine|title=Britney: sexy per gioco, devo tutto a Paperino|url=http://archivio.corriere.it/Archivio/interface/view.shtml#!/NDovZXMvaXQvcmNzZGF0aS9ANTY2ODg%3D|date=October 11, 1999|language=it|website=[[Corriere della Sera]]|first=Giovanni|last=Grassi|quote=6 milioni di dischi venduti solo negli Usa e 200 mila copie in Italia|access-date=April 20, 2021|archive-date=September 11, 2017|archive-url=https://web.archive.org/web/20170911212504/http://archivio.corriere.it/Archivio/interface/view.shtml#!/NDovZXMvaXQvcmNzZGF0aS9ANTY2ODg%3D|url-status=live}}</ref>}}
+{{Certification Table Entry|region=Japan|title=...Baby One More Time|artist=ブリトニー・スピアーズ|certyear=1995|certmonth=5|type=album|award=Platinum|relyear=1999|relmonth=1|access-date=September 30, 2015|salesamount=205,780|salesref=<ref name="1999Japan"/>}}
+{{Certification Table Entry|region=Mexico|title=Baby One More Time|artist=Britney Spears|type=album|award=Platinum+Gold|number=2|relyear=1999|access-date=September 28, 2011|salesamount=500,000|salesref=<ref>{{cite magazine|title=Britney Spears podría venir a México|url=http://h.elsiglodetorreon.com.mx/Default/Scripting/ArticleWin.asp?From=Search&Key=EDT%2F2000%2F05%2F21%2F78%2FAr07809.xml&CollName=EDT_2000_2009&DOCID=75084&PageLabelPrint=78&skin=ElSiglo&sLanguage=English&Content=ALL&selLanguage=&sPublication=EDT&sQuery=copias%2Bvendidas%2Ben%2BArgentina&sScopeID=DR&sDateFrom=01%252F01%252F1924&sDateTo=12%252F31%252F2000&x=7&y=10&RefineQueryView=&StartFrom=25&ViewMode=HTML|date=May 21, 2000|language=es|magazine=[[El Siglo de Torreón]]|access-date=December 18, 2021|archive-date=December 19, 2021|archive-url=https://web.archive.org/web/20211219023310/http://h.elsiglodetorreon.com.mx/Default/Scripting/ArticleWin.asp?From=Search&Key=EDT%2F2000%2F05%2F21%2F78%2FAr07809.xml&CollName=EDT_2000_2009&DOCID=75084&PageLabelPrint=78&skin=ElSiglo&sLanguage=English&Content=ALL&selLanguage=&sPublication=EDT&sQuery=copias%2Bvendidas%2Ben%2BArgentina&sScopeID=DR&sDateFrom=01%252F01%252F1924&sDateTo=12%252F31%252F2000&x=7&y=10&RefineQueryView=&StartFrom=25&ViewMode=HTML|url-status=live}}</ref>}}
+{{Certification Table Entry|region=Netherlands|title=Baby One More Time|artist=Britney Spears|type=album|award=Platinum|number=3|relyear=1999|certyear=2000|access-date=August 23, 2022}}
+{{Certification Table Entry|region=New Zealand|title=Baby One More Time|artist=Britney Spears|type=album|award=Platinum|number=3|id=1212|access-date=September 28, 2011|refname=NZBabyTableEntry}}
+{{Certification Table Entry|region=Norway|title=Baby One More Time|artist=Britney Spears|type=album|award=Platinum|relyear=1999|access-date=September 28, 2011}}
+! scope="row"|Philippines ([[Philippine Association of the Record Industry|PARI]])<ref>{{cite web|url=https://www.philstar.com/entertainment/2000/05/07/92113/oops-its-britney-spears-close-amp-very-personal|title=Oops It's Britney Spears Up close & very personal|publisher=[[The Philippine Star]]|access-date=September 6, 2023|archive-url=https://web.archive.org/web/20230906124440/https://www.philstar.com/entertainment/2000/05/07/92113/oops-its-britney-spears-close-amp-very-personal|archive-date=September 6, 2023}}</ref>
+|4× Platinum
+|200,000<ref>{{cite web|url=https://web.archive.org/web/20230906124440/https://www.philstar.com/entertainment/2000/05/07/92113/oops-its-britney-spears-close-amp-very-personal|title=Oops It's Britney Spears Up close & very personal|publisher=[[The Philippine Star]]|access-date=September 6, 2023}}</ref>
+|-
+{{Certification Table Entry|region=Poland|title=Baby One More Time|artist=Britney Spears|type=album|award=Platinum|relyear=1999|certyear=1999|access-date=September 28, 2011}}
+{{certification Table Entry|region=Spain|type=album|title=Britney Spears|artist=Britney Spears|award=Platinum|number=3|relyear=1999|certref=<ref name="spaincert">{{harvnb|Salaverri|2005|p=943}}</ref>}}
+{{Certification Table Entry|region=Sweden|title=Baby One More Time|artist=Britney Spears|type=album|award=Platinum|certyear=2000|relyear=1999|access-date=September 28, 2011}}
+{{Certification Table Entry|region=Switzerland|title=Baby One More Time|artist=Britney Spears|type=album|award=Platinum|number=2|relyear=1999|access-date=September 28, 2011}}
+{{Certification Table Entry|region=United Kingdom|title=Baby One More Time|artist=Britney Spears|type=album|award=Platinum|number=4|salesamount=1,210,000|salesref=<ref>{{cite web|url=https://www.officialcharts.com/chart-news/albums-turning-20-in-2019__25004/|title=Albums turning 20 in 2019|last=Copsey|first=Rob|publisher=[[Official Charts Company]]|date=December 28, 2018|access-date=April 8, 2021|archive-date=May 16, 2021|archive-url=https://web.archive.org/web/20210516021521/https://www.officialcharts.com/chart-news/albums-turning-20-in-2019__25004/|url-status=live}}</ref>|relyear=1999|id=646-3355-2|access-date=April 18, 2021|refname=BPI}}
+{{Certification Table Entry|region=United States|title=Baby One More Time|artist=Britney Spears|type=album|award=Platinum|number=14|relyear=1999|access-date=September 28, 2011}}
+{{Certification Table Summary}}
+{{Certification Table Entry|nocert=true|region=Asia|salesamount=1,680,000|salesref=<ref>{{Cite web |date=2000-05-07 |title=Oops It's Britney Spears Up close & very personal |url=https://www.philstar.com/entertainment/2000/05/07/92113/oops-its-britney-spears-close-amp-very-personal |url-status=live |archive-url=https://web.archive.org/web/20230906124440/https://www.philstar.com/entertainment/2000/05/07/92113/oops-its-britney-spears-close-amp-very-personal |archive-date=September 6, 2023 |access-date=September 6, 2023 |website=The Philippine Star}}</ref>}}
+{{Certification Table Entry|region=Europe|title=Baby One More Time|artist=Britney Spears|type=album|award=Platinum|number=4|certyear=2000|access-date=September 28, 2011|refname=EuropeCertification}}
+{{Certification Table Entry|nocert=true|region=Worldwide|salesamount=25,000,000|salesref=<ref name="BOMTsales">{{Cite web |last=Bricker |first=Tierney |date=2021-11-26 |title=Secrets You Never Knew About Britney Spears' ...Baby One More Time |url=https://www.eonline.com/news/1003846/britney-spears-baby-one-more-time-turns-20-secrets-you-never-knew-about-her-debut-album |url-status=live |archive-url=https://web.archive.org/web/20211202041532/https://www.eonline.com/news/1003846/britney-spears-baby-one-more-time-turns-20-secrets-you-never-knew-about-her-debut-album |archive-date=Dec 2, 2021 |access-date=2021-12-02 |website=E! Online}}</ref>}}
+{{Certification Table Bottom}}
+
+==Release history==
+{| class="wikitable plainrowheaders"
+|+ Release dates and formats for ''...Baby One More Time''
+! scope="col"| Region
+! scope="col"| Date
+! scope="col"| Format(s)
+! scope="col"| Edition
+! scope="col"| Label
+! scope="col"| {{abbr|Ref.|Reference(s)}}
+|-
+! scope="row"| United States
+| January 12, 1999
+| {{hlist|[[Cassette tape|Cassette]]|[[Compact disc|CD]]}}
+| Standard
+| [[Jive Records|Jive]]
+| align="center"| <ref>{{cite web|url=https://www.amazon.ca/Baby-More-Time-Britney-Spears/dp/B00000G1IL|title=Britney Spears – Baby One More Time|work=Amazon Music|date=January 12, 1999|access-date=January 10, 2020|archive-date=July 7, 2020|archive-url=https://web.archive.org/web/20200707011621/https://www.amazon.ca/Baby-More-Time-Britney-Spears/dp/B00000G1IL|url-status=live}}</ref>
+|-
+! scope="row"| Japan
+| February 24, 1999
+| rowspan="2"| CD
+| Deluxe
+| [[Avex Trax]]
+| align="center"| <ref>{{cite web|url=https://www.oricon.co.jp/prof/145326/products/45858/1/|title=ベイビー・ワン・モア・タイム|trans-title=Baby One More Time|language=ja|location=Japan|publisher=[[Oricon]]|date=February 24, 1999|access-date=November 25, 2022|archive-date=November 20, 2022|archive-url=https://web.archive.org/web/20221120142617/https://www.oricon.co.jp/prof/145326/products/45858/1/|url-status=live}}</ref>
+|-
+! scope="row"| Germany
+| rowspan="2"| March 8, 1999
+| rowspan="4"| Standard
+| [[Bertelsmann Music Group|BMG]]
+| align="center"| <ref name="Amazon.de">{{cite web|url=https://www.amazon.de/Baby-More-Time-Britney-Spears/dp/B000023Y30|title=Baby One More Time – Britney Spears: Amazon.de: Musik|work=Amazon.de|date=March 8, 1999|access-date=January 10, 2020|archive-date=July 7, 2020|archive-url=https://web.archive.org/web/20200707023928/https://www.amazon.de/Baby-More-Time-Britney-Spears/dp/B000023Y30|url-status=live}}</ref>
+|-
+! scope="row"| United Kingdom
+| {{hlist|Cassette|CD}}
+| Jive
+| align="center"| <ref>{{cite web|url=https://www.amazon.co.uk/Baby-One-More-Time/dp/B000023Y30|title=...Baby One More Time: Amazon.co.uk: Music|work=Amazon.co.uk|date=March 8, 1999|access-date=January 10, 2020|archive-date=March 24, 2019|archive-url=https://web.archive.org/web/20190324204755/https://www.amazon.co.uk/Baby-One-More-Time/dp/B000023Y30|url-status=live}}</ref><ref>{{cite web|url=https://worldradiohistory.com/UK/Music-Week/1999/Music-Week-1999-03-06.pdf |archive-url=https://web.archive.org/web/20210719005548/https://worldradiohistory.com/UK/Music-Week/1999/Music-Week-1999-03-06.pdf |archive-date=2021-07-19 |url-status=live|title=New Releases &ndash; For Week Starting 8 March, 1999|work=[[Music Week]]|date=March 6, 1999|accessdate=November 25, 2022|page=24|via=World Radio History}}</ref>
+|-
+! scope="row"| Argentina
+| March 17, 1999
+| rowspan="3"| CD
+| [[EMI]]
+| align="center"|<ref>{{cite web|url=http://www.capif.org.ar/Default.asp?PerDesde_MM=0&PerDesde_AA=0&PerHasta_MM=0&PerHasta_AA=0&interprete=&album=&LanDesde_MM=1&LanDesde_AA=1980&LanHasta_MM=12&LanHasta_AA=2010&Galardon=O&Tipo=1&ACCION2=+Buscar+&ACCION=Buscar&CO=5&CODOP=ESOP|archive-url=https://web.archive.org/web/20110706084844/http://www.capif.org.ar/Default.asp?PerDesde_MM=0&PerDesde_AA=0&PerHasta_MM=0&PerHasta_AA=0&interprete=&album=&LanDesde_MM=1&LanDesde_AA=1980&LanHasta_MM=12&LanHasta_AA=2010&Galardon=O&Tipo=1&ACCION2=+Buscar+&ACCION=Buscar&CO=5&CODOP=ESOP|url-status=dead|archive-date=July 6, 2011|title=Capif|date=March 17, 1999}}</ref>
+|-
+! scope="row"| France
+| April 9, 1999
+| Jive
+| align="center"| <ref>{{cite web|url=https://www.fnac.com/a835998/Britney-Spears-Baby-one-more-time-CD-album|title=Baby one more time &ndash; Britney Spears &ndash; CD album|language=fr|location=France|publisher=[[Fnac]]|date=April 9, 1999|access-date=November 25, 2022|archive-date=February 23, 2023|archive-url=https://web.archive.org/web/20230223101153/https://queue.fnac.com/softblock/?c=fnacdarty&e=frprdfnaccom&t=https%3A%2F%2Fwww.fnac.com%2Fa835998%2FBritney-Spears-Baby-one-more-time-CD-album&cid=fr-FR&rticr=0|url-status=live}}</ref>
+|-
+! scope="row"| Australia
+| November 23, 1999
+| rowspan="5"| Deluxe
+| rowspan="3"| BMG
+| align="center"| <ref name="aus"/>
+|-
+! scope="row"| Poland
+| May 8, 2003
+| [[Music download|Digital download]]
+| {{center|<ref>{{cite web|url=https://www.empik.com/baby-one-more-time-digital-deluxe-version,p1054153304,ebooki-i-mp3-p|title=...Baby One More Time (Digital Deluxe Version)|language=pl|location=Poland|publisher=[[Empik]]|date=May 8, 2003|access-date=November 26, 2022|archive-date=November 26, 2022|archive-url=https://web.archive.org/web/20221126120056/https://www.empik.com/baby-one-more-time-digital-deluxe-version,p1054153304,ebooki-i-mp3-p|url-status=live}}</ref>}}
+|-
+! scope="row"| Germany
+| June 30, 2003
+| rowspan="2"| CD
+| {{center|<ref>{{cite web|url=https://www.jpc.de/jpcng/poprock/detail/-/art/Britney-Spears-Baby-One-More-Time/hnum/8849645|title=Britney Spears: Baby One More Time (CD)|language=de|location=Germany|publisher=[[jpc (retailer)|jpc]]|date=June 30, 2003|access-date=November 26, 2022|archive-date=February 23, 2023|archive-url=https://web.archive.org/web/20230223101150/https://www.jpc.de/jpcng/poprock/detail/-/art/Britney-Spears-Baby-One-More-Time/hnum/8849645|url-status=live}}</ref>}}
+|-
+! scope="row"| France
+| October 14, 2003
+| rowspan="2"| Jive
+| {{center|<ref>{{cite web|url=https://www.fnac.com/a1476521/Britney-Spears-Baby-one-more-time-CD-album|title=Baby one more time &ndash; Britney Spears &ndash; CD album|language=fr|location=France|publisher=[[Fnac]]|date=October 14, 2003|access-date=November 26, 2022|archive-date=June 24, 2022|archive-url=https://web.archive.org/web/20220624235247/https://www.fnac.com/a1476521/Britney-Spears-Baby-one-more-time-CD-album|url-status=live}}</ref>}}
+|-
+! scope="row" rowspan="2"| United States
+| December 25, 2007
+| Digital download
+| align="center"| <ref>{{cite web|url=https://www.amazon.com/Baby-More-Digital-Deluxe-Version/dp/B0014KA15Y|title=...Baby One More Time (Digital Deluxe Version): Britney Spears|work=Amazon Music|date=December 25, 2007|access-date=January 10, 2020|archive-date=November 6, 2020|archive-url=https://web.archive.org/web/20201106203715/https://www.amazon.com/Baby-More-Digital-Deluxe-Version/dp/B0014KA15Y|url-status=live}}</ref>
+|-
+| November 3, 2017
+| [[Phonograph record|Vinyl]] {{small|([[Urban Outfitters]] exclusive)}}
+| rowspan="8" | Standard
+| rowspan="2" | [[Legacy Recordings|Legacy]]
+| align="center"| <ref name=PinkSwirl>{{cite magazine|last=Shcherbakova|first=Liza|url=https://www.billboard.com/music/pop/britney-spears-baby-one-more-time-pink-white-vinyl-7898356/|title=Britney Spears' '...Baby One More Time' Is Coming Out On Pink Vinyl|magazine=Billboard|date=August 14, 2017|access-date=April 12, 2022|archive-date=April 12, 2022|archive-url=https://web.archive.org/web/20220412151427/https://www.billboard.com/music/pop/britney-spears-baby-one-more-time-pink-white-vinyl-7898356/|url-status=live}}</ref>
+|-
+! scope="row"| Various
+| November 23, 2018
+| {{hlist|Vinyl|Pink cassette}} {{small|([[Target Corporation|Target]] exclusive)}}
+| align="center"| <ref name="2018vinyl">{{cite web|url=https://www.legacyrecordings.com/2018/10/19/global-pop-icon-britney-spears-debut-single-baby-one-more-time-celebrates-20th-anniversary/|title=Global Pop Icon, Britney Spears' Debut Single, "...Baby One More Time" Celebrates 20th Anniversary|publisher=[[Legacy Recordings]]|date=October 19, 2018|accessdate=November 25, 2022|archive-date=November 25, 2022|archive-url=https://web.archive.org/web/20221125145356/https://www.legacyrecordings.com/2018/10/19/global-pop-icon-britney-spears-debut-single-baby-one-more-time-celebrates-20th-anniversary/|url-status=live}}</ref>
+|-
+! scope="row"| Australia
+| rowspan="6" | March 31, 2023
+| rowspan="5" | Opaque Pink vinyl
+| rowspan="5" | [[Sony Music|Sony]]
+| align="center"| <ref>{{Cite web |title=…Baby One More Time (Pink Vinyl) |url=https://www.jbhifi.com.au/products/vinyl-spears-britney-baby-one-more-time-pink-vinyl-lp-colour-may-vary |access-date=2023-03-04 |website=JB Hi-Fi |language=en |archive-date=March 4, 2023 |archive-url=https://web.archive.org/web/20230304135155/https://www.jbhifi.com.au/products/vinyl-spears-britney-baby-one-more-time-pink-vinyl-lp-colour-may-vary |url-status=live }}</ref>
+|-
+! scope="row"| Germany
+| align="center"| <ref>{{Cite web |title=Britney Spears: ...Baby One More Time (Opaque Pink Vinyl) (LP) – jpc |url=https://www.jpc.de/jpcng/poprock/detail/-/art/britney-spears-baby-one-more-time-opaque-pink-vinyl/hnum/11165125 |access-date=2023-03-04 |website=www.jpc.de |language=de |archive-date=March 7, 2023 |archive-url=https://web.archive.org/web/20230307060847/https://www.jpc.de/jpcng/poprock/detail/-/art/britney-spears-baby-one-more-time-opaque-pink-vinyl/hnum/11165125 |url-status=live }}</ref>
+|-
+! scope="row"| Mexico
+| align="center"| <ref>{{Cite web |last=Mixup |title=...Baby One More Time (Pink Vinyl) - (Lp) - Britney Spears - Mixup |url=https://www.mixup.com/_v/segment/routing/vtex.store@2.x/product/75877/---baby-one-more-time--pink-vinyl-----lp----britney-spears/p |url-status=live |archive-url=https://web.archive.org/web/20230422050457/https://www.mixup.com/---baby-one-more-time--pink-vinyl-----lp----britney-spears/p |archive-date=April 22, 2023 |access-date=2023-04-22 |website=www.mixup.com |language=es-MX}}</ref>
+|-
+! scope="row"| Poland
+| align="center"| <ref>{{Cite web|url=https://www.empik.com/baby-one-more-time-spears-britney,p1365250455,muzyka-p|title=...Baby One More Time - Spears Britney {{!}} Muzyka Sklep EMPIK.COM|last=Spears|first=Britney|author-link=Britney Spears|date=March 31, 2023|website=[[empik]].com|access-date=March 7, 2023|url-status=live|archive-url=https://web.archive.org/web/20230306132514/https://www.empik.com/baby-one-more-time-spears-britney,p1365250455,muzyka-p|archive-date=March 6, 2023}}</ref>
+|-
+! scope="row"| United Kingdom
+| align="center"| <ref>{{Cite web |title=Britney Spears ...Baby One More Time Vinyl LP Pink Colour Due Out 31/03/23 |url=https://assai.co.uk/products/britney-spears-baby-one-more-time-vinyl-lp-pink-colour-due-out-31-03-23 |access-date=2023-03-04 |website=Assai Records |language=en |archive-date=March 4, 2023 |archive-url=https://web.archive.org/web/20230304135152/https://assai.co.uk/products/britney-spears-baby-one-more-time-vinyl-lp-pink-colour-due-out-31-03-23 |url-status=live }}</ref>
+|-
+! scope="row"| United States
+| Black vinyl
+| Legacy
+| align="center"| <ref>{{Cite web |title=Britney Spears - …Baby One More Time [LP] {{!}} RECORD STORE DAY |url=https://recordstoreday.com/UPC/196587738419 |access-date=2023-03-04 |website=recordstoreday.com |archive-date=February 12, 2023 |archive-url=https://web.archive.org/web/20230212130910/https://recordstoreday.com/UPC/196587738419 |url-status=live }}</ref>
+|}
+
+==See also==
+* [[Teen pop]]
+* [[Britney Spears discography]]
+* [[List of Billboard 200 number-one albums of 1999|List of ''Billboard'' 200 number-one albums of 1999]]
+* [[List of number-one albums of 1999 (Canada)]]
+* [[List of number-one hits of 1999 (Germany)]]
+* [[List of number-one albums of 1999 (Portugal)]]
+* [[List of best-selling albums]]
+* [[List of best-selling albums by women]]
+* [[List of best-selling albums in the Philippines]]
+* [[List of best-selling albums in the United States]]
+
+==Notes==
+{{notelist}}
+
+==References==
+{{reflist}}
+
+==Bibliography==
+{{refbegin}}
+* {{cite book|last1=Bennett|first1=Andy|last2=Peterson|first2=Richard A.|title=Music Scenes: Local, Translocal and Virtual|publisher=Vanderbilt University Press|date=2004|isbn=9780826514516}}
+* {{cite book|last=Blandford|first=James R.|title=Britney|publisher=[[Music Sales Group]]|date=2002|isbn=9780711994195}}
+* {{cite book|last=Bronson|first=Fred|title=The Billboard Book of Number One Hits|edition=5th|publisher=[[Billboard (magazine)|Billboard Books]]|date=2003|isbn=9780823076772}}
+* {{cite book|last1=Dimery|first1=Robert|last2=Lydon|first2=Michael|title=[[1001 Albums You Must Hear Before You Die]]: Revised and Updated Edition|date=2010|publisher=Universe|isbn=9780789320742}}
+* {{cite book|last=Dominguez|first=Pier|title=Christina Aguilera: A Star is Made: The Unauthorized Biography|publisher=Amber Communications Group|year=2003|isbn=9780970222459}}
+* {{cite book |last=Dougherty |first=Terri |date=2005 |title=Jessica Simpson and Nick Lachey |publisher=Lucent |isbn=9781590187210}}
+* {{cite book|last=Folkard|first=Claire|title=Guinness World Records 2003|publisher=Bantam Books|date=2003|page=288|isbn=9780553586367}}
+* {{cite book|last=Gaines|first=Ann|title=Real-Life Reader Biography: Britney Spears|publisher=Mitchell Lane Publishers|date=1999|isbn=9781584150602}}
+* {{cite book|last=Hughes|first=Mark|title=Buzzmarketing: Get People to Talk About Your Stuff|publisher=[[Penguin Group]]|date=2005|isbn=9781591840923}}
+* {{cite book|last=Knopper|first=Steve|title=Appetite for Self-Destruction: The Spectacular Crash of the Record Industry in the Digital Age|publisher=[[Simon & Schuster]]|date=2009|isbn=9781416552154}}
+* {{cite book|last1=Mitchell|first1=Claudia|last2=Reid-Walsh|first2=Jacqueline|title=Girl Culture: Studying Girl Culture: A Readers' Guide|publisher=[[ABC-Clio]]|date=2008|isbn=9780313339097}}
+* {{cite book|last=Parish|first=James Robert|title=Hollywood Divas: The Good, the Bad, and the Fabulous|publisher=Contemporary Books|date=2002|isbn=9780071408196}}
+* {{cite book|last=Salaverri|first=Fernando|title=Sólo éxitos. Año a año. 1959–2002|trans-title=Only Hits. Year by year. 1959–2002|date=2005|location=Madrid, Spain|publisher=Iberautor Promociones Culturales|language=es|isbn=9788480486392}}
+* {{cite book |last=Seabrook |first=John |date=2015 |title=The Song Machine: Inside the Hit Factory |publisher=W. W. Norton |isbn=9780393241938}}
+{{refend}}
+
+==External links==
+* {{Official website|https://britneyspears.com/}}
+* {{Discogs master|27117}}
+
+{{Britney Spears}}
+
+{{Authority control}}
+
+{{DEFAULTSORT:Baby One More Time}}
+[[Category:1999 debut albums]]
+[[Category:Britney Spears albums]]
+[[Category:Jive Records albums]]
+[[Category:Albums produced by Max Martin]]
+[[Category:Albums produced by Rami Yacoub]]
+[[Category:Albums produced by Denniz Pop]]
+[[Category:Albums produced by Kristian Lundin]]
+[[Category:Albums produced by Per Magnusson]]
+[[Category:Albums produced by David Kreuger]]
+[[Category:Albums recorded at Cheiron Studios]]

@@ -14,6 +14,7 @@ use nom::sequence::{delimited, preceded, terminated, tuple};
 const REMOVE_TEMPLATES: &[&str] = &[
     "further",
     "letter other reps",
+    "certification cite ref",
     "clear",
     "charmap",
     "main article",
@@ -54,22 +55,23 @@ const REMOVE_SECTIONS: &[&str] = &[
 ];
 
 // Take a given wikitext-formatted string and extract the useful text
-pub fn extract_text(input: &[u8]) -> Vec<u8> {
+pub fn extract_text(input: &[u8]) -> String {
     let input = from_utf8(input).unwrap();
 
     // Convert html codes to their proper characters
     let input = decode_html_entities(input).to_string();
-    let input = input.replace("&ndash;", "-");
-    let input = input.replace("&nbsp;", " ");
+    let input = input.replace("&ndash;", "\u{2013}");
+    let input = input.replace("&nbsp;", "\u{00a0}");
 
     // Use nom to parse the important information from the article
-    let parsed = article_parser(input.as_str());
+    let output = article_parser(input.as_str());
 
-    // Perform some final cleanup
-    let parsed = parsed.trim().to_owned();
-    let parsed = parsed.replace("(pronounced )", "");
+    // Remove all double (or more) carriage returns
+    let re = Regex::new(r"\n\n+").unwrap();
+    let output = re.replace_all(&output, "\n");
+    let output = output.to_string();
 
-    parsed.into_bytes()
+    output
 }
 
 // Nom parser that allows us to extract needed text while knowing the article structure
@@ -82,10 +84,9 @@ fn article_parser(input: &str) -> String {
     // This is safe because the above parser will always succeed
     let (_, output) = result.unwrap();
 
-    // Remove all double (or more) carriage returns
-    let re = Regex::new(r"\n\n+").unwrap();
-    let output = re.replace_all(&output, "\n");
-    let output = output.to_string();
+    // Perform some final cleanup
+    let output = output.trim().to_owned();
+    let output = output.replace("(pronounced )", "");
 
     output
 }
@@ -301,6 +302,7 @@ fn filter_templates(input: String) -> String {
         "vr" => return article_parser(parts[num_parts - 1]),
         "script" => return article_parser(parts[num_parts - 1]),
         "midsize" => return article_parser(parts[num_parts - 1]),
+        "'\"" => return article_parser(parts[num_parts - 1]),
         _ => ()
     }
     if parts[0].to_lowercase().starts_with("angbr") {

@@ -1,0 +1,263 @@
+{{Short description|First letter of the Latin alphabet}}
+{{About|the Latin letter|the similar Greek letter|Alpha|the similar Cyrillic letter|A (Cyrillic)|other uses}}
+{{pp-protected|small=yes}}
+{{Technical reasons|A#|A-sharp|A-sharp (disambiguation){{!}}A-sharp}}
+{{Use dmy dates|date=November 2019}}
+{{Infobox grapheme
+|name = A
+|letter = A a [[Latin alpha|ɑ]]
+|variations =
+|script = [[Latin script]]
+|type = [[Alphabet]]
+|language = [[Latin language]]
+|image = 
+|imagesize = 
+|imagealt =
+|phonemes={{grid list|width=2em|[{{IPAlink|a}}]|[{{IPAlink|ɑ}}]|[{{IPAlink|ɒ}}]|[{{IPAlink|æ}}]|[{{IPAlink|ə}}]|[{{IPAlink|ɛ}}]|[{{IPAlink|oː}}]|[{{IPAlink|ɔ}}]|[{{IPAlink|e}}]|[{{IPAlink|ʕ}}]|[{{IPAlink|ʌ}}] [{{IPAlink|ɐ}}] |{{IPAc-en|eɪ}}}}
+|unicode=U+0041, U+0061
+|alphanumber=1
+|number=
+|fam1=<hiero>F1</hiero>
+|fam2=[[File:Proto-semiticA-01.svg|20px|Proto-Sinaitic 'alp]]
+|fam3=[[File:Protoalef.svg|20px|Proto-Caanite Aleph]]
+|fam4=[[File:Phoenician_aleph.svg|20px|Phoenician Aleph]]
+|fam5=[[Alpha|Α α]]
+|fam6=[[𐌀]][[File:Greek-uncial-1.jpg|20px|Greek Classical uncial]]
+|fam7=[[File:Semitic-2.jpg|20px|Early Latin A]][[File:Latin-uncial-1.jpg|20px|Latin 300 AD uncial, version 1]]
+|usageperiod=~-700 to present
+|children={{grid list|
+* [[Æ]]
+* [[Ä]]
+* [[Â]]
+* [[Ɑ]]
+* [[Turned V|Ʌ]]
+* [[Ɐ]]
+* [[ª]]
+* [[Å]]
+* [[₳]]
+* [[@]]
+* [[Ⓐ]]
+* [[ⓐ]]
+* [[⒜]]
+* {{not a typo|[[🅰]]}}}}
+|sisters={{grid list|width=3em|
+* [[𐌰]]
+* [[А]]
+* [[Я]]
+* [[Ә]]
+* [[Ӑ]]
+* [[Aleph|<span>א</span> <span>ا</span> <span>ܐ</span>]]
+* [[ࠀ]]
+* [[𐎀]]
+* [[ℵ]]
+* [[አ]]
+* [[ء]]
+* [[Ա|Ա ա]]
+* [[અ]]
+* [[अ]]
+* [[অ]]}}
+|equivalents=
+|associates=[[List of Latin-script digraphs#A|a(x)]], [[Ae (digraph)|ae]], [[Eau (trigraph)|eau]], [[Au (digraph)|au]]
+|direction=Left-to-Right
+}}
+{{Latin letter info|a}}
+'''A''', or '''a''', is the first [[Letter (alphabet)|letter]] and the first [[vowel]] of the [[Latin alphabet]],<ref>{{Cite web|url=https://www.britannica.com/topic/Latin-alphabet|title=Latin alphabet &#124; Definition, Description, History, & Facts|language=en|website=Encyclopedia Britannica|access-date=2021-03-03|archive-date=2021-03-09|archive-url=https://web.archive.org/web/20210309055637/https://www.britannica.com/topic/Latin-alphabet|url-status=live}}</ref><ref name=oed/> used in the [[English alphabet|modern English alphabet]], the alphabets of other western European languages and others worldwide. Its name in English is [[English alphabet#Letter names|''a'']] (pronounced {{IPAc-en|'|eɪ}}), plural ''aes''.{{refn|group=nb|''Aes'' is the plural of the name of the letter. The plural of the letter itself is rendered ''A''s, A's, ''a''s, or a's.<ref name=oed>{{harvnb|Simpson|Weiner|1989|p=1}}</ref>}} It is similar in shape to the [[Greek alphabet#History|Ancient Greek letter]] [[Alpha]], from which it derives.<ref>{{harvnb|McCarter|1974|p=54}}</ref> The [[Letter case|uppercase]] version consists of the two slanting sides of a triangle, crossed in the middle by a horizontal bar. The [[Letter case|lowercase]] version can be written in two forms: the double-storey '''a''' and single-storey '''ɑ'''. The latter is commonly used in handwriting and fonts based on it, especially fonts intended to be read by children, and is also found in [[italic type]].
+
+In English grammar, "[[English articles|a]]", and its variant "[[English articles#Indefinite article|an]]", are [[Article (grammar)#Indefinite article|indefinite articles]].
+
+== History ==
+{| class="wikitable"
+|- style="background-color:#EEEEEE; text-align:center"
+! Egyptian
+! Proto-Sinaitic
+''[[ʾalp]]''
+! Proto-Canaanite
+! Phoenician <br />''[[aleph]]''
+! Greek <br />''[[Alpha]]''
+! Etruscan <br />A
+! [[Latin alphabet|Latin]]/<br />Cyrillic <br />A
+! Greek <br /> Uncial
+! colspan="2" | Latin 300 AD <br /> Uncial
+|- style="background-color:white; text-align:center;"
+| [[File:EgyptianA-01.svg|Egyptian hieroglyphic ox head]]
+| [[File:Proto-semiticA-01.svg|35x35px|Boeotian]]
+| [[File:Protoalef.svg|35x35px|Semitic letter "A", version 1]]
+| [[File:PhoenicianA-01.svg|40px|Phoenician aleph]]
+| [[File:Alpha uc lc.svg|45px|Greek alpha, version 1]]
+| [[File:EtruscanA.svg|30px|Etruscan A, version 1]]
+| [[File:Capitalis monumentalis A.svg|x20px|Latin A]]
+| [[File:Greek-uncial-1.jpg|35px|Greek Classical uncial, version 1]]
+| colspan="2" | [[File:Latin-uncial-1.jpg|35px|Latin 300 AD uncial, version 1]]
+|}
+
+The earliest known certain ancestor of "A" is [[aleph]] (also written 'aleph), the first letter of the [[Phoenician alphabet]],<ref name="Britannica">{{harvnb|Hoiberg|2010|p=1}}</ref> which consisted entirely of [[consonant]]s (for that reason, it is also called an [[abjad]] to distinguish it from a true [[alphabet]]). In turn, the ancestor of aleph may have been a [[pictogram]] of an ox head in [[proto-Sinaitic script]]<ref name=Coll>{{harvnb|Hall-Quest|1997|p=1}}</ref> influenced by [[Egyptian hieroglyphs]], styled as a triangular head with two horns extended.
+
+When the [[Ancient Greece|ancient Greeks]] adopted the alphabet, they had no use for a letter to represent the [[glottal stop]]—the consonant sound that the letter denoted in [[Phoenician language|Phoenician]] and other [[Semitic languages]], and that was the first [[phoneme]] of the Phoenician pronunciation of the letter—so they used their version of the sign to represent the vowel {{IPA|/a/}}, and called it by the similar name of [[alpha]]. In the earliest Greek inscriptions after the [[Greek Dark Ages]], dating to the eighth century BC, the letter rests upon its side, but in the [[Greek alphabet]] of later times it generally resembles the modern capital letter, although many local varieties can be distinguished by the shortening of one leg, or by the angle at which the cross line is set.
+
+The [[Etruscan civilization|Etruscans]] brought the Greek alphabet to their civilization in the [[Italian Peninsula]] and left the letter unchanged. The Romans later adopted the [[Old Italic script|Etruscan alphabet]] to write the [[Latin|Latin language]], and the resulting letter was preserved in the [[Latin script|Latin alphabet]] that would come to be used to write many languages, including English.
+
+=== Typographic variants ===
+[[File:A-small glyphs.svg|thumb|140px|Different [[glyphs]] of the lowercase letter A.]]
+During Roman times, there were many variant forms of the letter "A". First was the monumental or lapidary style, which was used when inscribing on stone or other "permanent" media. There was also a [[cursive]] style used for everyday or utilitarian writing, which was done on more perishable surfaces. Due to the "perishable" nature of these surfaces, there are not as many examples of this style as there are of the monumental, but there are still many surviving examples of different types of cursive, such as [[letter case|majuscule]] cursive, [[letter case|minuscule]] cursive, and semicursive minuscule. Variants also existed that were intermediate between the monumental and cursive styles. The known variants include the early [[Uncial script#Half-uncial|semi-uncial]], the uncial, and the later semi-uncial.<ref name=Americana>{{harvnb|Diringer|2000|p=1}}</ref>
+
+<div class="center">
+<div style="display: inline-block; vertical-align: middle">[[File:LowercaseA.svg|thumb|none|upright|[[Allography|Typographic variants]] include a double-storey '''a''' and single-storey '''ɑ'''.]]</div>
+<div style="display: inline-block; vertical-align: middle">
+{| cellspacing="10" cellpadding="0"
+|- align="center"
+|[[File:BlackletterA-01.svg|Blackletter A]]<br />[[Blackletter]] A
+|[[File:UncialA-01.svg|Uncial A]]<br />[[Uncial script|Uncial]] A
+|[[File:Acap.svg|Another Capital A]]<br />Another Blackletter A&nbsp;
+|- align="center"
+|[[File:ModernRomanA-01.svg|64 px|Modern Roman A]]<br />Modern Roman A
+|[[File:Modern Italic A.svg|64 px|Modern Italic A]]<br />Modern Italic A
+|[[File:Modern Script A.svg|64 px|Modern Script A]]<br />Modern script A
+|}
+</div></div>
+
+At the end of the [[Roman Empire]] (5th century AD), several variants of the cursive minuscule developed through Western Europe. Among these were the semicursive minuscule of Italy, the [[Merovingian script]] in France, the [[Visigothic script]] in Spain, and the [[Insular script|Insular]] or Anglo-Irish semi-uncial or Anglo-Saxon majuscule of Great Britain. By the ninth century, the [[Carolingian minuscule|Caroline script]], which was very similar to the present-day form, was the principal form used in book-making, before the advent of the printing press. This form was derived through a combining of prior forms.<ref name=Americana/>
+
+[[File:Road sign on the R639 north of Urlingford, Ireland - 20090502.jpg|thumb|right|Road sign in Ireland, showing the Irish "Latin alpha" form of "a" in lower and upper case forms.]]
+15th-century Italy saw the formation of the two main variants that are known today. These variants, the ''Italic'' and ''Roman'' forms, were derived from the Caroline Script version. The Italic form, also called ''script a,'' is used in most current [[handwriting]]; it consists of a circle and vertical stroke on the right ("ɑ"). This slowly developed from the fifth-century form resembling the Greek letter [[tau]] in the hands of medieval Irish and English writers.<ref name="Britannica"/> The Roman form is used in most printed material; it consists of a small loop with an arc over it ("a").<ref name=Americana/> Both derive from the majuscule (capital) form. In Greek handwriting, it was common to join the left leg and horizontal stroke into a single loop, as demonstrated by the uncial version shown. Many fonts then made the right leg vertical. In some of these, the [[serif]] that began the right leg stroke developed into an arc, resulting in the printed form, while in others it was dropped, resulting in the modern handwritten form. Graphic designers refer to the ''Italic'' and ''Roman'' forms as "single decker a" and "double decker a" respectively.
+
+[[Italic type]] is commonly used to mark emphasis or more generally to distinguish one part of a text from the rest (set in Roman type). There are some other cases aside from italic type where ''script a'' ("ɑ"), also called [[Latin alpha]], is used in contrast with Latin "a" (such as in the [[International Phonetic Alphabet]]).
+
+== Use in writing systems ==
+[[File:Pronunciation of the name of the letter ⟨a⟩ in European languages.png|thumb|Pronunciation of the name of the letter {{angbr|a}} in European languages, /a/ and /aː/ can differ phonetically between {{IPAblink|a}}, {{IPAblink|ä}}, {{IPAblink|æ}} and {{IPAblink|ɑ}} depending on the language.|305x305px]]
+
+=== English ===
+{{further|Pronunciation of English ⟨a⟩}}
+In modern [[English orthography]], the letter {{angbr|a}} represents at least seven different vowel sounds:
+*the [[near-open front unrounded vowel]] {{IPA|/æ/}} as in ''pad'';
+*the [[open back unrounded vowel]] {{IPA|/ɑː/}} as in ''father'', which is closer to its original Latin and Greek sound;<ref name=Coll/>
+*the [[diphthong]] {{IPA|/eɪ/}} as in ''ace'' and ''major'' (usually when {{vr|a}} is followed by one, or occasionally two, consonants and then another vowel letter) – this results from [[Middle English lengthening]] followed by the [[Great Vowel Shift]];
+*the modified form of the above sound that occurs [[English-language vowel changes before historic /r/|before {{vr|r}}]], as in ''square'' and ''Mary'';
+*the rounded vowel of ''water'';
+*the shorter rounded vowel (not present in [[General American]]) in ''was'' and ''what'';<ref name="Britannica"/>
+*a [[schwa]], in many unstressed syllables, as in ''about'', ''comma'', ''solar''.
+
+The double {{angbr|aa}} sequence does not occur in native English words, but is found in some words derived from foreign languages such as ''Aaron'' and ''[[aardvark]]''.<ref>{{harvnb|Gelb|Whiting|1998|p=45}}</ref> However, {{vr|a}} occurs in [[List of Latin-script digraphs|many common digraphs]], all with their own sound or sounds, particularly {{vr|ai}}, {{vr|au}}, {{vr|aw}}, {{vr|ay}}, {{vr|ea}} and {{vr|oa}}.
+
+{{angbr|a}} is the third-most-commonly used letter in English (after {{angbr|e}} and {{angbr|t}}) and [[French language|French]], the second most common in Spanish, and the most common in [[Portuguese language|Portuguese]]. About 8.167% of letters used in English texts tend to be {{angbr|a}};<ref>{{Cite web|title=Letter frequency (English)|url=http://en.algoritmy.net/article/40379/Letter-frequency-English|access-date=2022-01-03|website=en.algoritmy.net|language=en|archive-date=2021-03-04|archive-url=https://web.archive.org/web/20210304152631/http://en.algoritmy.net/article/40379/Letter-frequency-English|url-status=live}}</ref> the number is around 7.636% in French,<ref>{{cite web|title=Corpus de Thomas Tempé|url=http://gpl.insa-lyon.fr/Dvorak-Fr/CorpusDeThomasTemp%C3%A9|language=fr|url-status=dead|archive-url=https://web.archive.org/web/20070930194046/http://gpl.insa-lyon.fr/Dvorak-Fr/CorpusDeThomasTemp%C3%A9|archive-date=2007-09-30|access-date=2007-06-15|df=dmy-all}}</ref> 11.525% in Spanish,<ref>{{cite book|last=Pratt|first=Fletcher|title=Secret and Urgent: The story of codes and ciphers|publisher=Blue Ribbon Books|year=1942|location=Garden City, NY|pages=254–5|oclc=795065}}</ref> and 14.634% for Portuguese.<ref>{{cite web|title=Frequência da ocorrência de letras no Português|url=http://www.numaboa.com/criptografia/criptoanalise/310-Frequencia-no-Portugues|language=pt|url-status=dead|archive-url=https://web.archive.org/web/20090803182254/http://www.numaboa.com/criptografia/criptoanalise/310-Frequencia-no-Portugues|archive-date=2009-08-03|access-date=2009-06-16|df=dmy-all}}</ref>
+
+=== Other languages ===
+In most languages that use the Latin alphabet, {{angbr|a}} denotes an open unrounded vowel, such as {{IPA|/[[Open front unrounded vowel|a]]/}}, {{IPA|/[[Open central unrounded vowel|ä]]/}}, or {{IPA|/[[Open back unrounded vowel|ɑ]]/}}. An exception is [[Saanich dialect|Saanich]], in which {{angbr|a}} (and the glyph [[Á]]) stands for a [[close-mid front unrounded vowel]] {{IPA|/e/}}.
+
+=== Other systems ===
+
+In phonetic and phonemic notation:
+*in the [[International Phonetic Alphabet]], {{angbr IPA|a}} is used for the [[open front unrounded vowel]], {{angbr IPA|ä}} is used for the [[open central unrounded vowel]], and {{angbr IPA|ɑ}} is used for the [[open back unrounded vowel]].
+*in [[X-SAMPA]], {{angbr|a}} is used for the [[open front unrounded vowel]] and {{angbr|A}} is used for the [[open back unrounded vowel]].
+
+== Other uses ==
+{{main article|A (disambiguation)}}
+In [[algebra]], the letter ''a'' along with various other letters of the alphabet is often used to denote a [[Variable (mathematics)|variable]], with various conventional meanings in different areas of mathematics. Moreover, in 1637, [[René Descartes]] "invented the convention of representing unknowns in equations by x, y, and z, and knowns by a, b, and c",<ref>Tom Sorell, ''Descartes: A Very Short Introduction'', (2000). New York: Oxford University Press. p. 19.</ref> and this convention is still often followed, especially in elementary algebra.
+
+In [[geometry]], capital A, B, C etc. are used to denote [[Line segment|segment]]s, [[line (geometry)|line]]s, [[Line (geometry)#Ray|rays]], etc.<ref name=Americana/> A capital A is also typically used as one of the letters to represent an angle in a [[triangle]], the lowercase a representing the side opposite angle A.<ref name=Coll/>
+
+"A" is often used to denote something or someone of a better or more prestigious quality or status: A−, A or A+, the best grade that can be assigned by teachers for students' schoolwork; "A grade" for clean restaurants; [[A-list]] celebrities, etc. Such associations can have a [[motivation|motivating]] effect, as exposure to the letter A has been found to improve performance, when compared with other letters.<ref>{{harvnb|Ciani & Sheldon|2010|pp=99–100}}</ref>
+
+"A" is used as a prefix on some words, such as [[asymmetry]], to mean "not" or "without" (from Greek).
+
+In English grammar, "a", and its variant "an", is an [[Article (grammar)#Indefinite article|indefinite article]], used to introduce noun phrases.
+
+Finally, the letter A is used to denote size, as in a narrow size shoe,<ref name=Coll/> or a small cup size in a [[brassiere]].<ref>{{Cite book |last=Luciani |first=Jené |title=The Bra Book: The Fashion Formula to Finding the Perfect Bra |date=2009 |publisher=Benbella Books |isbn=9781933771946 |location=Dallas, TX |pages=13 |language=en |oclc=317453115}}</ref>
+
+== Related characters ==
+<!-- Please only list characters (symbols in a writing system, but not just convenience code points in Unicode) that are actually related in terms of origin to the letter that is the topic of this article. Characters that merely look subjectively similar need not apply. See https://en.wikipedia.org/wiki/Wikipedia:Verifiability and https://en.wikipedia.org/wiki/Wikipedia:Identifying_reliable_sources before adding more. -->
+
+=== Descendants and related characters in the Latin alphabet ===
+*Æ æ : [[Æ|Latin ''AE'']] ligature
+*A with [[diacritic]]s: [[Å|Å å]] [[Ǻ|Ǻ ǻ]] [[Ring (diacritic)|Ḁ ḁ]] [[ẚ]] [[Ă|Ă ă]] [[Ặ|Ặ ặ]] [[Ắ|Ắ ắ]] [[Ằ|Ằ ằ]] [[Ẳ|Ẳ ẳ]] [[Ẵ|Ẵ ẵ]] [[Ȃ|Ȃ ȃ]] [[Â|Â â]] [[Ậ|Ậ ậ]] [[Ấ|Ấ ấ]] [[Ầ|Ầ ầ]] [[Ẫ|Ẫ ẫ]] [[Ẩ|Ẩ ẩ]] [[Ả|Ả ả]] [[Caron|Ǎ ǎ]] [[Bar (diacritic)|Ⱥ ⱥ]] [[Dot (diacritic)|Ȧ ȧ]] [[Ǡ|Ǡ ǡ]] [[Dot (diacritic)|Ạ ạ]] [[Ä|Ä ä]] [[Ǟ|Ǟ ǟ]] [[À|À à]] [[Ȁ|Ȁ ȁ]] [[Á|Á á]] [[Ā|Ā ā]] Ā̀ ā̀ [[Ã|Ã ã]] [[Ą|Ą ą]] Ą́ ą́ Ą̃ ą̃ A̲ a̲ [[ᶏ]]<ref name="L204132">{{Citation |last=Constable |first=Peter |title=L2/04-132 Proposal to Add Additional Phonetic Characters to the UCS |date=19 April 2004 |url=https://www.unicode.org/L2/L2004/04132-n2740-phonetic.pdf |archive-url=https://web.archive.org/web/20171011014355/http://www.unicode.org/L2/L2004/04132-n2740-phonetic.pdf |language=en |access-date=2018-03-24|archive-date=2017-10-11|url-status=live |via=www.unicode.org}}</ref>
+*[[Phonetic transcription#Alphabetic|Phonetic alphabet]] symbols related to A (the [[International Phonetic Alphabet]] only uses lowercase, but uppercase forms are used in some other writing systems): 
+**Ɑ ɑ : [[Latin alpha|Latin letter alpha / script A]], which represents an [[open back unrounded vowel]] in the IPA
+**ᶐ : Latin small letter alpha with retroflex hook<ref name="L204132" />
+**Ɐ ɐ : [[Turned A]], which represents a [[near-open central vowel]] in the IPA
+**Λ ʌ : [[Turned V]] (also called a wedge, a caret, or a hat), which represents an [[open-mid back unrounded vowel]] in the IPA
+**Ɒ ɒ : Turned alpha / script A, which represents an [[open back rounded vowel]] in the IPA
+**ᶛ : Modifier letter small turned alpha<ref name="L204132" />
+**ᴀ : Small capital A, an [[Obsolete and nonstandard symbols in the International Phonetic Alphabet|obsolete or non-standard symbol in the International Phonetic Alphabet]] used to represent various sounds (mainly open vowels)
+**<sup>A a</sup> ᵄ : Modifier letters are used in the [[Uralic Phonetic Alphabet]] (UPA)<ref>{{Citation |last=Everson |first=Michael |title=L2/02-141: Uralic Phonetic Alphabet Characters for the UCS |date=20 March 2002 |url=https://www.unicode.org/L2/L2002/02141-n2419-uralic-phonetic.pdf |archive-url=https://web.archive.org/web/20180219081033/http://www.unicode.org/L2/L2002/02141-n2419-uralic-phonetic.pdf |language=en |access-date=2018-03-24|display-authors=etal |archive-date=2018-02-19|author-link=Michael Everson |url-status=live |via=www.unicode.org}}</ref> (sometimes encoded with [[Unicode subscripts and superscripts]])
+**<sub>a</sub> : Subscript small a is used in [[Indo-European studies]]<ref>{{Citation |last1=Anderson |first1=Deborah |title=L2/04-191: Proposal to Encode Six Indo-Europeanist Phonetic Characters in the UCS |date=7 June 2004 |url=https://www.unicode.org/L2/L2004/04191-n2788-laryngeals.pdf |archive-url=https://web.archive.org/web/20171011014402/http://www.unicode.org/L2/L2004/04191-n2788-laryngeals.pdf |language=en |access-date=2018-03-24|archive-date=2017-10-11|last2=Everson |first2=Michael |url-status=live |via=www.unicode.org}}</ref>
+**ꬱ : Small letter a reversed-schwa is used in the [[Teuthonista]] phonetic transcription system<ref>{{Citation |last1=Everson |first1=Michael |title=L2/11-202: Revised Proposal to Encode "Teuthonista" Phonetic Characters in the UCS |date=2 June 2011 |url=https://www.unicode.org/L2/L2011/11202-n4081-teuthonista.pdf |archive-url=https://web.archive.org/web/20171011012426/http://www.unicode.org/L2/L2011/11202-n4081-teuthonista.pdf |language=en |access-date=2018-03-24|archive-date=2017-10-11|last2=Dicklberger |first2=Alois |last3=Pentzlin |first3=Karl |last4=Wandl-Vogt |first4=Eveline |url-status=live |via=www.unicode.org}}</ref>
+**Ꞻ ꞻ : Glottal A, used in the transliteration of [[Ugaritic]]<ref>{{Citation |last=Suignard |first=Michel |title=L2/17-076R2: Revised Proposal for the Encoding of an Egyptological YOD and Ugaritic Characters |date=9 May 2017 |url=https://www.unicode.org/L2/L2017/17076r2-n4792r2-egyptological-yod.pdf |archive-url=https://web.archive.org/web/20190330043926/https://www.unicode.org/L2/L2017/17076r2-n4792r2-egyptological-yod.pdf |language=en |access-date=8 March 2019 |archive-date=2019-03-30|url-status=live |via=www.unicode.org}}</ref>
+
+=== Derived signs, symbols and abbreviations ===
+*<big>ª</big> : an [[ordinal indicator]]
+*Å : [[Ångström]] sign
+*∀ : a turned capital letter A, used in [[predicate logic]] to specify [[universal quantification]] ("for all")
+*@ : [[At sign]]
+*₳ : [[Argentine austral]]
+*Ⓐ : [[Anarchist symbolism#circle-a|anarchy symbol]]
+
+=== Ancestors and siblings in other alphabets ===
+
+*𐤀 : [[Phoenician alphabet|Semitic]] letter [[Aleph]], from which the following symbols originally derive<ref>{{Cite book |last=Jensen |first=Hans |title=Sign, Symbol, and Script |publisher=G.P. Putman's Sons |year=1969 |location=New York |language=en}}</ref>
+**Α α : [[Greek alphabet|Greek]] letter [[Alpha]], from which the following letters derive<ref>{{Cite news |date=2013-02-17|title=Hebrew Lesson of the Week: The Letter Aleph |url=https://www.timesofisrael.com/spotlight/hebrew-lesson-of-the-week-letter-aleph/ |url-status=live |archive-url=https://web.archive.org/web/20180526113655/https://www.timesofisrael.com/spotlight/hebrew-lesson-of-the-week-letter-aleph/ |archive-date=2018-05-26|access-date=2018-05-25|language=en |via=[[The Times of Israel]]}}</ref>
+***А а : [[Cyrillic]] letter [[A (Cyrillic)|A]]<ref>{{Cite encyclopedia |title=Cyrillic Alphabet |encyclopedia=Encyclopedia Britannica |url=https://www.britannica.com/topic/Cyrillic-alphabet |access-date=2018-05-25|lang=en |archive-url=https://web.archive.org/web/20180526114423/https://www.britannica.com/topic/Cyrillic-alphabet |archive-date=2018-05-26|url-status=live}}</ref>
+***{{Script|Copt|Ⲁ ⲁ}} : [[Coptic alphabet|Coptic]] letter Alpha<ref>{{Cite book |last=Silvestre |first=M. J. B. |url=https://books.google.com/books?id=n2QWAAAAYAAJ&q=coptic+alphabet&pg=PA123 |title=Universal Palaeography |date=1850 |publisher=Henry G. Bohn |location=London |language=en |translator-last=Madden |translator-first=Frederic |access-date=27 October 2020 |archive-date=2021-05-07|archive-url=https://web.archive.org/web/20210507000632/https://books.google.com/books?id=n2QWAAAAYAAJ&q=coptic%20alphabet&pg=PA123 |url-status=live }}</ref>
+***𐌀 : [[Old Italic script|Old Italic]] A, which is the ancestor of modern Latin A<ref>{{Cite journal |url=https://books.google.com/books?id=fwAoAQAAIAAJ&q=old+italic+greek+alphabet&pg=PA534 |journal=American Journal of Archaeology |date=1891 |page=534 |volume=7 |title=Italic Studies |department=Archaeological News |last=Frothingham | first=A. L. Jr. |issue=4 |jstor=496497 |jstor-access=free |access-date=27 October 2020 |archive-date=2022-02-18|archive-url=https://web.archive.org/web/20220218163821/https://books.google.com/books?id=fwAoAQAAIAAJ&q=old+italic+greek+alphabet&pg=PA534 |url-status=live }}</ref><ref>{{Cite book |url=https://books.google.com/books?id=Lv4sDwAAQBAJ&q=old+italic+script+greek&pg=PA96 |title=Understanding Relations Between Scripts: The Aegean Writing Systems |date=2017 |publisher=Oxbow Books |isbn=9781785706479 |editor-last=Steele |editor-first=Philippa M. |location=Oxford |language=en |access-date=27 October 2020 |archive-date=2021-05-06|archive-url=https://web.archive.org/web/20210506235949/https://books.google.com/books?id=Lv4sDwAAQBAJ&q=old+italic+script+greek&pg=PA96 |url-status=live }}</ref>
+****{{Script|Runr|ᚨ}} : [[Runes|Runic]] letter [[Ansuz (rune)|ansuz]], which probably derives from old Italic A<ref>{{Cite book |last=Fortson |first=Benjamin W. |url=https://books.google.com/books?id=bSxHgej4tKMC&q=Runic+developed+from+old+italic&pg=PA349 |title=Indo-European Language and Culture: An Introduction |date=2010 |publisher=John Wiley & Sons |isbn=9781444359688 |edition=second |language=en |access-date=27 October 2020 |archive-date=2021-08-14|archive-url=https://web.archive.org/web/20210814142703/https://books.google.com/books?id=bSxHgej4tKMC&q=Runic+developed+from+old+italic&pg=PA349 |url-status=live }}</ref>
+***{{Script|Goth|𐌰}} : [[Gothic alphabet|Gothic]] letter aza/asks<ref>{{Cite web |title=𐌰 |url=https://en.wiktionary.org/wiki/%F0%90%8C%B0 |website=Wiktionary |access-date=2021-01-25|archive-date=2020-12-17|archive-url=https://web.archive.org/web/20201217190612/https://en.wiktionary.org/wiki/%F0%90%8C%B0 |url-status=live }}</ref>
+*Ա ա : [[Armenian alphabet|Armenian letter]] [[Ayb (letter)|Ayb]]
+
+== Code points <span class="anchor" id="Computing codes"></span> ==
+These are the [[code point]]s for the forms of the letter in various systems
+{{charmap
+| 0041 | 0061 | name1 = Latin Capital Letter A | name2 =   Latin Small Letter A
+| map1 = [[EBCDIC]] family | map1char1 = C1 | map1char2 = 81
+| map2 = [[ASCII]] <sup>1</sup> | map2char1 = 41 | map2char2 = 61
+|0251|name3=Latin Small Letter Alpha}}
+: <sup>1</sup> {{midsize|Also for encodings based on ASCII, including the DOS, Windows, ISO-8859 and Macintosh families of encodings.}}
+
+== Other representations ==
+{{Letter other reps
+|NATO=Alpha<!--don't change to official "alfa" until Commons images are moved to this spelling, or redirects are set up, as otherwise the table does not display the semaphore and flag images-->
+|Morse=·–
+|Character=A1
+|Braille=⠁
+|fingerspelling=A
+}}
+
+== Use as a number ==
+In the [[hexadecimal]] (base 16) numbering system, A is a number that corresponds to the number 10 in [[decimal]] (base 10) counting.
+{{clear}}
+
+== Notes ==
+{{reflist|group=nb}}
+
+== Footnotes ==
+{{reflist}}
+
+== References ==
+{{refbegin}}
+* {{Cite web |year=2004 |title=English Letter Frequency |url=https://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html|url-status=live |archive-url=https://web.archive.org/web/20140422040328/https://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html|archive-date=2014-04-22|access-date=2014-05-28|website=Math Explorer's Club |publisher=Cornell University |language=en}}
+* {{Cite web |date=2006 |title=Percentages of Letter Frequencies per Thousand Words |url=http://starbase.trincoll.edu/~crypto/resources/LetFreq.html |url-status=dead |archive-url=https://web.archive.org/web/20070125220315/http://starbase.trincoll.edu/~crypto/resources/LetFreq.html |archive-date=2007-01-25|access-date=2015-05-11|website=Trinity College |language=en |ref={{sfnRef|Trinity College|2006}} }}
+* {{Cite journal |last1=Ciani |first1=Keith D. |last2=Sheldon |first2=Kennon M. |date=2010 |title=A Versus F: The Effects of Implicit Letter Priming on Cognitive Performance |journal=British Journal of Educational Psychology |volume=80 |issue=1 |pages=99–119 |doi=10.1348/000709909X466479 |pmid=19622200 |ref={{harvid|Ciani & Sheldon|2010}} |language=en}}
+* {{Cite encyclopedia |title=A |encyclopedia=Encyclopedia Americana |publisher=Grolier |location=Danbury, CT |last=Diringer |first=David |date=2000 |editor-last=Bayer |editor-first=Patricia |edition=First |volume=I: A-Anjou |lang=en |isbn=978-0-7172-0133-4}}
+* {{Cite encyclopedia |title=A |encyclopedia=Academic American Encyclopedia |publisher=Grolier |location=Danbury, CT |date=1998 |editor-last=Ranson |editor-first=K. Anne |edition=First |volume=I: A–Ang |lang=en |isbn=978-0-7172-2068-7 |last2=Whiting |first2=R. M. |last1=Gelb |first1=I. J.}}
+* {{Cite encyclopedia |title=A |encyclopedia=[[Collier's Encyclopedia]] |publisher=P.F. Collier |location=New York, NY |last=Hall-Quest |first=Olga Wilbourne |date=1997 |editor-last=Johnston |editor-first=Bernard |edition=First |volume=I: A to Ameland |lang=en}}
+* {{Cite encyclopedia |date=2010 |title=A |encyclopedia=[[Encyclopædia Britannica]] |publisher=Encyclopædia Britannica, Inc. |location=Chicago, IL |url=https://archive.org/details/newencyclopaedia2009ency |editor-last=Hoiberg |editor-first=Dale H. |volume=1: A-ak–Bayes |isbn=978-1-59339-837-8 |url-access=registration |lang=en}}
+* {{Cite journal |last=McCarter |first=P. Kyle |date=1974 |title=The Early Diffusion of the Alphabet |journal=The Biblical Archaeologist |volume=37 |issue=3 |pages=54–68 |doi=10.2307/3210965 |jstor=3210965 |s2cid=126182369 |language=en}}
+* {{Cite encyclopedia |date=1989 |title=A |encyclopedia=The Oxford English Dictionary |publisher=Oxford University Press |location=Oxford, UK |url=https://archive.org/details/oxfordenglishdic01oxfo |editor-last=Simpson |editor-first=J. A. |edition=2nd |volume=I: A–Bazouki |isbn=978-0-19-861213-1 |editor2-last=Weiner |editor2-first=E.S.C. |url-access=registration  |lang=en}}
+{{Refend}}
+
+== External links ==
+{{Commons}}
+{{Wiktionary|A|a}}
+{{Spoken Wikipedia|En-A-article.ogg|date=2023-06-26}}
+* [http://members.peak.org/~jeremy/dictionaryclassic/chapters/pix/alphabet.gif History of the Alphabet]
+* {{Wikisource-inline|list=
+** "[[s:A Dictionary of the English Language/A|A]]" in ''[[s:A Dictionary of the English Language|A Dictionary of the English Language]]'' by [[Samuel Johnson]]
+**{{cite EB9 |wstitle = A |volume= I | page=1 |short=1}}
+**{{cite AmCyc|wstitle=A |short=x |noicon=x}}
+**{{cite EB1911|wstitle=A |volume= I | page=1 |short=x |noicon=x}}
+**{{cite NSRW |wstitle=A |short=x |noicon=x}}
+**{{cite Collier's|wstitle=A |short=x |noicon=x}}
+}}
+
+{{Latin script|A|}}
+{{Authority control}}
+
+[[Category:ISO basic Latin letters]]
+[[Category:Vowel letters]]

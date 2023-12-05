@@ -10,12 +10,12 @@ use quick_xml::Result;
 
 const DIR: &str = "output/";
 
-pub struct XMLParser<F: Fn(&[u8]) -> Vec<u8>> {
+pub struct XMLParser<F: Fn(&[u8]) -> String> {
     text_processor: F,
     reader: Reader<BufReader<File>>
 }
 
-impl<F: Fn(&[u8]) -> Vec<u8>> XMLParser<F> {
+impl<F: Fn(&[u8]) -> String> XMLParser<F> {
     pub fn new(text_processor: F, filename: &str) -> Result<Self> {
         let reader = Reader::from_file(filename)?;
         Ok(Self {
@@ -182,14 +182,14 @@ impl<F: Fn(&[u8]) -> Vec<u8>> XMLParser<F> {
     }
 }
 
-fn write_file(title: &str, text: &[u8]) -> Result<()> {
+fn write_file(title: &str, text: &str) -> Result<()> {
     let dir = String::from(DIR);
     let title = title.replace("/", "_");
     let path = dir + &title + ".txt";
 
     let mut file = File::create(path);
     if let Ok(f) = file.as_mut() {
-        f.write_all(text)?;
+        f.write_all(text.as_bytes())?;
     }
     else {
         panic!("Could not write file: {}", title);
