@@ -1,4 +1,4 @@
-use std::collections::LinkedList;
+use std::collections::{LinkedList, HashMap};
 
 const REMOVE_TEMPLATES: &[&str] = &[
     "further",
@@ -49,7 +49,16 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "unreferenced section"
 ];
 
-// TODO: Break this function into smaller pieces, or even move it into its own module
+const REPLACE_TEMPLATES: &[&str] = &[
+    "sic",
+    "vr",
+    "script",
+    "midsize",
+    "'\""
+];
+
+// Takes a template, processes it, and returns it and a bool flag 
+// indicating if this output should be processed by the article parser again
 pub fn filter_templates(input: String) -> (bool, String) {
     // Handle templates that can always be totally removed
     let remove = REMOVE_TEMPLATES
@@ -59,15 +68,21 @@ pub fn filter_templates(input: String) -> (bool, String) {
         return (false, String::new());
     }
 
-    // Handle simple map cases
+    // Handle templates that should be replaced with its last portion
     let parts: Vec<_> = input.split('|').collect();
     let num_parts = parts.len();
+    let replace = REPLACE_TEMPLATES
+        .iter()
+        .any(|&s| s == parts[0].to_lowercase());
+    if replace {
+        return (true, parts[num_parts - 1].to_string());
+    }
+    if parts[0].to_lowercase().starts_with("angbr") {
+        return (true, parts[num_parts - 1].to_string())
+    }
+
+    // Handle simple map cases
     match parts[0].to_lowercase().as_str() {
-        "sic" => return (true, parts[num_parts - 1].to_string()),
-        "vr" => return (true, parts[num_parts - 1].to_string()),
-        "script" => return (true, parts[num_parts - 1].to_string()),
-        "midsize" => return (true, parts[num_parts - 1].to_string()),
-        "'\"" => return (true, parts[num_parts - 1].to_string()),
         "convert" => return (false, parts[1].to_string() + " " + parts[2]),
         "sclass" => return (false, format!("{}-class {}", parts[1].trim(), parts[2].trim())),
         "uss" => {
@@ -81,31 +96,21 @@ pub fn filter_templates(input: String) -> (bool, String) {
         },
         _ => ()
     }
-    if parts[0].to_lowercase().starts_with("angbr") {
-        return (true, parts[num_parts - 1].to_string())
-    }
 
     // Handle cases that need actual parsing
     if parts[0].to_lowercase().starts_with("quote") {
-        let mut quote = "";
-        let mut author = None;
-        let mut source = None;
-        for tag in &parts[1..] {
-            let tag_pieces: Vec<_> = tag.split("=").map(|s| s.trim()).collect();
-            match tag_pieces[0] {
-                "quote" => quote = tag_pieces[1],
-                "author" => author = Some(tag_pieces[1]),
-                "source" => source = Some(tag_pieces[1]),
-                _ => ()
-            }
-        }
+        let tags = process_tags(&parts, &[]);
+
+        let quote = tags["quote"];
+        let author = tags.get("author");
+        let source = tags.get("source");
 
         let caption = 
             if let Some((author, source)) = author.zip(source) {
-                author.to_owned() + ", " + source
+                author.to_string() + ", " + source
             }
             else if let Some(caption) = author.or(source) {
-                caption.to_owned()
+                caption.to_string()
             }
             else {
                 String::new()
@@ -117,28 +122,15 @@ pub fn filter_templates(input: String) -> (bool, String) {
 
     // Blockquotes are distinct from quote blocks.
     if parts[0].to_lowercase().starts_with("blockquote") {
-        let mut text = "";
-        let mut author = None;
-        let mut title = None;
-        let mut source = None;
-        let mut character = None;
-        for (i, tag) in parts[1..].iter().enumerate() {
-            let tag_pieces: Vec<_> = tag.split("=").map(|s| s.trim()).collect();
-            match tag_pieces[0] {
-                "text" => text = tag_pieces[1],
-                "author" => author = Some(tag_pieces[1]),
-                "title" => title = Some(tag_pieces[1]),
-                "source" => source = Some(tag_pieces[1]),
-                "character" => character = Some(tag_pieces[1]),
-                "sign" => author = Some(tag_pieces[1]),
-                _ => match i {
-                    0 => text = tag,
-                    1 => author = Some(tag),
-                    _ => ()
-                }
-            }
-        }
+        let tags = process_tags(&parts, &["text", "author"]);
 
+        let text = tags["text"];
+        let author = tags.get("author").or(tags.get("sign"));
+        let title = tags.get("title");
+        let source = tags.get("source");
+        let character = tags.get("character");
+
+        // Merge the source, title, and author pieces so long as they exist
         let mut caption_suffix_pieces = LinkedList::new();
         if let Some(s) = source {
             caption_suffix_pieces.push_front(s);
@@ -149,11 +141,16 @@ pub fn filter_templates(input: String) -> (bool, String) {
         if let Some(a) = author {
             caption_suffix_pieces.push_front(a);
         }
-        let caption_suffix = caption_suffix_pieces.into_iter().collect::<Vec<_>>().join(", ");
+        let caption_suffix = caption_suffix_pieces
+            .into_iter()
+            .map(|s| s.to_owned())
+            .collect::<Vec<_>>()
+            .join(", ");
 
+        // Prepend the character to the caption if it exists
         let caption = if let Some(c) = character {
             if caption_suffix.is_empty() {
-                c.to_owned()
+                c.to_string()
             }
             else {
                 format!("{c}, in {caption_suffix}")
@@ -163,6 +160,7 @@ pub fn filter_templates(input: String) -> (bool, String) {
             caption_suffix
         };
         
+        // Format the quote by adding the source if it exists
         let output = if caption.is_empty() {
             text.to_owned()
         }
@@ -173,4 +171,29 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     return (false, String::from("{{") + &input + "}}");
+}
+
+fn process_tags<'a, 'b>(
+    parts: &'a [&'a str], 
+    untagged_order: &'b [&'b str]
+) -> HashMap<&'a str, &'a str> 
+where
+    'b: 'a
+{
+    let mut tags: HashMap<&str, &str> = HashMap::new();
+    let mut untagged_count = 0;
+    for tag in &parts[1..] {
+        let tag_pieces: Vec<_> = tag.split("=").map(|s| s.trim()).collect();
+        if tag_pieces.len() == 1 {
+            let tag_name = untagged_order[untagged_count];
+            tags.insert(tag_name, tag);
+            untagged_count += 1;
+        }
+        else {
+            let tag_name = tag_pieces[0];
+            tags.insert(tag_name, tag_pieces[1]);
+        }
+    }
+
+    tags
 }
