@@ -48,7 +48,11 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "undue weight section",
     "unreferenced section",
     "relevance",
-    "greek myth"
+    "greek myth",
+    "more citations needed",
+    "agriculture",
+    "by whom",
+    "rp"
 ];
 
 const MAPPERS: &[(&str, &str)] = &[
