@@ -61,7 +61,9 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "etymology",
     "update",
     "cn",
-    "failed verification"
+    "failed verification",
+    "esotericism",
+    "hermeticism"
 ];
 
 const MAPPERS: &[(&str, &str)] = &[
