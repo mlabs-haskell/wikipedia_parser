@@ -1,11 +1,12 @@
 use html_escape::decode_html_entities;
 use std::str::from_utf8;
 
-use nom::IResult;
+use nom::{IResult, Parser, InputLength};
 use nom::branch::alt;
-use nom::bytes::complete::{tag, take, take_until, tag_no_case};
+use nom::bytes::complete::{tag, take_until, tag_no_case};
 use nom::character::complete::{none_of, anychar};
 use nom::combinator::{map, peek, eof, fail};
+use nom::error::ParseError;
 use nom::multi::{many0, many_till, many1};
 use nom::sequence::{delimited, preceded, terminated, tuple};
 
@@ -48,14 +49,14 @@ pub fn extract_text(input: &[u8]) -> Vec<u8> {
 
     // Convert html codes to their proper characters
     let input = decode_html_entities(input).to_string();
+    let input = input.replace("&ndash;", "-");
+    let input = input.replace("&nbsp;", " ");
 
     // Use nom to parse the important information from the article
     let (_, parsed) = article_parser(input.as_str()).unwrap();
 
     // Perform some final cleanup
     let parsed = parsed.trim().to_owned();
-    let parsed = parsed.replace("&ndash;", "-");
-    let parsed = parsed.replace("&nbsp;", " ");
 
     parsed.into_bytes()
 }
@@ -79,20 +80,21 @@ fn general_content_parser(input: &str) -> IResult<&str, String> {
         comment_parser,
         section_parser,
         list_parser,
-        map(take(1u8), |c: &str| c.to_owned())
+        map(anychar, |c| c.to_string())
     ))(input)
 }
 
 fn list_parser(input: &str) -> IResult<&str, String> {
     map(
-        preceded(
+        look_ahead_delimited(
             tuple((
                 tag("\n"),
                 many1(tag("*"))
             )), 
-            many_till(general_content_parser, peek(tag("\n")))
+            general_content_parser, 
+            peek(tag("\n"))
         ),
-        |(strings, delimiter)| delimiter.to_owned() + &strings.join("")
+        |strings| "\n".to_owned() + &strings.join("")
     )(input)
 }
 
@@ -134,23 +136,24 @@ fn section_parser(input: &str) -> IResult<&str, String> {
 fn table_parser(input: &str) -> IResult<&str, String> {
     map(
         alt((
-            preceded(
+            look_ahead_delimited(
                 alt((
+                    // Standard start for a table
                     tag("\n{|"),
+
+                    // Templates that can start tables
                     tag_no_case("{{Awards table"),
                     tag_no_case("{{Certification Table Top")
                 )),
-                many_till(
-                    general_content_parser,
-                    tag("|}")
-                )
+                general_content_parser,
+                tag("|}")
             ),
-            preceded(
+
+            // Some tables have odd headers and footers
+            look_ahead_delimited(
                 tag_no_case("{{Certification Table Top"),
-                many_till(
-                    general_content_parser,
-                    tag_no_case("{{Certification Table Bottom}}")
-                )
+                general_content_parser,
+                tag_no_case("{{Certification Table Bottom}}")
             )
         )),
         |_| String::new()
@@ -184,28 +187,17 @@ fn ref_parser(input: &str) -> IResult<&str, String> {
 
 // Get the contents of the template and filter unneeded ones
 fn template_parser(input: &str) -> IResult<&str, String> {
-    let r = map(
-        preceded(
+    map(
+        look_ahead_delimited(
             tag("{{"),
-            map(
-                many_till(
-                    general_content_parser, 
-                    tag("}}")
-                ),
-                |(strings, _)| strings.join("")
-            )
+            alt((
+                template_parser,
+                map(anychar, |c| c.to_string())
+            )), 
+            tag("}}")
         ),
-        filter_templates
-    )(input);
-
-    if input.starts_with("{{") && r.is_err() {
-        let chunk: String = input.chars().take(1000).collect();
-        println!("-------------------------");
-        println!("{}", chunk);
-        println!("-------------------------");
-    }
-
-    r
+        |strings| filter_templates(strings.concat())
+    )(input)
 }
 
 fn filter_templates(input: String) -> String {
@@ -261,15 +253,13 @@ fn filter_templates(input: String) -> String {
 // Handle the command codes for bolds and italics 
 fn quote_parser(input: &str) -> IResult<&str, String> {
     let helper = |delimiter| {
-        preceded(
-            tag(delimiter),
-            map(
-                many_till(
-                    general_content_parser,
-                    tag(delimiter)
-                ),
-                |(strings, _)| strings.join("")
-            )
+        map(
+            look_ahead_delimited(
+                tag(delimiter), 
+                general_content_parser, 
+                tag(delimiter)
+            ),
+            |strings| strings.concat()
         )
     };
 
@@ -283,17 +273,13 @@ fn quote_parser(input: &str) -> IResult<&str, String> {
 // Handle the command codes for links to other articles and to images
 fn link_parser(input: &str) -> IResult<&str, String> {
     map(
-        preceded(
-            tag("[["),
-            map(
-                many_till(
-                    general_content_parser,
-                    tag("]]")
-                ),
-                |(strings, _)| strings.join("")
-            )
+        look_ahead_delimited(
+            tag("[["), 
+            general_content_parser, 
+            tag("]]")
         ),
-        |s: String| {
+        |v: Vec<String>| {
+            let s = v.concat();
             if s.starts_with("File:") {
                 String::new()
             }
@@ -313,4 +299,29 @@ fn comment_parser(input: &str) -> IResult<&str, String> {
     )(input)?;
 
     Ok((input, String::new()))
+}
+
+// Helper function that applies first parser, then repeatedly calls second until third succeeds
+fn look_ahead_delimited<I, O1, O, O3, E, P1, P2, P3>(
+    start: P1,
+    body: P2,
+    end: P3
+) -> impl FnMut(I) -> IResult<I, Vec<O>, E> 
+where
+    P1: Parser<I, O1, E>,
+    P2: Parser<I, O, E>,
+    P3: Parser<I, O3, E>,
+    E: ParseError<I>,
+    I: Clone + InputLength
+{
+    map(
+        preceded(
+            start, 
+            many_till(
+                body, 
+                end
+            )
+        ),
+        |(o1, _)| o1
+    )
 }
