@@ -99,7 +99,7 @@ fn list_parser(input: &str) -> IResult<&str, String> {
 fn section_parser(input: &str) -> IResult<&str, String> {
     let mut header_helper = map(
         delimited(
-            tag("=="), 
+            tag("\n=="), 
             many1(
                 none_of("=")
             ),
