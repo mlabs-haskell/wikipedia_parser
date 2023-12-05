@@ -47,11 +47,13 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "redirect",
     "undue weight section",
     "unreferenced section",
-    "relevance"
+    "relevance",
+    "greek myth"
 ];
 
 const MAPPERS: &[(&str, &str)] = &[
     ("--)", ")"),
+    ("'", "'"),
     ("'\"", "'\"")
 ];
 
@@ -60,7 +62,11 @@ const REPLACE_TEMPLATES: &[&str] = &[
     "vr",
     "script",
     "midsize",
-    "nowrap"
+    "nowrap",
+    "transliteration",
+    "section link",
+    "crossreference",
+    "lang"
 ];
 
 const MONTHS: &[&str] = &[
@@ -109,7 +115,7 @@ pub fn filter_templates(input: String) -> (bool, String) {
     let num_parts = parts.len();
     let replace = REPLACE_TEMPLATES
         .iter()
-        .any(|&s| s == parts[0].to_lowercase());
+        .any(|&s| parts[0].to_lowercase().starts_with(s));
     if replace {
         return (true, parts[num_parts - 1].to_string());
     }
@@ -121,15 +127,24 @@ pub fn filter_templates(input: String) -> (bool, String) {
     match parts[0].to_lowercase().as_str() {
         "convert" => return (false, parts[1].to_string() + " " + parts[2]),
         "sclass" => return (false, format!("{}-class {}", parts[1].trim(), parts[2].trim())),
-        "uss" => {
+        "uss" | "hms" | "hmnzs" => {
             let s = if parts.len() == 2 {
-                format!("USS {}", parts[1].trim())
+                format!("{} {}", parts[0].trim(), parts[1].trim())
             }
             else {
-                format!("USS {} ({})", parts[1].trim(), parts[2].trim())
+                format!("{} {} ({})", parts[0].trim(), parts[1].trim(), parts[2].trim())
             };
-            return (false, s);
+            return (true, s);
         },
+        "see below" => {
+            let s = format!("(see {})", parts[1].trim());
+            return (true, s);
+        },
+        "c." | "circa" => {
+            let s = format!("{} {}", parts[0], parts[1]);
+            return (true, s)
+        },
+        "ill" | "interlanguage link" => return (true, parts[1].trim().to_string()),
         _ => ()
     }
 
