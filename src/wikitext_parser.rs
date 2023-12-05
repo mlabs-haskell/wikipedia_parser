@@ -1,5 +1,6 @@
 use html_escape::decode_html_entities;
 use regex::Regex;
+use std::collections::LinkedList;
 use std::str::from_utf8;
 
 use nom::{IResult, Parser, InputLength};
@@ -34,8 +35,6 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "certification table",
     "notelist",
     "reflist",
-    "refbegin",
-    "refend",
     "cite",
     "short description",
     "about",
@@ -43,7 +42,19 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "technical reasons",
     "latin letter",
     "refn",
+    "other uses",
+    "pp",
+    "toc",
+    "main",
+    "sfn",
     "ipa", // TODO: We can probably do something with IPA pronunciations
+    "respell", // This is another IPA-related item
+    "multiple image",
+    "cleanup",
+    "wikisource",
+    "css",
+    "additional citation needed",
+    "inflation"
 ];
 
 const REMOVE_SECTIONS: &[&str] = &[
@@ -96,12 +107,12 @@ fn general_content_parser(input: &str) -> IResult<&str, String> {
     alt((
         table_parser,
         template_parser, 
+        section_parser,
         link_parser,
         ref_parser,
         div_parser,
         quote_parser,
         comment_parser,
-        section_parser,
         list_parser,
         html_code_parser,
         map(anychar, |c| c.to_string())
@@ -136,7 +147,10 @@ fn section_parser(input: &str) -> IResult<&str, String> {
             many1(
                 none_of("=")
             ),
-            tag("==")
+            tuple((
+                tag("=="),
+                none_of("=")
+            ))
         ),
         |v| {
             let s: String = v.iter().collect();
@@ -144,18 +158,24 @@ fn section_parser(input: &str) -> IResult<&str, String> {
         }
     );
 
-    let (input, header) = header_helper(input)?;
+    let (new_input, header) = header_helper(input)?;
     if REMOVE_SECTIONS.iter().any(|r| r == &header) {
         map(
             many_till(
-                anychar, 
+                alt((
+                    comment_parser,
+                    map(
+                        anychar, 
+                        |c| c.to_string()
+                    )
+                )), 
                 alt((
                     peek(header_helper),
                     map(eof, |s: &str| s.to_string())
                 ))
             ), 
             |_| String::new()
-        )(input)
+        )(new_input)
     }
     else {
         fail(input)
@@ -185,6 +205,11 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                 tag_no_case("{{Certification Table Top"),
                 general_content_parser,
                 tag_no_case("{{Certification Table Bottom}}")
+            ),
+            look_ahead_delimited(
+                tag_no_case("{{Refbegin"),
+                general_content_parser,
+                tag_no_case("{{Refend}}")
             )
         )),
         |_| String::new()
@@ -255,15 +280,24 @@ fn html_code_parser(input: &str) -> IResult<&str, String> {
         )
     };
 
-    map(
-        alt((
-            helper("big"),
-            helper("sub"),
-            helper("sup"),
-            helper("span")
-        )),
-        |strings| strings.concat()
-    )(input)
+    alt((
+        map(
+            alt((
+                helper("big"),
+                helper("sub"),
+                helper("sup"),
+                helper("span")
+            )),
+            |strings| strings.concat()
+        ),
+        map(
+            alt((
+                helper("imagemap"),
+                helper("gallery")
+            )),
+            |_| String::new()
+        )
+    ))(input)
 }
 
 // Get the contents of the template and filter unneeded ones
@@ -285,6 +319,7 @@ fn template_parser(input: &str) -> IResult<&str, String> {
     )(input)
 }
 
+// TODO: Break this function into smaller pieces, or even move it into its own module
 fn filter_templates(input: String) -> String {
     // Handle templates that can always be totally removed
     let remove = REMOVE_TEMPLATES
@@ -303,6 +338,19 @@ fn filter_templates(input: String) -> String {
         "script" => return article_parser(parts[num_parts - 1]),
         "midsize" => return article_parser(parts[num_parts - 1]),
         "'\"" => return article_parser(parts[num_parts - 1]),
+        "convert" => return parts[1].to_string() + " " + parts[2],
+        "sclass" => return format!("{}-class {}", parts[1].trim(), parts[2].trim()),
+        "uss" => {
+            if parts.len() == 2 {
+                return format!("USS {}", parts[1].trim());
+            }
+            else if parts.len() == 3 {
+                return format!("USS {} ({})", parts[1].trim(), parts[2].trim());
+            }
+            else {
+                ()
+            }
+        },
         _ => ()
     }
     if parts[0].to_lowercase().starts_with("angbr") {
@@ -336,6 +384,62 @@ fn filter_templates(input: String) -> String {
             };
         
         let output = quote.to_owned() + &caption;
+        return article_parser(&output);
+    }
+
+    // Blockquotes are distinct from quote blocks.
+    if parts[0].to_lowercase().starts_with("blockquote") {
+        let mut text = "";
+        let mut author = None;
+        let mut title = None;
+        let mut source = None;
+        let mut character = None;
+        for (i, tag) in parts[1..].iter().enumerate() {
+            let tag_pieces: Vec<_> = tag.split("=").map(|s| s.trim()).collect();
+            match tag_pieces[0] {
+                "text" => text = tag_pieces[1],
+                "author" => author = Some(tag_pieces[1]),
+                "title" => title = Some(tag_pieces[1]),
+                "source" => source = Some(tag_pieces[1]),
+                "character" => character = Some(tag_pieces[1]),
+                _ => match i {
+                    0 => text = tag,
+                    1 => author = Some(tag),
+                    _ => ()
+                }
+            }
+        }
+
+        let mut caption_suffix_pieces = LinkedList::new();
+        if let Some(s) = source {
+            caption_suffix_pieces.push_front(s);
+        }
+        if let Some(t) = title {
+            caption_suffix_pieces.push_front(t);
+        }
+        if let Some(a) = author {
+            caption_suffix_pieces.push_front(a);
+        }
+        let caption_suffix = caption_suffix_pieces.into_iter().collect::<Vec<_>>().join(", ");
+
+        let caption = if let Some(c) = character {
+            if caption_suffix.is_empty() {
+                c.to_owned()
+            }
+            else {
+                format!("{c}, in {caption_suffix}")
+            }
+        }
+        else {
+            caption_suffix
+        };
+        
+        let output = if caption.is_empty() {
+            text.to_owned()
+        }
+        else {
+            format!("\"{text}\"-{caption}")
+        };
         return article_parser(&output);
     }
 
@@ -388,13 +492,13 @@ fn link_parser(input: &str) -> IResult<&str, String> {
 
 // Remove comments
 fn comment_parser(input: &str) -> IResult<&str, String> {
-    let (input, _) = delimited(
+    let (new_input, _) = delimited(
         tag("<!--"),
         take_until("-->"),
         tag("-->")
     )(input)?;
 
-    Ok((input, String::new()))
+    Ok((new_input, String::new()))
 }
 
 // Helper function that applies first parser, then repeatedly calls second until third succeeds
