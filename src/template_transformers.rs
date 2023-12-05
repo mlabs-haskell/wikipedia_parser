@@ -57,6 +57,21 @@ const REPLACE_TEMPLATES: &[&str] = &[
     "'\""
 ];
 
+const MONTHS: &[&str] = &[
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+];
+
 // Takes a template, processes it, and returns it and a bool flag 
 // indicating if this output should be processed by the article parser again
 pub fn filter_templates(input: String) -> (bool, String) {
@@ -168,6 +183,55 @@ pub fn filter_templates(input: String) -> (bool, String) {
             format!("\"{text}\"-{caption}")
         };
         return (true, output);
+    }
+
+    // Parse "as of" blocks
+    if parts[0].to_lowercase().starts_with("as of") {
+        let tags = process_tags(&parts, &["year", "month", "day"]);
+
+        let alt = tags.get("alt");
+        let year = tags.get("year");
+        let month = tags
+            .get("month")
+            .and_then(|s| s.parse::<usize>().ok().map(|i| MONTHS[i - 1]));
+        let day = tags.get("day");
+        let since = tags.get("since");
+        let post = tags.get("post");
+
+        if let Some(alt) = alt {
+            return (true, alt.to_string());
+        }
+        else {
+            let mut output = if since == Some(&"y") {
+                "Since ".to_string()
+            }
+            else {
+                parts[0].to_string() + " "
+            };
+
+            if let Some(day) = day {
+                output += day;
+                output += " ";
+            }
+
+            if let Some(month) = month {
+                output += month;
+                output += " ";
+            }
+
+            if let Some(year) = year {
+                output += year;
+                output += " ";
+            }
+
+            let mut output = output.trim().to_string();
+            if let Some(post) = post {
+                output += post;
+                output += " ";
+            }
+
+            return (false, output);
+        }
     }
 
     return (false, String::from("{{") + &input + "}}");
