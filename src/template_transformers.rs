@@ -46,7 +46,13 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "legend",
     "redirect",
     "undue weight section",
-    "unreferenced section"
+    "unreferenced section",
+    "relevance"
+];
+
+const MAPPERS: &[(&str, &str)] = &[
+    ("--)", ")"),
+    ("'\"", "'\"")
 ];
 
 const REPLACE_TEMPLATES: &[&str] = &[
@@ -54,7 +60,7 @@ const REPLACE_TEMPLATES: &[&str] = &[
     "vr",
     "script",
     "midsize",
-    "'\""
+    "nowrap"
 ];
 
 const MONTHS: &[&str] = &[
@@ -81,6 +87,21 @@ pub fn filter_templates(input: String) -> (bool, String) {
         .any(|&s| input.to_lowercase().starts_with(s));
     if remove {
         return (false, String::new());
+    }
+
+    // Handle templates that can be simply mapped
+    let mapping = MAPPERS
+        .iter()
+        .find_map(|&(s, r)| {
+            if s == &input {
+                Some(r)
+            }
+            else {
+                None
+            }
+        });
+    if let Some(mapping) = mapping {
+        return (false, mapping.to_string());
     }
 
     // Handle templates that should be replaced with its last portion
