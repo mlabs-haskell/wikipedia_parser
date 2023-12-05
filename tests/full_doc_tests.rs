@@ -35,6 +35,11 @@ fn a() {
 }
 
 #[test]
+fn abraham_lincoln() {
+    test_full_doc("Abraham Lincoln");
+}
+
+#[test]
 fn baby_one_more_time() {
     test_full_doc("...Baby One More Time (album)");
 }
