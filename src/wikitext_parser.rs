@@ -11,6 +11,11 @@ use nom::multi::{many0, many_till, many1};
 use nom::sequence::{delimited, preceded, terminated, tuple};
 
 const REMOVE_TEMPLATES: &[&str] = &[
+    "further",
+    "letter other reps",
+    "clear",
+    "charmap",
+    "main article",
     "use",
     "good article",
     "infobox",
@@ -33,14 +38,18 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "short description",
     "about",
     "pp-protected",
-    "technical reasons"
+    "technical reasons",
+    "latin letter",
+    "refn",
+    "ipa", // TODO: We can probably do something with IPA pronunciations
 ];
 
 const REMOVE_SECTIONS: &[&str] = &[
     "see also",
     "notes",
     "references",
-    "external links"
+    "external links",
+    "footnotes"
 ];
 
 // Take a given wikitext-formatted string and extract the useful text
@@ -53,43 +62,56 @@ pub fn extract_text(input: &[u8]) -> Vec<u8> {
     let input = input.replace("&nbsp;", " ");
 
     // Use nom to parse the important information from the article
-    let (_, parsed) = article_parser(input.as_str()).unwrap();
+    let parsed = article_parser(input.as_str());
 
     // Perform some final cleanup
     let parsed = parsed.trim().to_owned();
+    let parsed = parsed.replace("(pronounced )", "");
 
     parsed.into_bytes()
 }
 
 // Nom parser that allows us to extract needed text while knowing the article structure
-fn article_parser(input: &str) -> IResult<&str, String> {
-    map(
+fn article_parser(input: &str) -> String {
+    let result = map(
         many0(general_content_parser),
         |strings| { strings.join("") }
-    )(input)
+    )(input);
+
+    // This is safe because the above parser will always succeed
+    let (_, output) = result.unwrap();
+    output
 }
 
 // If next item is special, parse it. Otherwise, move forward one char
 fn general_content_parser(input: &str) -> IResult<&str, String> {
     alt((
         table_parser,
-        ref_parser,
         template_parser, 
-        quote_parser,
         link_parser,
+        ref_parser,
+        div_parser,
+        quote_parser,
         comment_parser,
         section_parser,
         list_parser,
+        html_code_parser,
         map(anychar, |c| c.to_string())
     ))(input)
 }
 
+// Remove list formatting from list items
 fn list_parser(input: &str) -> IResult<&str, String> {
     map(
         look_ahead_delimited(
             tuple((
                 tag("\n"),
-                many1(tag("*"))
+                many1(
+                    alt((
+                        tag("*"),
+                        tag(":")
+                    ))
+                )
             )), 
             general_content_parser, 
             peek(tag("\n"))
@@ -133,6 +155,7 @@ fn section_parser(input: &str) -> IResult<&str, String> {
 }
 
 // For now, just remove tables
+// TODO: We may want to grab text from tables
 fn table_parser(input: &str) -> IResult<&str, String> {
     map(
         alt((
@@ -185,6 +208,56 @@ fn ref_parser(input: &str) -> IResult<&str, String> {
     }
 }
 
+// Parse divs and get rid of them
+fn div_parser(input: &str) -> IResult<&str, String> {
+    map(
+        alt((
+            delimited(
+                tag("<div"),
+                take_until(">"),
+                tag(">")
+            ),
+            tag("</div>")
+        )),
+        |_| String::new()
+    )(input)
+}
+
+fn html_code_parser(input: &str) -> IResult<&str, String> {
+    let helper = |html_tag| {
+        look_ahead_delimited(
+            tuple((
+                tag("<"), 
+                tag(html_tag), 
+                many0(none_of(">")),
+                tag(">")
+            )), 
+            alt((
+                html_code_parser,
+                map(
+                    anychar, 
+                    |c| c.to_string()
+                )
+            )), 
+            delimited(
+                tag("</"), 
+                tag(html_tag), 
+                tag(">")
+            )
+        )
+    };
+
+    map(
+        alt((
+            helper("big"),
+            helper("sub"),
+            helper("sup"),
+            helper("span")
+        )),
+        |strings| strings.concat()
+    )(input)
+}
+
 // Get the contents of the template and filter unneeded ones
 fn template_parser(input: &str) -> IResult<&str, String> {
     map(
@@ -196,7 +269,11 @@ fn template_parser(input: &str) -> IResult<&str, String> {
             )), 
             tag("}}")
         ),
-        |strings| filter_templates(strings.concat())
+        |input| {
+            let input = input.concat();
+            let input = article_parser(&input);
+            filter_templates(input)
+        }
     )(input)
 }
 
@@ -213,8 +290,14 @@ fn filter_templates(input: String) -> String {
     let parts: Vec<_> = input.split('|').collect();
     let num_parts = parts.len();
     match parts[0].to_lowercase().as_str() {
-        "sic" => return article_parser(parts[num_parts - 1]).unwrap().1,
+        "sic" => return article_parser(parts[num_parts - 1]),
+        "vr" => return article_parser(parts[num_parts - 1]),
+        "script" => return article_parser(parts[num_parts - 1]),
+        "midsize" => return article_parser(parts[num_parts - 1]),
         _ => ()
+    }
+    if parts[0].to_lowercase().starts_with("angbr") {
+        return article_parser(parts[num_parts - 1])
     }
 
     // Handle cases that need actual parsing
@@ -244,7 +327,7 @@ fn filter_templates(input: String) -> String {
             };
         
         let output = quote.to_owned() + &caption;
-        return article_parser(&output).unwrap().1;
+        return article_parser(&output);
     }
 
     return String::from("{{") + &input + "}}";
@@ -275,11 +358,15 @@ fn link_parser(input: &str) -> IResult<&str, String> {
     map(
         look_ahead_delimited(
             tag("[["), 
-            general_content_parser, 
+            alt((
+                link_parser, 
+                map(anychar, |c| c.to_string())
+            )), 
             tag("]]")
         ),
         |v: Vec<String>| {
             let s = v.concat();
+            let s = article_parser(&s);
             if s.starts_with("File:") {
                 String::new()
             }
