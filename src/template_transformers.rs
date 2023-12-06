@@ -179,8 +179,13 @@ pub fn filter_templates(input: String) -> (bool, String) {
             return (true, s);
         },
         "c." | "circa" => {
-            let s = format!("{} {}", parts[0], parts[1]);
-            return (true, s)
+            if parts.len() > 1 {
+                let s = format!("{} {}", parts[0], parts[1]);
+                return (true, s);
+            }
+            else {
+                return (false, parts[0].to_string());
+            }
         },
         "ill" | "interlanguage link" => return (true, parts[1].trim().to_string()),
         "frac" | "fraction" => {
