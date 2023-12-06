@@ -50,6 +50,11 @@ fn alabama() {
 }
 
 #[test]
+fn an_american_in_paris() {
+    test_full_doc("An American in Paris");
+}
+
+#[test]
 fn baby_one_more_time() {
     test_full_doc("...Baby One More Time (album)");
 }
