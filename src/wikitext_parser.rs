@@ -21,7 +21,10 @@ const REMOVE_SECTIONS: &[&str] = &[
     "footnotes",
     "further reading",
     "gallery",
-    "bibliography" 
+    "bibliography" ,
+    "explanatory notes",
+    "citations",
+    "general bibliography"
 ];
 
 // Take a given wikitext-formatted string and extract the useful text

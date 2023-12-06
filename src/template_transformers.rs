@@ -63,7 +63,14 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "cn",
     "failed verification",
     "esotericism",
-    "hermeticism"
+    "hermeticism",
+    "contains special characters",
+    "excerpt",
+    "largest cities",
+    "algeria",
+    "unreliable source",
+    "page needed",
+    "wiktionary"
 ];
 
 const MAPPERS: &[(&str, &str)] = &[
@@ -83,6 +90,7 @@ const REPLACE_TEMPLATES: &[&str] = &[
     "transliteration",
     "section link",
     "crossreference",
+    "crossref",
     "lang",
     "isbn"
 ];
