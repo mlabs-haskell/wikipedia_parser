@@ -84,7 +84,12 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "according to whom",
     "anarchism",
     "basic forms of government",
-    "anchor"
+    "anchor",
+    "blp",
+    "primary source",
+    "performance",
+    "#tag",
+    "fact"
 ];
 
 const MAPPERS: &[(&str, &str)] = &[
@@ -92,8 +97,7 @@ const MAPPERS: &[(&str, &str)] = &[
     ("'", "'"),
     ("'\"", "'\""),
     ("spaces", " "),
-    ("snd", " - "),
-    ("r", "")
+    ("snd", " - ")
 ];
 
 const REPLACE_TEMPLATES: &[&str] = &[
@@ -107,7 +111,8 @@ const REPLACE_TEMPLATES: &[&str] = &[
     "crossreference",
     "crossref",
     "lang",
-    "isbn"
+    "isbn",
+    "oclc"
 ];
 
 const MONTHS: &[&str] = &[
@@ -230,12 +235,13 @@ pub fn filter_templates(input: String) -> (bool, String) {
                 return (false, s);
             }
         },
+        "r" => return (false, String::new()),
         _ => ()
     }
 
     // Handle cases that need actual parsing
     if parts[0].to_lowercase().starts_with("quote") {
-        let tags = process_tags(&parts, &[]);
+        let tags = process_tags(&parts, &["quote"]);
 
         let quote = tags["quote"];
         let author = tags.get("author");
@@ -372,6 +378,20 @@ pub fn filter_templates(input: String) -> (bool, String) {
             }
             return (true, book.to_string());
         }
+    }
+
+    // Parse ordered lists
+    if parts[0].to_lowercase().starts_with("ordered list") {
+        let mut list_items = Vec::new();
+        for &tag in &parts[1..] {
+            let mut tag_pieces = tag.split('=');
+            let first_piece = tag_pieces.next().unwrap();
+            if first_piece.ends_with('\\') || first_piece.ends_with("{{") {
+                list_items.push(tag);
+            }
+        }
+
+        return (true, list_items.join("\n"));
     }
 
     (false, String::from("{{") + &input + "}}")

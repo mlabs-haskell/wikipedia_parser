@@ -85,7 +85,7 @@ fn list_parser(input: &str) -> IResult<&str, String> {
             tuple((
                 tag("\n"),
                 many1(
-                    one_of("*:;")
+                    one_of("*:;#")
                 )
             )), 
             general_content_parser, 
