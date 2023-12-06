@@ -77,7 +77,11 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "elucidate",
     "dubious",
     "vague",
-    "specify"
+    "specify",
+    "italic",
+    "image",
+    "music",
+    "according to whom"
 ];
 
 const MAPPERS: &[(&str, &str)] = &[

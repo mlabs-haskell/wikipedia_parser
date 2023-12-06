@@ -24,7 +24,8 @@ const REMOVE_SECTIONS: &[&str] = &[
     "bibliography" ,
     "explanatory notes",
     "citations",
-    "general bibliography"
+    "general bibliography",
+    "notes and references"
 ];
 
 // Take a given wikitext-formatted string and extract the useful text
@@ -259,7 +260,8 @@ fn html_code_parser(input: &str) -> IResult<&str, String> {
             alt((
                 helper("imagemap"),
                 helper("gallery"),
-                helper("math")
+                helper("math"),
+                helper("score")
             )),
             |_| String::new()
         )
