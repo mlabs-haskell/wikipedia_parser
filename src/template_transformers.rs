@@ -70,7 +70,14 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "algeria",
     "unreliable source",
     "page needed",
-    "wiktionary"
+    "wiktionary",
+    "clarify",
+    "ambiguous",
+    "clarify",
+    "elucidate",
+    "dubious",
+    "vague",
+    "specify"
 ];
 
 const MAPPERS: &[(&str, &str)] = &[
@@ -78,7 +85,8 @@ const MAPPERS: &[(&str, &str)] = &[
     ("'", "'"),
     ("'\"", "'\""),
     ("spaces", " "),
-    ("snd", " - ")
+    ("snd", " - "),
+    ("r", "")
 ];
 
 const REPLACE_TEMPLATES: &[&str] = &[
@@ -337,6 +345,27 @@ pub fn filter_templates(input: String) -> (bool, String) {
             }
 
             return (false, output);
+        }
+    }
+
+    // Parse bibe verses blocks
+    if parts[0].to_lowercase().starts_with("bibleverse") {
+        let tags = process_tags(&parts, &["book", "verse", "version", "text"]);
+
+        let book = tags.get("book");
+        let verse = tags.get("verse");
+        let text = tags.get("text");
+
+        if let Some(text) = text {
+            return (true, text.to_string());
+        }
+        else {
+            if let Some(book) = book {
+                if let Some(verse) = verse {
+                    return (true, format!("{}, {}", book, verse));
+                }
+                return (true, book.to_string());
+            }
         }
     }
 
