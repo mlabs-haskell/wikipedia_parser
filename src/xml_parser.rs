@@ -12,7 +12,8 @@ const DIR: &str = "output/";
 
 pub struct XMLParser<F: Fn(&[u8]) -> String> {
     text_processor: F,
-    reader: Reader<BufReader<File>>
+    reader: Reader<BufReader<File>>,
+    num_articles: usize
 }
 
 impl<F: Fn(&[u8]) -> String> XMLParser<F> {
@@ -20,7 +21,8 @@ impl<F: Fn(&[u8]) -> String> XMLParser<F> {
         let reader = Reader::from_file(filename)?;
         Ok(Self {
             text_processor,
-            reader
+            reader,
+            num_articles: 0
         })
     }
 
@@ -117,9 +119,18 @@ impl<F: Fn(&[u8]) -> String> XMLParser<F> {
     
         // Skip technical articles about Wikipedia itself
         let title = str::from_utf8(&title)?;
-        if !title.starts_with("Wikipedia:") && !title.starts_with("Portal:") {
-            let text = (self.text_processor)(&text);
-            write_file(title, &text)?;
+        if !title.starts_with("Wikipedia:") 
+            && !title.starts_with("Portal:") 
+            && !title.starts_with("File:") 
+            && !title.starts_with("Template:") 
+            && !title.starts_with("Category:") 
+        {
+            if self.num_articles % 100 == 0 {
+                println!("Writing file number {}: {}", self.num_articles, title);
+            }
+            //let text = (self.text_processor)(&text);
+            write_file(title, &String::from_utf8(text).unwrap())?;
+            self.num_articles += 1;
         }
     
         Ok(())
