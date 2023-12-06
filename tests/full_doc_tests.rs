@@ -45,6 +45,11 @@ fn achilles() {
 }
 
 #[test]
+fn alabama() {
+    test_full_doc("Alabama");
+}
+
+#[test]
 fn baby_one_more_time() {
     test_full_doc("...Baby One More Time (album)");
 }
