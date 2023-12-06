@@ -60,6 +60,11 @@ fn anthropology() {
 }
 
 #[test]
+fn apollo_8() {
+    test_full_doc("Apollo 8");
+}
+
+#[test]
 fn baby_one_more_time() {
     test_full_doc("...Baby One More Time (album)");
 }
