@@ -89,7 +89,15 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "primary source",
     "performance",
     "#tag",
-    "fact"
+    "fact",
+    "refimprove",
+    "engvarb",
+    "anthropology",
+    "economic",
+    "medical",
+    "political",
+    "cyber",
+    "full citation needed"
 ];
 
 const MAPPERS: &[(&str, &str)] = &[
@@ -112,7 +120,8 @@ const REPLACE_TEMPLATES: &[&str] = &[
     "crossref",
     "lang",
     "isbn",
-    "oclc"
+    "oclc",
+    "linktext"
 ];
 
 const MONTHS: &[&str] = &[

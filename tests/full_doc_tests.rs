@@ -55,6 +55,11 @@ fn an_american_in_paris() {
 }
 
 #[test]
+fn anthropology() {
+    test_full_doc("Anthropology");
+}
+
+#[test]
 fn baby_one_more_time() {
     test_full_doc("...Baby One More Time (album)");
 }
