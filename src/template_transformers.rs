@@ -97,7 +97,9 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "medical",
     "political",
     "cyber",
-    "full citation needed"
+    "full citation needed",
+    "featured article",
+    "spaceflight"
 ];
 
 const MAPPERS: &[(&str, &str)] = &[
@@ -105,7 +107,8 @@ const MAPPERS: &[(&str, &str)] = &[
     ("'", "'"),
     ("'\"", "'\""),
     ("spaces", " "),
-    ("snd", " - ")
+    ("snd", " - "),
+    ("nbsp", " ")
 ];
 
 const REPLACE_TEMPLATES: &[&str] = &[
@@ -401,6 +404,80 @@ pub fn filter_templates(input: String) -> (bool, String) {
         }
 
         return (true, list_items.join("\n"));
+    }
+
+    // Parse coordinate templates
+    if parts[0].to_lowercase().starts_with("coord") {
+        let tag_pieces: Vec<_> = parts[1..]
+            .iter()
+            .filter(|&s| !s.contains('='))
+            .collect();
+
+        match tag_pieces.len() {
+            2 => {
+                let (lat_letter, lat) = if tag_pieces[0].starts_with('-') {
+                    ('S', &tag_pieces[0][1..])
+                }
+                else {
+                    ('N', *tag_pieces[0])
+                };
+
+                let (long_letter, long) = if tag_pieces[1].starts_with('-') {
+                    ('W', &tag_pieces[0][1..])
+                }
+                else {
+                    ('E', *tag_pieces[0])
+                };
+
+                return (
+                    false, 
+                    format!(
+                        "{}\u{00B0}{} {}\u{00B0}{}", 
+                        lat, 
+                        lat_letter, 
+                        long, 
+                        long_letter
+                    )
+                );
+            },
+            4 => return (
+                false, 
+                format!(
+                    "{}\u{00B0}{} {}\u{00B0}{}", 
+                    tag_pieces[0], 
+                    tag_pieces[1], 
+                    tag_pieces[2], 
+                    tag_pieces[3]
+                )
+            ),
+            6 => return (
+                false, 
+                format!(
+                    "{}\u{00B0}{}'{} {}\u{00B0}{}'{}", 
+                    tag_pieces[0], 
+                    tag_pieces[1], 
+                    tag_pieces[2], 
+                    tag_pieces[3],
+                    tag_pieces[4],
+                    tag_pieces[5]
+                )
+            ),
+            8 => return (
+                false, 
+                format!(
+                    "{}\u{00B0}{}'{}\"{} {}\u{00B0}{}'{}\"{}", 
+                    tag_pieces[0], 
+                    tag_pieces[1], 
+                    tag_pieces[2], 
+                    tag_pieces[3],
+                    tag_pieces[4],
+                    tag_pieces[5],
+                    tag_pieces[6],
+                    tag_pieces[7]
+                )
+            ),
+            _ => ()
+        }
     }
 
     (false, String::from("{{") + &input + "}}")
