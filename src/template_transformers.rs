@@ -104,7 +104,12 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "location",
     "listen",
     "shy",
-    "pb"
+    "pb",
+    "ancient greek religion",
+    "small",
+    "chart",
+    "multiple issues",
+    "globalize"
 ];
 
 const MAPPERS: &[(&str, &str)] = &[
@@ -114,7 +119,8 @@ const MAPPERS: &[(&str, &str)] = &[
     ("spaces", " "),
     ("snd", " - "),
     ("nbsp", " "),
-    ("'s", "'s")
+    ("'s", "'s"),
+    ("en dash", "\u{2013}")
 ];
 
 const REPLACE_TEMPLATES: &[&str] = &[
@@ -130,7 +136,8 @@ const REPLACE_TEMPLATES: &[&str] = &[
     "lang",
     "isbn",
     "oclc",
-    "linktext"
+    "linktext",
+    "avoid wrap"
 ];
 
 const MONTHS: &[&str] = &[
@@ -182,7 +189,7 @@ pub fn filter_templates(input: String) -> (bool, String) {
     let mapping = MAPPERS
         .iter()
         .find_map(|&(s, r)| {
-            if s == input {
+            if s == input.to_lowercase() {
                 Some(r)
             }
             else {
@@ -254,6 +261,13 @@ pub fn filter_templates(input: String) -> (bool, String) {
             }
         },
         "r" => return (false, String::new()),
+        "bce" => {
+            for part in &parts[1..] {
+                if !part.contains('=') {
+                    return (true, part.to_string() + " BCE");
+                }
+            }
+        },
         _ => ()
     }
 

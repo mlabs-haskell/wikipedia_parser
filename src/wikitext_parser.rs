@@ -25,7 +25,8 @@ const REMOVE_SECTIONS: &[&str] = &[
     "explanatory notes",
     "citations",
     "general bibliography",
-    "notes and references"
+    "notes and references",
+    "sources"
 ];
 
 // Take a given wikitext-formatted string and extract the useful text
