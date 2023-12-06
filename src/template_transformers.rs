@@ -109,7 +109,8 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "small",
     "chart",
     "multiple issues",
-    "globalize"
+    "globalize",
+    "broader"
 ];
 
 const MAPPERS: &[(&str, &str)] = &[
@@ -137,7 +138,10 @@ const REPLACE_TEMPLATES: &[&str] = &[
     "isbn",
     "oclc",
     "linktext",
-    "avoid wrap"
+    "avoid wrap",
+    "pslink",
+    "notatypo",
+    "keypress"
 ];
 
 const MONTHS: &[&str] = &[
@@ -216,7 +220,7 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Handle simple map cases
-    match parts[0].to_lowercase().as_str() {
+    match parts[0].to_lowercase().trim() {
         "sclass" => return (false, format!("{}-class {}", parts[1].trim(), parts[2].trim())),
         "uss" | "hms" | "hmnzs" => {
             let s = if parts.len() == 2 {
@@ -261,12 +265,21 @@ pub fn filter_templates(input: String) -> (bool, String) {
             }
         },
         "r" => return (false, String::new()),
-        "bce" => {
+        "bce" | "ce" => {
             for part in &parts[1..] {
                 if !part.contains('=') {
-                    return (true, part.to_string() + " BCE");
+                    return (true, part.to_string() + " " + parts[0]);
                 }
             }
+        },
+        "ietf rfc" => {
+            let numbers: Vec<_> = parts
+                .iter()
+                .skip(1)
+                .filter(|s| !s.contains('='))
+                .map(|&s| s)
+                .collect();
+            return (false, format!("RFC {}", numbers.join(", ")));
         },
         _ => ()
     }
@@ -295,7 +308,9 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Blockquotes are distinct from quote blocks.
-    if parts[0].to_lowercase().starts_with("blockquote") {
+    if parts[0].to_lowercase().starts_with("blockquote") ||
+        parts[0].to_lowercase().starts_with("quotation")
+    {
         let tags = process_tags(&parts, &["text", "author"]);
 
         let text = tags["text"];
@@ -465,7 +480,9 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Parse ordered lists
-    if parts[0].to_lowercase().starts_with("ordered list") {
+    if parts[0].to_lowercase().starts_with("ordered list") ||
+        parts[0].to_lowercase().starts_with("unbulleted list")
+    {
         let mut list_items = Vec::new();
         for &tag in &parts[1..] {
             let mut tag_pieces = tag.split('=');
