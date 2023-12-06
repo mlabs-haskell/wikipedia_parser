@@ -116,12 +116,15 @@ const REMOVE_TEMPLATES: &[&str] = &[
 const MAPPERS: &[(&str, &str)] = &[
     ("--)", ")"),
     ("'", "'"),
+    ("' \"", "'\""),
+    ("\" '", "\"'"),
     ("'\"", "'\""),
     ("spaces", " "),
     ("snd", " - "),
     ("nbsp", " "),
     ("'s", "'s"),
-    ("en dash", "\u{2013}")
+    ("en dash", "\u{2013}"),
+    ("year", "2024")
 ];
 
 const REPLACE_TEMPLATES: &[&str] = &[
@@ -141,7 +144,8 @@ const REPLACE_TEMPLATES: &[&str] = &[
     "avoid wrap",
     "pslink",
     "notatypo",
-    "keypress"
+    "keypress",
+    "née"
 ];
 
 const MONTHS: &[&str] = &[
@@ -281,6 +285,7 @@ pub fn filter_templates(input: String) -> (bool, String) {
                 .collect();
             return (false, format!("RFC {}", numbers.join(", ")));
         },
+        "oldstyledateny" => return (true, parts[1].to_string()),
         _ => ()
     }
 
@@ -412,7 +417,9 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Parse "as of" blocks
-    if parts[0].to_lowercase().starts_with("as of") {
+    if parts[0].to_lowercase().starts_with("as of") ||
+        parts[0].to_lowercase().starts_with("asof")
+    {
         let tags = process_tags(&parts, &["year", "month", "day"]);
 
         let alt = tags.get("alt");
@@ -432,7 +439,13 @@ pub fn filter_templates(input: String) -> (bool, String) {
                 "Since ".to_string()
             }
             else {
-                parts[0].to_string() + " "
+                let as_of = if parts[0].chars().next() == Some('A') {
+                    "As of"
+                }
+                else {
+                    "as of"
+                };
+                as_of.to_string() + " "
             };
 
             if let Some(day) = day {
@@ -584,9 +597,11 @@ where
     for tag in &parts[1..] {
         let tag_pieces: Vec<_> = tag.split('=').map(|s| s.trim()).collect();
         if tag_pieces.len() == 1 {
-            let tag_name = untagged_order[untagged_count];
-            tags.insert(tag_name, tag);
-            untagged_count += 1;
+            if untagged_count < untagged_order.len() {
+                let tag_name = untagged_order[untagged_count];
+                tags.insert(tag_name, tag);
+                untagged_count += 1;
+            }
         }
         else {
             let tag_name = tag_pieces[0];
