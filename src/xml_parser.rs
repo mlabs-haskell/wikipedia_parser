@@ -34,9 +34,9 @@ impl<F: Fn(&[u8]) -> String> XMLParser<F> {
                     self.parse_mediawiki()
                 }
                 else {
-                    return Err(Error::TextNotFound)
+                    Err(Error::TextNotFound)
                 },
-            _ => return Err(Error::TextNotFound)
+            _ => Err(Error::TextNotFound)
         }
     }
 
@@ -78,14 +78,11 @@ impl<F: Fn(&[u8]) -> String> XMLParser<F> {
                 Err(e) => self.terminate(e),
                 Ok(Event::Empty(e)) => {
                     let tag = e.name().into_inner();
-                    match tag {
-                        b"redirect" => {
-                            // We don't care about redirect pages
-                            let mut garbage = Vec::new();
-                            self.reader.read_to_end_into(QName(b"page"), &mut garbage)?;
-                            return Ok(())
-                        },
-                        _ => ()
+                    if tag == b"redirect" {
+                        // We don't care about redirect pages
+                        let mut garbage = Vec::new();
+                        self.reader.read_to_end_into(QName(b"page"), &mut garbage)?;
+                        return Ok(())
                     }
                 },
                 Ok(Event::Start(e)) => {
@@ -122,7 +119,7 @@ impl<F: Fn(&[u8]) -> String> XMLParser<F> {
         let title = str::from_utf8(&title)?;
         if !title.starts_with("Wikipedia:") && !title.starts_with("Portal:") {
             let text = (self.text_processor)(&text);
-            write_file(&title, &text)?;
+            write_file(title, &text)?;
         }
     
         Ok(())
@@ -184,7 +181,7 @@ impl<F: Fn(&[u8]) -> String> XMLParser<F> {
 
 fn write_file(title: &str, text: &str) -> Result<()> {
     let dir = String::from(DIR);
-    let title = title.replace("/", "_");
+    let title = title.replace('/', "_");
     let path = dir + &title + ".txt";
 
     let mut file = File::create(path);

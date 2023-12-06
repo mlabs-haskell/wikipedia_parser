@@ -43,9 +43,7 @@ pub fn extract_text(input: &[u8]) -> String {
     // Remove all double (or more) carriage returns
     let re = Regex::new(r"\n\n+").unwrap();
     let output = re.replace_all(&output, "\n");
-    let output = output.to_string();
-
-    output
+    output.to_string()
 }
 
 // Nom parser that allows us to extract needed text while knowing the article structure
@@ -60,9 +58,7 @@ fn article_parser(input: &str) -> String {
 
     // Perform some final cleanup
     let output = output.trim().to_owned();
-    let output = output.replace("(pronounced )", "");
-
-    output
+    output.replace("(pronounced )", "")
 }
 
 // If next item is special, parse it. Otherwise, move forward one char
@@ -186,7 +182,7 @@ fn ref_parser(input: &str) -> IResult<&str, String> {
     )(input)?;
 
     // If the tag is empty, we have consumed it and we are done
-    if tag_attrs.ends_with("/") {
+    if tag_attrs.ends_with('/') {
         Ok((input, String::new()))
     }
 
@@ -331,7 +327,7 @@ fn link_parser(input: &str) -> IResult<&str, String> {
                 String::new()
             }
             else {
-                s.split("|").last().unwrap().to_owned()
+                s.split('|').last().unwrap().to_owned()
             }
         }
     )(input)

@@ -156,7 +156,7 @@ pub fn filter_templates(input: String) -> (bool, String) {
     let mapping = MAPPERS
         .iter()
         .find_map(|&(s, r)| {
-            if s == &input {
+            if s == input {
                 Some(r)
             }
             else {
@@ -174,7 +174,7 @@ pub fn filter_templates(input: String) -> (bool, String) {
         .iter()
         .any(|&s| parts[0].to_lowercase().starts_with(s));
     if replace {
-        let parts: Vec<_> = parts.iter().filter(|&s| !s.contains("=")).collect();
+        let parts: Vec<_> = parts.iter().filter(|&s| !s.contains('=')).collect();
         let num_parts = parts.len();
         return (true, parts[num_parts - 1].to_string());
     }
@@ -363,17 +363,15 @@ pub fn filter_templates(input: String) -> (bool, String) {
         if let Some(text) = text {
             return (true, text.to_string());
         }
-        else {
-            if let Some(book) = book {
-                if let Some(verse) = verse {
-                    return (true, format!("{}, {}", book, verse));
-                }
-                return (true, book.to_string());
+        else if let Some(book) = book {
+            if let Some(verse) = verse {
+                return (true, format!("{}, {}", book, verse));
             }
+            return (true, book.to_string());
         }
     }
 
-    return (false, String::from("{{") + &input + "}}");
+    (false, String::from("{{") + &input + "}}")
 }
 
 fn process_tags<'a, 'b>(
@@ -386,7 +384,7 @@ where
     let mut tags: HashMap<&str, &str> = HashMap::new();
     let mut untagged_count = 0;
     for tag in &parts[1..] {
-        let tag_pieces: Vec<_> = tag.split("=").map(|s| s.trim()).collect();
+        let tag_pieces: Vec<_> = tag.split('=').map(|s| s.trim()).collect();
         if tag_pieces.len() == 1 {
             let tag_name = untagged_order[untagged_count];
             tags.insert(tag_name, tag);
