@@ -99,7 +99,12 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "cyber",
     "full citation needed",
     "featured article",
-    "spaceflight"
+    "spaceflight",
+    "apollo",
+    "location",
+    "listen",
+    "shy",
+    "pb"
 ];
 
 const MAPPERS: &[(&str, &str)] = &[
@@ -108,7 +113,8 @@ const MAPPERS: &[(&str, &str)] = &[
     ("'\"", "'\""),
     ("spaces", " "),
     ("snd", " - "),
-    ("nbsp", " ")
+    ("nbsp", " "),
+    ("'s", "'s")
 ];
 
 const REPLACE_TEMPLATES: &[&str] = &[
@@ -283,6 +289,58 @@ pub fn filter_templates(input: String) -> (bool, String) {
         let title = tags.get("title");
         let source = tags.get("source");
         let character = tags.get("character");
+
+        // Merge the source, title, and author pieces so long as they exist
+        let mut caption_suffix_pieces = LinkedList::new();
+        if let Some(s) = source {
+            caption_suffix_pieces.push_front(s);
+        }
+        if let Some(t) = title {
+            caption_suffix_pieces.push_front(t);
+        }
+        if let Some(a) = author {
+            caption_suffix_pieces.push_front(a);
+        }
+        let caption_suffix = caption_suffix_pieces
+            .into_iter()
+            .map(|s| s.to_owned())
+            .collect::<Vec<_>>()
+            .join(", ");
+
+        // Prepend the character to the caption if it exists
+        let caption = if let Some(c) = character {
+            if caption_suffix.is_empty() {
+                c.to_string()
+            }
+            else {
+                format!("{c}, in {caption_suffix}")
+            }
+        }
+        else {
+            caption_suffix
+        };
+        
+        // Format the quote by adding the source if it exists
+        let output = if caption.is_empty() {
+            text.to_owned()
+        }
+        else {
+            format!("\"{text}\"-{caption}")
+        };
+        return (true, output);
+    }
+
+    // Blockquotes are distinct from quote blocks.
+    if parts[0].to_lowercase().starts_with("poemquote") 
+        || parts[0].to_lowercase().starts_with("poem quote")
+    {
+        let tags = process_tags(&parts, &["text"]);
+
+        let text = tags["text"];
+        let character = tags.get("char");
+        let author = tags.get("author").or(tags.get("sign"));
+        let source = tags.get("source");
+        let title = tags.get("title");
 
         // Merge the source, title, and author pieces so long as they exist
         let mut caption_suffix_pieces = LinkedList::new();
