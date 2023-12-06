@@ -81,7 +81,10 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "italic",
     "image",
     "music",
-    "according to whom"
+    "according to whom",
+    "anarchism",
+    "basic forms of government",
+    "anchor"
 ];
 
 const MAPPERS: &[(&str, &str)] = &[
