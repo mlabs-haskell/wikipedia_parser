@@ -152,7 +152,8 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                     // Templates that can start tables
                     tag_no_case("{{Awards table"),
                     tag_no_case("{{Certification Table Top"),
-                    tag_no_case("{{col-begin")
+                    tag_no_case("{{col-begin"),
+                    tag_no_case("{{NRHP header}}")
                 )),
                 general_content_parser,
                 tag("|}")

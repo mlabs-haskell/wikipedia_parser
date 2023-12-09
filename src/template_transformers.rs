@@ -25,6 +25,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "broader",
     "by whom",
     "canadian party colour",
+    "cbb roster",
     "cbb schedule entry",
     "cbignore",
     "certification cite ref",
@@ -73,6 +74,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "football box",
     "footballbox",
     "for",
+    "france metadata wikidata",
     "full citation needed",
     "further",
     "globalize",
@@ -82,6 +84,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "harvnb",
     "hermeticism",
     "hidden",
+    "hs",
     "image",
     "imdb",
     "in lang",
@@ -108,6 +111,8 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "multiple issues",
     "music ratings",
     "music",
+    "nhle",
+    "nhrp row",
     "notelist",
     "nts",
     "official website",
@@ -124,6 +129,9 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "portal",
     "pp-protected",
     "pp",
+    "presfoot",
+    "preshead",
+    "presrow",
     "primary source",
     "rating",
     "redirect",
@@ -149,6 +157,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "spaceflight",
     "speciesbox",
     "specify",
+    "subon",
     "succession box",
     "sup",
     "table",
@@ -157,11 +166,13 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "toc",
     "track listing",
     "undue weight section",
+    "unreferenced",
     "unreferenced section",
     "unreliable source",
     "update",
     "url",
     "us census population",
+    "usa",
     "use",
     "vague",
     "webarchive",
@@ -203,6 +214,7 @@ const REPLACE_TEMPLATES: &[&str] = &[
     "fb",
     "flag",
     "flagu",
+    "flatlist",
     "isbn",
     "m+j",
     "keypress",
@@ -404,6 +416,11 @@ pub fn filter_templates(input: String) -> (bool, String) {
 
             return (true, vals.join(" "))
         },
+        "fbu" | "fb-rt" => return (true, params[1].to_string()),
+        "ship" => return (true, params.join(" ")),
+        "flagmedalist" => return (true, format!("{} ({})", params[0], params[1])),
+        "party name with colour" | "party name with color" => 
+            return (true, params[1].to_string()),
         _ => ()
     }
 
@@ -986,6 +1003,20 @@ pub fn filter_templates(input: String) -> (bool, String) {
             .map(|(name, val)| format!("{} {}", val, name))
             .collect::<Vec<_>>();
         return (false, units.join(" "));
+    }
+
+    // Parse val templates
+    if template_name == "val" {
+        let tag_pieces: Vec<_> = params
+            .iter()
+            .filter(|&s| !s.contains('='))
+            .collect();
+
+        match tag_pieces.len() {
+            1 | 3 => return (true, tag_pieces[0].to_string()),
+            2 => return (true, tag_pieces[0].to_string() + "±" + tag_pieces[1]),
+            _ => ()
+        }
     }
 
     (false, String::from("{{") + &input + "}}")
