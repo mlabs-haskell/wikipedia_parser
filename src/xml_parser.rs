@@ -124,9 +124,10 @@ impl<F: Fn(&[u8]) -> String> XMLParser<F> {
             && !title.starts_with("File:") 
             && !title.starts_with("Template:") 
             && !title.starts_with("Category:") 
+            && !title.starts_with("Draft:")
         {
             if self.num_articles % 100 == 0 {
-                println!("Writing file number {}: {}", self.num_articles, title);
+                println!("Processing file number {}: {}", self.num_articles, title);
             }
             //let text = (self.text_processor)(&text);
             write_file(title, &String::from_utf8(text).unwrap())?;
@@ -192,7 +193,8 @@ impl<F: Fn(&[u8]) -> String> XMLParser<F> {
 
 fn write_file(title: &str, text: &str) -> Result<()> {
     let dir = String::from(DIR);
-    let title = title.replace('/', "_");
+    let title = title.replace(|c: char| !c.is_alphanumeric(), "_");
+    let title: String = title.chars().take(100).collect();
     let path = dir + &title + ".txt";
 
     let mut file = File::create(path);
