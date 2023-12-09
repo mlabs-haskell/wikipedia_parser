@@ -157,7 +157,7 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                 tag("|}")
             ),
 
-            // Some tables have odd headers and footers
+            // Some tables have templated headers and footers
             look_ahead_delimited(
                 tag_no_case("{{Certification Table Top"),
                 general_content_parser,
@@ -167,6 +167,16 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                 tag_no_case("{{Refbegin"),
                 general_content_parser,
                 tag_no_case("{{Refend}}")
+            ),
+            look_ahead_delimited(
+                tag_no_case("{{Football squad start}}"),
+                general_content_parser,
+                tag_no_case("{{Football squad end}}")
+            ),
+            look_ahead_delimited(
+                tag_no_case("{{election box begin"),
+                general_content_parser,
+                tag_no_case("{{election box end}}")
             )
         )),
         |_| String::new()

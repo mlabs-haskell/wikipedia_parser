@@ -129,8 +129,8 @@ impl<F: Fn(&[u8]) -> String> XMLParser<F> {
             if self.num_articles % 100 == 0 {
                 println!("Processing file number {}: {}", self.num_articles, title);
             }
-            //let text = (self.text_processor)(&text);
-            write_file(title, &String::from_utf8(text).unwrap())?;
+            let text = (self.text_processor)(&text);
+            write_file(title, &text)?;
             self.num_articles += 1;
         }
     

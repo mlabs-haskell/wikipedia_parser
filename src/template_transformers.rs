@@ -1,116 +1,136 @@
 use std::collections::{LinkedList, HashMap};
 
 const REMOVE_TEMPLATES: &[&str] = &[
-    "further",
-    "letter other reps",
-    "certification cite ref",
-    "clear",
-    "charmap",
-    "main article",
-    "use",
-    "good article",
-    "infobox",
-    "hidden",
-    "efn",
-    "see also",
-    "music ratings",
-    "awards table",
-    "track listing",
-    "sup",
-    "div",
-    "col",
-    "album chart",
-    "certification table",
-    "notelist",
-    "reflist",
-    "cite",
-    "short description",
+    "#tag",
     "about",
-    "pp-protected",
-    "technical reasons",
-    "latin letter",
-    "refn",
-    "other uses",
-    "pp",
-    "toc",
-    "main",
-    "sfn",
-    "ipa", // TODO: We can probably do something with IPA pronunciations
-    "respell", // This is another IPA-related item
-    "multiple image",
-    "cleanup",
-    "wikisource",
-    "css",
+    "according to whom",
     "additional citation needed",
+    "agriculture",
+    "alabama",
+    "album chart",
+    "algeria",
+    "ambiguous",
+    "anarchism",
+    "anchor",
+    "ancient greek religion",
+    "anthropology",
+    "apollo",
+    "authority control",
+    "awards table",
+    "basic forms of government",
+    "blp",
+    "broader",
+    "by whom",
+    "certification cite ref",
+    "certification table",
+    "charmap",
+    "chart",
+    "citation",
+    "cite",
+    "clarify",
+    "clarify",
+    "cleanup",
+    "clear",
+    "cn",
+    "col",
+    "commons",
+    "contains special characters",
+    "css",
+    "cyber",
+    "date table sorting",
+    "defaultsort",
+    "div",
+    "dts", // If this turns out to be used outside of a table, we'll need to handle it
+    "dubious",
+    "economic",
+    "efn",
+    "election box",
+    "elucidate",
+    "engvarb",
+    "episode list",
+    "esotericism",
+    "etymology",
+    "excerpt",
+    "expand",
+    "fact",
+    "failed verification",
+    "featured article",
+    "flagcountry",
+    "flagicon",
+    "football box",
+    "footballbox",
+    "full citation needed",
+    "further",
+    "globalize",
+    "good article",
+    "goal",
+    "greek myth",
+    "hermeticism",
+    "hidden",
+    "image",
+    "in lang",
     "inflation",
+    "infobox",
+    "ipa", // TODO: We can probably do something with IPA pronunciations
+    "italic",
+    "largest cities",
+    "latin letter",
     "legend",
+    "letter other reps",
+    "listen",
+    "location",
+    "main article",
+    "main",
+    "maplink",
+    "medical",
+    "more citations needed",
+    "multiple image",
+    "multiple issues",
+    "music ratings",
+    "music",
+    "n/a",
+    "notelist",
+    "other uses",
+    "page needed",
+    "party color",
+    "party shading",
+    "pb",
+    "performance",
+    "political",
+    "pp-protected",
+    "pp",
+    "primary source",
     "redirect",
+    "refimprove",
+    "reflist",
+    "refn",
+    "relevance",
+    "respell", // This is another IPA-related item
+    "rp",
+    "see also",
+    "sfn",
+    "short description",
+    "shy",
+    "small",
+    "spaceflight",
+    "specify",
+    "sup",
+    "table",
+    "taxonbar",
+    "technical reasons",
+    "toc",
+    "track listing",
     "undue weight section",
     "unreferenced section",
-    "relevance",
-    "greek myth",
-    "more citations needed",
-    "agriculture",
-    "by whom",
-    "rp",
-    "maplink",
-    "alabama",
-    "us census population",
-    "expand",
-    "citation needed",
-    "etymology",
-    "update",
-    "cn",
-    "failed verification",
-    "esotericism",
-    "hermeticism",
-    "contains special characters",
-    "excerpt",
-    "largest cities",
-    "algeria",
     "unreliable source",
-    "page needed",
-    "wiktionary",
-    "clarify",
-    "ambiguous",
-    "clarify",
-    "elucidate",
-    "dubious",
+    "update",
+    "us census population",
+    "use",
     "vague",
-    "specify",
-    "italic",
-    "image",
-    "music",
-    "according to whom",
-    "anarchism",
-    "basic forms of government",
-    "anchor",
-    "blp",
-    "primary source",
-    "performance",
-    "#tag",
-    "fact",
-    "refimprove",
-    "engvarb",
-    "anthropology",
-    "economic",
-    "medical",
-    "political",
-    "cyber",
-    "full citation needed",
-    "featured article",
-    "spaceflight",
-    "apollo",
-    "location",
-    "listen",
-    "shy",
-    "pb",
-    "ancient greek religion",
-    "small",
-    "chart",
-    "multiple issues",
-    "globalize",
-    "broader"
+    "webarchive",
+    "wikisource",
+    "wiktionary",
+    "yel"
 ];
 
 const MAPPERS: &[(&str, &str)] = &[
@@ -124,28 +144,32 @@ const MAPPERS: &[(&str, &str)] = &[
     ("nbsp", " "),
     ("'s", "'s"),
     ("en dash", "\u{2013}"),
-    ("year", "2024")
+    ("year", "2024"),
+    ("!", "!")
 ];
 
 const REPLACE_TEMPLATES: &[&str] = &[
-    "sic",
-    "vr",
-    "script",
-    "midsize",
-    "nowrap",
-    "transliteration",
-    "section link",
-    "crossreference",
-    "crossref",
-    "lang",
-    "isbn",
-    "oclc",
-    "linktext",
     "avoid wrap",
-    "pslink",
-    "notatypo",
+    "center",
+    "crossref",
+    "crossreference",
+    "flag",
+    "isbn",
+    "m+j",
     "keypress",
-    "née"
+    "lang",
+    "linktext",
+    "midsize",
+    "née",
+    "notatypo",
+    "nowrap",
+    "oclc",
+    "pslink",
+    "script",
+    "section link",
+    "sic",
+    "transliteration",
+    "vr",
 ];
 
 const MONTHS: &[&str] = &[
@@ -208,7 +232,7 @@ pub fn filter_templates(input: String) -> (bool, String) {
         return (false, mapping.to_string());
     }
 
-    // Handle templates that should be replaced with its last portion
+    // Handle templates that should be replaced with its last parameter
     let parts: Vec<_> = input.split('|').collect();
     let num_parts = parts.len();
     let replace = REPLACE_TEMPLATES
@@ -286,16 +310,18 @@ pub fn filter_templates(input: String) -> (bool, String) {
             return (false, format!("RFC {}", numbers.join(", ")));
         },
         "oldstyledateny" => return (true, parts[1].to_string()),
+        "sortname" => return (true, parts[1].to_string() + " " + parts[2]),
+        "mp" | "minor planet" => return (true, parts[1..].join(" ")),
         _ => ()
     }
 
     // Handle cases that need actual parsing
     if parts[0].to_lowercase().starts_with("quote") {
-        let tags = process_tags(&parts, &["quote"]);
+        let params = get_params(&parts, &["quote"]);
 
-        let quote = tags["quote"];
-        let author = tags.get("author");
-        let source = tags.get("source");
+        let quote = params["quote"];
+        let author = params.get("author");
+        let source = params.get("source");
 
         let caption = 
             if let Some((author, source)) = author.zip(source) {
@@ -316,13 +342,13 @@ pub fn filter_templates(input: String) -> (bool, String) {
     if parts[0].to_lowercase().starts_with("blockquote") ||
         parts[0].to_lowercase().starts_with("quotation")
     {
-        let tags = process_tags(&parts, &["text", "author"]);
+        let params = get_params(&parts, &["text", "author"]);
 
-        let text = tags["text"];
-        let author = tags.get("author").or(tags.get("sign"));
-        let title = tags.get("title");
-        let source = tags.get("source");
-        let character = tags.get("character");
+        let text = params["text"];
+        let author = params.get("author").or(params.get("sign"));
+        let title = params.get("title");
+        let source = params.get("source");
+        let character = params.get("character");
 
         // Merge the source, title, and author pieces so long as they exist
         let mut caption_suffix_pieces = LinkedList::new();
@@ -368,13 +394,13 @@ pub fn filter_templates(input: String) -> (bool, String) {
     if parts[0].to_lowercase().starts_with("poemquote") 
         || parts[0].to_lowercase().starts_with("poem quote")
     {
-        let tags = process_tags(&parts, &["text"]);
+        let params = get_params(&parts, &["text"]);
 
-        let text = tags["text"];
-        let character = tags.get("char");
-        let author = tags.get("author").or(tags.get("sign"));
-        let source = tags.get("source");
-        let title = tags.get("title");
+        let text = params["text"];
+        let character = params.get("char");
+        let author = params.get("author").or(params.get("sign"));
+        let source = params.get("source");
+        let title = params.get("title");
 
         // Merge the source, title, and author pieces so long as they exist
         let mut caption_suffix_pieces = LinkedList::new();
@@ -420,16 +446,16 @@ pub fn filter_templates(input: String) -> (bool, String) {
     if parts[0].to_lowercase().starts_with("as of") ||
         parts[0].to_lowercase().starts_with("asof")
     {
-        let tags = process_tags(&parts, &["year", "month", "day"]);
+        let params = get_params(&parts, &["year", "month", "day"]);
 
-        let alt = tags.get("alt");
-        let year = tags.get("year");
-        let month = tags
+        let alt = params.get("alt");
+        let year = params.get("year");
+        let month = params
             .get("month")
             .and_then(|s| s.parse::<usize>().ok().map(|i| MONTHS[i - 1]));
-        let day = tags.get("day");
-        let since = tags.get("since");
-        let post = tags.get("post");
+        let day = params.get("day");
+        let since = params.get("since");
+        let post = params.get("post");
 
         if let Some(alt) = alt {
             return (true, alt.to_string());
@@ -475,11 +501,11 @@ pub fn filter_templates(input: String) -> (bool, String) {
 
     // Parse bibe verses blocks
     if parts[0].to_lowercase().starts_with("bibleverse") {
-        let tags = process_tags(&parts, &["book", "verse", "version", "text"]);
+        let params = get_params(&parts, &["book", "verse", "version", "text"]);
 
-        let book = tags.get("book");
-        let verse = tags.get("verse");
-        let text = tags.get("text");
+        let book = params.get("book");
+        let verse = params.get("verse");
+        let text = params.get("text");
 
         if let Some(text) = text {
             return (true, text.to_string());
@@ -582,32 +608,201 @@ pub fn filter_templates(input: String) -> (bool, String) {
         }
     }
 
+    // Get sorted item from sort templates
+    if parts[0].to_lowercase() == "sort" {
+        let params = get_params(&parts, &["1", "2"]);
+        let sort_item = params.get("2").or(params.get("1"));
+        return (true, sort_item.unwrap_or(&"").to_string());
+    }
+
+    // Get dates
+    if parts[0].to_lowercase() == "start date" {
+        // Get the tags we have and remove empty ones
+        let params = get_params(&parts, &[
+            "year", 
+            "month", 
+            "day", 
+            "hour", 
+            "minute", 
+            "second", 
+            "timezone"
+        ]);
+        let tags: HashMap<_, _> = params
+            .into_iter()
+            .filter(|(_, v)| !v.is_empty())
+            .collect();
+
+        // Collect the tags into variables
+        let year = tags.get("year");
+        let month = tags
+            .get("month")
+            .and_then(|s| s.parse::<usize>().ok().map(|i| MONTHS[i - 1]));
+        let day = tags.get("day");
+        let hour = tags.get("hour");
+        let minute = tags.get("minute");
+        let second = tags.get("second");
+        let timezone = tags.get("timezone").map(|&tz| {
+            if tz == "Z" {
+                "UTC"
+            }
+            else {
+                tz
+            }
+        });
+        
+        // Construct the time piecemeal
+        let mut date_string = String::new();
+        if let Some(year) = year {
+            date_string += year;
+        }
+        
+        if let Some(month) = month {
+            if let Some(day) = day {
+                date_string = format!("{} {}, {}", month, day, date_string);
+            }
+            else {
+                date_string = format!("{} {}", month, date_string);
+            }
+        }
+
+        // Hour can only be displayed if minute also exists
+        if let Some((hour, minute)) = hour.and_then(|h| minute.map(|m| (h, m))) {
+            let mut s = format!("{}:{}", hour, minute);
+            if let Some(second) = second {
+                s += ":";
+                s += second;
+            }
+            date_string = format!("{}, {}", s, date_string);
+        }
+
+        if let Some (timezone) = timezone {
+            date_string = format!("{} ({})", date_string, timezone);
+        }
+
+        return (false, date_string)
+    }
+
+    // Parse lang templates
+    if parts[0].to_lowercase().starts_with("lang") {
+        // Filter named parameters
+        let tag_pieces: Vec<_> = parts[1..]
+            .iter()
+            .filter(|&s| !s.contains('='))
+            .collect();
+        return (true, tag_pieces[tag_pieces.len() - 1].to_string());
+    }
+
+    // Parse athlete flag templates
+    if parts[0].to_lowercase().starts_with("flagathlete") {
+        let params = get_params(&parts, &["name", "country"]);
+        let name = params["name"];
+        let country = params["country"];
+        return (true, format!("{} ({})", name, country));
+    }
+
+    // Parse birthdate and year templates
+    if parts[0].to_lowercase() == "birth date and age" ||
+        parts[0].to_lowercase() == "bda"
+    {
+        let params = get_params(&parts, &["year", "month", "day"]);
+        let year = params["year"];
+        let month = params["month"];
+        let day = params["day"];
+
+        let month = month
+            .parse::<usize>()
+            .map(|m| MONTHS[m - 1])
+            .unwrap_or(month);
+
+        return (false, format!("{month} {day}, {year}"));
+    }
+
+    // Parse rollover abbreviations
+    if parts[0].to_lowercase() == "abbr" {
+        let params = get_params(&parts, &["text", "meaning"]);
+        let text = params["text"];
+        let meaning = params["meaning"];
+        return (true, format!("{} ({})", text, meaning));
+    }
+
+    // Parse Japanese translation helpers
+    if parts[0].to_lowercase() == "nihongo" {
+        let params = get_params(&parts, &["english", "kanji", "romaji", "extra1", "extra2"]);
+        let params: HashMap<_, _> = params
+            .into_iter()
+            .filter(|(_, s)| !s.is_empty())
+            .collect();
+
+        let english = params.get("english");
+        let kanji = params["kanji"];
+        let romaji = params.get("romaji");
+        let extra1 = params.get("extra1");
+        let extra2 = params.get("extra2");
+
+        // Determine main display of text
+        let formatted_text = if let Some(english) = english {
+            english
+        }
+        else if let Some(romaji) = romaji {
+            romaji
+        }
+        else {
+            ""
+        };
+        let mut formatted_text = formatted_text.to_string() + "(" + kanji;
+
+        // Add romaji in parens if english wasn't present
+        if english.is_none() {
+            if let Some(romaji) = romaji {
+                formatted_text += ", ";
+                formatted_text += romaji;
+            }
+        }
+
+        // Add extra1 in parens if present
+        if let Some(extra1) = extra1 {
+            formatted_text += ", ";
+            formatted_text += extra1;
+        }
+
+        // Terminate parens and add extra2 if present
+        formatted_text += ")";
+        if let Some(extra2) = extra2 {
+            formatted_text += " ";
+            formatted_text += extra2;
+        }
+
+        return (true, formatted_text);
+    }
+
     (false, String::from("{{") + &input + "}}")
 }
 
-fn process_tags<'a, 'b>(
+// Get the template parameters. 
+// If a parameter is unnamed, give it the next unused name from unnamed_order
+fn get_params<'a, 'b>(
     parts: &'a [&'a str], 
-    untagged_order: &'b [&'b str]
+    unnamed_order: &'b [&'b str]
 ) -> HashMap<&'a str, &'a str> 
 where
     'b: 'a
 {
-    let mut tags: HashMap<&str, &str> = HashMap::new();
-    let mut untagged_count = 0;
-    for tag in &parts[1..] {
-        let tag_pieces: Vec<_> = tag.split('=').map(|s| s.trim()).collect();
-        if tag_pieces.len() == 1 {
-            if untagged_count < untagged_order.len() {
-                let tag_name = untagged_order[untagged_count];
-                tags.insert(tag_name, tag);
-                untagged_count += 1;
+    let mut params: HashMap<&str, &str> = HashMap::new();
+    let mut unnamed_count = 0;
+    for param in &parts[1..] {
+        let param_pieces: Vec<_> = param.split('=').map(|s| s.trim()).collect();
+        if param_pieces.len() == 1 {
+            if unnamed_count < unnamed_order.len() {
+                let tag_name = unnamed_order[unnamed_count];
+                params.insert(tag_name, param);
+                unnamed_count += 1;
             }
         }
         else {
-            let tag_name = tag_pieces[0];
-            tags.insert(tag_name, tag_pieces[1]);
+            let tag_name = param_pieces[0];
+            params.insert(tag_name, param_pieces[1]);
         }
     }
 
-    tags
+    params
 }
