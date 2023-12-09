@@ -3,6 +3,7 @@ use keshvar::IOC;
 
 const REMOVE_TEMPLATES: &[&str] = &[
     "#tag",
+    "0",
     "about",
     "according to whom",
     "additional citation needed",
@@ -11,6 +12,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "album chart",
     "algeria",
     "ambiguous",
+    "american football roster",
     "anarchism",
     "anchor",
     "ancient greek religion",
@@ -22,9 +24,12 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "blp",
     "broader",
     "by whom",
+    "canadian party colour",
     "cbb schedule entry",
+    "cbignore",
     "certification cite ref",
     "certification table",
+    "cfb schedule entry",
     "charmap",
     "chart",
     "citation",
@@ -42,12 +47,15 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "cyber",
     "date table sorting",
     "dead link",
+    "decrease",
     "defaultsort",
+    "disambiguation",
     "div",
     "dts", // If this turns out to be used outside of a table, we'll need to handle it
     "dubious",
     "economic",
     "efn",
+    "efs player",
     "election box",
     "elucidate",
     "engvarb",
@@ -58,11 +66,13 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "expand",
     "fact",
     "failed verification",
+    "fbaicon",
     "featured article",
     "flagcountry",
     "flagicon",
     "football box",
     "footballbox",
+    "for",
     "full citation needed",
     "further",
     "globalize",
@@ -73,6 +83,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "hermeticism",
     "hidden",
     "image",
+    "imdb",
     "in lang",
     "inflation",
     "infobox",
@@ -80,28 +91,33 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "italic",
     "largest cities",
     "latin letter",
+    "leagueicon",
     "legend",
     "letter other reps",
     "listen",
-    "location",
+    "location map",
+    "london gazette",
     "main article",
     "main",
     "maplink",
+    "math",
+    "medal", 
     "medical",
     "more citations needed",
     "multiple image",
     "multiple issues",
     "music ratings",
     "music",
-    "n/a",
-    "nom",
     "notelist",
     "nts",
+    "official website",
     "other uses",
     "page needed",
     "party color",
     "party shading",
+    "party stripe",
     "pb",
+    "pengoal",
     "performance",
     "plainlist",
     "political",
@@ -109,6 +125,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "pp-protected",
     "pp",
     "primary source",
+    "rating",
     "redirect",
     "refimprove",
     "reflist",
@@ -116,13 +133,23 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "relevance",
     "respell", // This is another IPA-related item
     "rp",
+    "s-aft",
+    "s-bef",
+    "s-end",
+    "s-start",
+    "s-ttl",
     "see also",
     "sfn",
+    "sfnp",
+    "shipwreck list item",
     "short description",
     "shy",
+    "single chart",
     "small",
     "spaceflight",
+    "speciesbox",
     "specify",
+    "succession box",
     "sup",
     "table",
     "taxonbar",
@@ -140,8 +167,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "webarchive",
     "wikisource",
     "wiktionary",
-    "yel",
-    "yes"
+    "yel"
 ];
 
 const MAPPERS: &[(&str, &str)] = &[
@@ -156,7 +182,16 @@ const MAPPERS: &[(&str, &str)] = &[
     ("'s", "'s"),
     ("en dash", "\u{2013}"),
     ("year", "2024"),
-    ("!", "!")
+    ("!", "!"),
+    ("no", "No"),
+    ("yes", "Yes"),
+    ("yes2", "Yes"),
+    ("yes-no", "Yes"),
+    ("won", "Won"),
+    ("nom", "Nominated"),
+    ("n/a", "N/A"),
+    ("r", ""),
+    ("·", "·")
 ];
 
 const REPLACE_TEMPLATES: &[&str] = &[
@@ -167,6 +202,7 @@ const REPLACE_TEMPLATES: &[&str] = &[
     "crossreference",
     "fb",
     "flag",
+    "flagu",
     "isbn",
     "m+j",
     "keypress",
@@ -309,7 +345,6 @@ pub fn filter_templates(input: String) -> (bool, String) {
                 return (false, s);
             }
         },
-        "r" => return (false, String::new()),
         "bce" | "ce" => {
             for param in params {
                 if !param.contains('=') {
@@ -344,9 +379,8 @@ pub fn filter_templates(input: String) -> (bool, String) {
             }
         },
         "jct" => {
-            let vals: Vec<_> = parts
+            let vals: Vec<_> = params
                 .iter()
-                .skip(1)
                 .filter(|s| !s.contains('='))
                 .map(|&s| s)
                 .collect();
@@ -358,6 +392,17 @@ pub fn filter_templates(input: String) -> (bool, String) {
                 .collect();
 
             return (true, highways.join("/"))
+        },
+        "mlbplayer" => return (true, params[1].to_string()),
+        "cr" => return (true, params[0].to_string()),
+        "post-nominals" => {
+            let vals: Vec<_> = params
+                .iter()
+                .filter(|s| !s.contains('='))
+                .map(|&s| s)
+                .collect();
+
+            return (true, vals.join(" "))
         },
         _ => ()
     }
@@ -567,7 +612,8 @@ pub fn filter_templates(input: String) -> (bool, String) {
 
     // Parse ordered lists
     if template_name.starts_with("ordered list") ||
-        template_name.starts_with("unbulleted list")
+        template_name.starts_with("unbulleted list") ||
+        template_name.starts_with("ubl")
     {
         let mut list_items = Vec::new();
         for &param in params {
@@ -582,7 +628,9 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Parse coordinate templates
-    if template_name.starts_with("coord") {
+    if template_name == "coord" ||
+        template_name == "location"
+    {
         let tag_pieces: Vec<_> = params
             .iter()
             .filter(|&s| !s.contains('='))
@@ -663,7 +711,10 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Get dates
-    if template_name == "start date" {
+    if template_name == "start date" ||
+        template_name == "start date and age" ||
+        template_name == "end date"
+    {
         // Get the tags we have and remove empty ones
         let params = get_params(&params, &[
             "year", 
@@ -729,6 +780,36 @@ pub fn filter_templates(input: String) -> (bool, String) {
         return (false, date_string)
     }
 
+    // Get film dates
+    if template_name == "film date" {
+        // Get the tags we have and remove empty ones
+        let params = get_params(&params, &["year", "month", "day"]);
+        let tags: HashMap<_, _> = params
+            .into_iter()
+            .filter(|(_, v)| !v.is_empty())
+            .collect();
+
+        // Collect the tags into variables
+        let year = tags["year"];
+        let month = tags
+            .get("month")
+            .and_then(|s| s.parse::<usize>().ok().map(|i| MONTHS[i - 1]));
+        let day = tags.get("day");
+        
+        // Construct the date piecemeal
+        let mut date_string = year.to_string();
+        
+        if let Some(day) = day {
+            date_string = format!("{}, {}", day, date_string);
+        }
+
+        if let Some(month) = month {
+            date_string = format!("{} {}", month, date_string);
+        }
+
+        return (false, date_string);
+    }
+
     // Parse lang templates
     if template_name.starts_with("lang") {
         // Filter named parameters
@@ -775,6 +856,23 @@ pub fn filter_templates(input: String) -> (bool, String) {
         let text = params["text"];
         let meaning = params["meaning"];
         return (true, format!("{} ({})", text, meaning));
+    }
+
+    // Parse Olympic athletes
+    if template_name == "flagiocathlete" ||
+    template_name == "flagioc2athlete"
+    {
+        let params = get_params(&params, &["name", "country"]);
+        let name = params["name"];
+        let country = params["country"];
+        return (true, format!("{} ({})", name, country));
+    }
+
+    // Parse color boxes
+    if template_name == "color box" {
+        let params = get_params(&params, &["color", "text"]);
+        let text = params.get("text").unwrap_or(&"");
+        return (true, text.to_string());
     }
 
     // Parse Japanese translation helpers
@@ -825,6 +923,69 @@ pub fn filter_templates(input: String) -> (bool, String) {
         }
 
         return (true, formatted_text);
+    }
+
+    // Parse Chinese translation helpers
+    if template_name == "zh" {
+        let params = get_params(&params, &[]);
+
+        let order = [
+            "t",
+            "s",
+            "c",
+            "p",
+            "hp",
+            "tp",
+            "w",
+            "j",
+            "cy",
+            "sl",
+            "poj",
+            "zhu",
+            "l"
+        ];
+        let mut vals = Vec::new();
+        for name in order {
+            params.get(name).map(|&t| vals.push(t));
+        }
+
+        return (true, vals.join("; "))
+    }
+
+    // Parse US house of representatives templates
+    if template_name.starts_with("ushr") {
+        let params = get_params(&params, &["state", "number"]);
+        let state = params["state"];
+        let number = params["number"];
+
+        let number = if number == "AL" {
+            "at-large".to_string()
+        }
+        else {
+            number.to_string() + "th"
+        };
+
+        return (true, format!("{}'s {} congressional district", state, number));
+    }
+
+    // Parse height data
+    if template_name.starts_with("height") {
+        let units = params
+            .iter()
+            .map(|p| p.split('=').map(|s| s.trim()).collect::<Vec<_>>())
+            .map(|v| (v[0], v[1]))
+            .filter(|(name, _)| {
+                ![
+                    "precision",
+                    "frac",
+                    "abbr",
+                    "wiki",
+                    "out"
+                ].contains(&name)
+            })
+            .map(|(name, val)| format!("{} {}", val, name))
+            .collect::<Vec<_>>();
+        return (false, units.join(" "));
     }
 
     (false, String::from("{{") + &input + "}}")

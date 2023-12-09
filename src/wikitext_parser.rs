@@ -151,7 +151,8 @@ fn table_parser(input: &str) -> IResult<&str, String> {
 
                     // Templates that can start tables
                     tag_no_case("{{Awards table"),
-                    tag_no_case("{{Certification Table Top")
+                    tag_no_case("{{Certification Table Top"),
+                    tag_no_case("{{col-begin")
                 )),
                 general_content_parser,
                 tag("|}")
@@ -177,6 +178,21 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                 tag_no_case("{{election box begin"),
                 general_content_parser,
                 tag_no_case("{{election box end}}")
+            ),
+            look_ahead_delimited(
+                tag_no_case("{{shipwreck list begin"),
+                general_content_parser,
+                tag_no_case("{{shipwreck list end}}")
+            ),
+            look_ahead_delimited(
+                tag_no_case("{{s-start"),
+                general_content_parser,
+                tag_no_case("{{s-end}}")
+            ),
+            look_ahead_delimited(
+                tag_no_case("{{col-start"),
+                general_content_parser,
+                tag_no_case("{{col-end}}")
             )
         )),
         |_| String::new()
