@@ -1,4 +1,5 @@
 use std::collections::{LinkedList, HashMap};
+use keshvar::IOC;
 
 const REMOVE_TEMPLATES: &[&str] = &[
     "#tag",
@@ -21,6 +22,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "blp",
     "broader",
     "by whom",
+    "cbb schedule entry",
     "certification cite ref",
     "certification table",
     "charmap",
@@ -36,6 +38,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "commons",
     "contains special characters",
     "css",
+    "ct",
     "cyber",
     "date table sorting",
     "dead link",
@@ -91,14 +94,18 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "music ratings",
     "music",
     "n/a",
+    "nom",
     "notelist",
+    "nts",
     "other uses",
     "page needed",
     "party color",
     "party shading",
     "pb",
     "performance",
+    "plainlist",
     "political",
+    "portal",
     "pp-protected",
     "pp",
     "primary source",
@@ -154,9 +161,11 @@ const MAPPERS: &[(&str, &str)] = &[
 
 const REPLACE_TEMPLATES: &[&str] = &[
     "avoid wrap",
+    "angbr",
     "center",
     "crossref",
     "crossreference",
+    "fb",
     "flag",
     "isbn",
     "m+j",
@@ -236,35 +245,39 @@ pub fn filter_templates(input: String) -> (bool, String) {
         return (false, mapping.to_string());
     }
 
+    // Get the template name and its params
+    let parts: Vec<_> = input.split('|').map(|s| s.trim()).collect();
+    let template_name: String = parts[0]
+        .to_lowercase()
+        .split(' ')
+        .filter(|s| !s.is_empty())
+        .collect();
+    let params = &parts[1..];
+
     // Handle templates that should be replaced with its last parameter
-    let parts: Vec<_> = input.split('|').collect();
-    let num_parts = parts.len();
     let replace = REPLACE_TEMPLATES
         .iter()
-        .any(|&s| parts[0].to_lowercase().starts_with(s));
+        .any(|&s| template_name.starts_with(s));
     if replace {
-        let parts: Vec<_> = parts.iter().filter(|&s| !s.contains('=')).collect();
-        let num_parts = parts.len();
-        return (true, parts[num_parts - 1].to_string());
-    }
-    if parts[0].to_lowercase().starts_with("angbr") {
-        return (true, parts[num_parts - 1].to_string())
+        let params: Vec<_> = params.iter().filter(|&s| !s.contains('=')).collect();
+        let num_params = params.len();
+        return (true, params[num_params - 1].to_string());
     }
 
     // Handle simple map cases
-    match parts[0].to_lowercase().trim() {
-        "sclass" => return (false, format!("{}-class {}", parts[1].trim(), parts[2].trim())),
+    match template_name.trim() {
+        "sclass" => return (false, format!("{}-class {}", params[0], params[1])),
         "uss" | "hms" | "hmnzs" => {
             let s = if parts.len() == 2 {
-                format!("{} {}", parts[0].trim(), parts[1].trim())
+                format!("{} {}", parts[0], parts[1])
             }
             else {
-                format!("{} {} ({})", parts[0].trim(), parts[1].trim(), parts[2].trim())
+                format!("{} {} ({})", parts[0], parts[1], parts[2])
             };
             return (true, s);
         },
         "see below" => {
-            let s = format!("(see {})", parts[1].trim());
+            let s = format!("(see {})", params[0]);
             return (true, s);
         },
         "c." | "circa" => {
@@ -276,45 +289,44 @@ pub fn filter_templates(input: String) -> (bool, String) {
                 return (false, parts[0].to_string());
             }
         },
-        "ill" | "interlanguage link" => return (true, parts[1].trim().to_string()),
+        "ill" | "interlanguage link" => return (true, parts[1].to_string()),
         "frac" | "fraction" => {
             match parts.len() {
                 1 => return (false, "/".to_string()),
-                2 => return (false, format!("1/{}", parts[1])),
-                3 => return (false, format!("{}/{}", parts[1], parts[2])),
-                4 => return (false, format!("{} {}/{}", parts[1], parts[2], parts[3])),
+                2 => return (false, format!("1/{}", params[1])),
+                3 => return (false, format!("{}/{}", params[1], params[2])),
+                4 => return (false, format!("{} {}/{}", params[1], params[2], params[3])),
                 _ => ()
             };
         },
         "cvt" | "convert" => {
-            if CONVERSION_SEPARATORS.iter().any(|&s| s == parts[2]) {
-                let s = format!("{} {} {} {}", parts[1], parts[2], parts[3], parts[4]);
+            if CONVERSION_SEPARATORS.iter().any(|&s| s == params[1]) {
+                let s = format!("{} {} {} {}", params[0], params[1], params[2], params[3]);
                 return (false, s);
             }
             else {
-                let s = format!("{} {}", parts[1], parts[2]);
+                let s = format!("{} {}", params[0], params[1]);
                 return (false, s);
             }
         },
         "r" => return (false, String::new()),
         "bce" | "ce" => {
-            for part in &parts[1..] {
-                if !part.contains('=') {
-                    return (true, part.to_string() + " " + parts[0]);
+            for param in params {
+                if !param.contains('=') {
+                    return (true, param.to_string() + " " + parts[0]);
                 }
             }
         },
         "ietf rfc" => {
-            let numbers: Vec<_> = parts
+            let numbers: Vec<_> = params
                 .iter()
-                .skip(1)
                 .filter(|s| !s.contains('='))
                 .map(|&s| s)
                 .collect();
             return (false, format!("RFC {}", numbers.join(", ")));
         },
-        "oldstyledateny" => return (true, parts[1].to_string()),
-        "sortname" => return (true, parts[1].to_string() + " " + parts[2]),
+        "oldstyledateny" => return (true, params[0].to_string()),
+        "sortname" => return (true, params[0].to_string() + " " + params[1]),
         "mp" | "minor planet" | "hlist" => {
             let vals: Vec<_> = parts
                 .iter()
@@ -324,12 +336,35 @@ pub fn filter_templates(input: String) -> (bool, String) {
                 .collect();
             return (true, vals.join(" "))
         },
+        "flagioc" => {
+            let country = IOC::try_from(params[0].to_lowercase().as_str());
+            if let Ok(country) = country {
+                let country = country.to_country();
+                return (false, country.iso_short_name().to_string());
+            }
+        },
+        "jct" => {
+            let vals: Vec<_> = parts
+                .iter()
+                .skip(1)
+                .filter(|s| !s.contains('='))
+                .map(|&s| s)
+                .collect();
+            
+            let pairs = vals.chunks(2);
+            let highways: Vec<_> = pairs
+                .into_iter()
+                .map(|pair| pair.join("-"))
+                .collect();
+
+            return (true, highways.join("/"))
+        },
         _ => ()
     }
 
     // Handle cases that need actual parsing
-    if parts[0].to_lowercase().starts_with("quote") {
-        let params = get_params(&parts, &["quote"]);
+    if template_name.starts_with("quote") {
+        let params = get_params(&params, &["quote"]);
 
         let quote = params["quote"];
         let author = params.get("author");
@@ -351,10 +386,10 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Blockquotes are distinct from quote blocks.
-    if parts[0].to_lowercase().starts_with("blockquote") ||
-        parts[0].to_lowercase().starts_with("quotation")
+    if template_name.starts_with("blockquote") ||
+        template_name.starts_with("quotation")
     {
-        let params = get_params(&parts, &["text", "author"]);
+        let params = get_params(&params, &["text", "author"]);
 
         let text = params["text"];
         let author = params.get("author").or(params.get("sign"));
@@ -403,10 +438,10 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Blockquotes are distinct from quote blocks.
-    if parts[0].to_lowercase().starts_with("poemquote") 
-        || parts[0].to_lowercase().starts_with("poem quote")
+    if template_name.starts_with("poemquote") 
+        || template_name.starts_with("poem quote")
     {
-        let params = get_params(&parts, &["text"]);
+        let params = get_params(&params, &["text"]);
 
         let text = params["text"];
         let character = params.get("char");
@@ -455,10 +490,10 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Parse "as of" blocks
-    if parts[0].to_lowercase().starts_with("as of") ||
-        parts[0].to_lowercase().starts_with("asof")
+    if template_name.starts_with("as of") ||
+        template_name.starts_with("asof")
     {
-        let params = get_params(&parts, &["year", "month", "day"]);
+        let params = get_params(&params, &["year", "month", "day"]);
 
         let alt = params.get("alt");
         let year = params.get("year");
@@ -512,8 +547,8 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Parse bibe verses blocks
-    if parts[0].to_lowercase().starts_with("bibleverse") {
-        let params = get_params(&parts, &["book", "verse", "version", "text"]);
+    if template_name.starts_with("bibleverse") {
+        let params = get_params(&params, &["book", "verse", "version", "text"]);
 
         let book = params.get("book");
         let verse = params.get("verse");
@@ -531,15 +566,15 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Parse ordered lists
-    if parts[0].to_lowercase().starts_with("ordered list") ||
-        parts[0].to_lowercase().starts_with("unbulleted list")
+    if template_name.starts_with("ordered list") ||
+        template_name.starts_with("unbulleted list")
     {
         let mut list_items = Vec::new();
-        for &tag in &parts[1..] {
-            let mut tag_pieces = tag.split('=');
-            let first_piece = tag_pieces.next().unwrap();
+        for &param in params {
+            let mut param_pieces = param.split('=');
+            let first_piece = param_pieces.next().unwrap();
             if first_piece.ends_with('\\') || first_piece.ends_with("{{") {
-                list_items.push(tag);
+                list_items.push(param);
             }
         }
 
@@ -547,8 +582,8 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Parse coordinate templates
-    if parts[0].to_lowercase().starts_with("coord") {
-        let tag_pieces: Vec<_> = parts[1..]
+    if template_name.starts_with("coord") {
+        let tag_pieces: Vec<_> = params
             .iter()
             .filter(|&s| !s.contains('='))
             .collect();
@@ -621,16 +656,16 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Get sorted item from sort templates
-    if parts[0].to_lowercase() == "sort" {
-        let params = get_params(&parts, &["1", "2"]);
+    if template_name == "sort" {
+        let params = get_params(&params, &["1", "2"]);
         let sort_item = params.get("2").or(params.get("1"));
         return (true, sort_item.unwrap_or(&"").to_string());
     }
 
     // Get dates
-    if parts[0].to_lowercase() == "start date" {
+    if template_name == "start date" {
         // Get the tags we have and remove empty ones
-        let params = get_params(&parts, &[
+        let params = get_params(&params, &[
             "year", 
             "month", 
             "day", 
@@ -695,9 +730,9 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Parse lang templates
-    if parts[0].to_lowercase().starts_with("lang") {
+    if template_name.starts_with("lang") {
         // Filter named parameters
-        let tag_pieces: Vec<_> = parts[1..]
+        let tag_pieces: Vec<_> = params
             .iter()
             .filter(|&s| !s.contains('='))
             .collect();
@@ -705,19 +740,21 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Parse athlete flag templates
-    if parts[0].to_lowercase().starts_with("flagathlete") {
-        let params = get_params(&parts, &["name", "country"]);
+    if template_name.starts_with("flagathlete") {
+        let params = get_params(&params, &["name", "country"]);
         let name = params["name"];
         let country = params["country"];
         return (true, format!("{} ({})", name, country));
     }
 
     // Parse birthdate and year templates
-    if parts[0].to_lowercase() == "birth date and age" ||
-        parts[0].to_lowercase() == "bda" ||
-        parts[0].to_lowercase() == "death date and age"
+    if ["birth date and age",
+        "bda", 
+        "death date and age",
+        "birth date",
+        "birth date and age2"].contains(&template_name.as_str())
     {
-        let params = get_params(&parts, &["year", "month", "day"]);
+        let params = get_params(&params, &["year", "month", "day"]);
         let year = params["year"];
         let month = params["month"];
         let day = params["day"];
@@ -731,18 +768,18 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Parse rollover abbreviations
-    if parts[0].to_lowercase() == "abbr" ||
-        parts[0].to_lowercase() == "tooltip"
+    if template_name == "abbr" ||
+        template_name == "tooltip"
     {
-        let params = get_params(&parts, &["text", "meaning"]);
+        let params = get_params(&params, &["text", "meaning"]);
         let text = params["text"];
         let meaning = params["meaning"];
         return (true, format!("{} ({})", text, meaning));
     }
 
     // Parse Japanese translation helpers
-    if parts[0].to_lowercase() == "nihongo" {
-        let params = get_params(&parts, &["english", "kanji", "romaji", "extra1", "extra2"]);
+    if template_name == "nihongo" {
+        let params = get_params(&params, &["english", "kanji", "romaji", "extra1", "extra2"]);
         let params: HashMap<_, _> = params
             .into_iter()
             .filter(|(_, s)| !s.is_empty())
@@ -796,40 +833,49 @@ pub fn filter_templates(input: String) -> (bool, String) {
 // Get the template parameters. 
 // If a parameter is unnamed, give it the next unused name from unnamed_order
 fn get_params<'a, 'b>(
-    parts: &'a [&'a str], 
+    in_params: &'a [&'a str], 
     unnamed_order: &'b [&'b str]
 ) -> HashMap<&'a str, &'a str> 
 where
     'b: 'a
 {
-    let mut params: HashMap<&str, &str> = HashMap::new();
+    let mut named_params = HashMap::new();
     let mut unnamed_params = Vec::new();
     let mut numbered_params = HashMap::new();
-    for param in &parts[1..] {
+    for param in &in_params[1..] {
+        // Divide param term by =
         let param_pieces: Vec<_> = param.split('=').map(|s| s.trim()).collect();
+
+        // No = means unnamed param
         if param_pieces.len() == 1 {
             unnamed_params.push(param_pieces[0]);
         }
+
+        // Record named param or numbered param
         else {
             let tag_name = param_pieces[0];
             if let Some(num) = tag_name.parse::<usize>().ok() {
                 numbered_params.insert(num - 1, param_pieces[1]);
             }
             else {
-                params.insert(tag_name, param_pieces[1]);
+                named_params.insert(tag_name, param_pieces[1]);
             }
         }
     }
 
+    // Pair numbered params with number in ordering
     for (&num, param) in &numbered_params {
-        params.insert(unnamed_order[num], param);
-    }
-
-    for i in 0..unnamed_order.len() {
-        if !numbered_params.contains_key(&i) && i < unnamed_params.len() {
-            params.insert(unnamed_order[i], unnamed_params[i]);
+        if num < unnamed_order.len() {
+            named_params.insert(unnamed_order[num], param);
         }
     }
 
-    params
+    // Pair unnumbered unnamed params with the associated element in the ordering
+    for (i, param_name) in unnamed_order.iter().enumerate() {
+        if !numbered_params.contains_key(&i) && i < unnamed_params.len() {
+            named_params.insert(param_name, unnamed_params[i]);
+        }
+    }
+
+    named_params
 }
