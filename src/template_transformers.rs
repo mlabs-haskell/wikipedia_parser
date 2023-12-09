@@ -295,11 +295,11 @@ pub fn filter_templates(input: String) -> (bool, String) {
 
     // Get the template name and its params
     let parts: Vec<_> = input.split('|').map(|s| s.trim()).collect();
-    let template_name: String = parts[0]
-        .to_lowercase()
+    let template_name: Vec<_> = parts[0]
         .split(' ')
         .filter(|s| !s.is_empty())
         .collect();
+    let template_name = template_name.join(" ").to_lowercase();
     let params = &parts[1..];
 
     // Handle templates that should be replaced with its last parameter
@@ -309,7 +309,12 @@ pub fn filter_templates(input: String) -> (bool, String) {
     if replace {
         let params: Vec<_> = params.iter().filter(|&s| !s.contains('=')).collect();
         let num_params = params.len();
-        return (true, params[num_params - 1].to_string());
+        if num_params > 0 {
+            return (true, params[num_params - 1].to_string());
+        }
+        else {
+            return (false, String::new());
+        }
     }
 
     // Handle simple map cases
@@ -339,11 +344,11 @@ pub fn filter_templates(input: String) -> (bool, String) {
         },
         "ill" | "interlanguage link" => return (true, parts[1].to_string()),
         "frac" | "fraction" => {
-            match parts.len() {
-                1 => return (false, "/".to_string()),
-                2 => return (false, format!("1/{}", params[1])),
-                3 => return (false, format!("{}/{}", params[1], params[2])),
-                4 => return (false, format!("{} {}/{}", params[1], params[2], params[3])),
+            match params.len() {
+                0 => return (false, "/".to_string()),
+                1 => return (false, format!("1/{}", params[0])),
+                2 => return (false, format!("{}/{}", params[0], params[1])),
+                3 => return (false, format!("{} {}/{}", params[0], params[1], params[2])),
                 _ => ()
             };
         },
@@ -1034,7 +1039,7 @@ where
     let mut named_params = HashMap::new();
     let mut unnamed_params = Vec::new();
     let mut numbered_params = HashMap::new();
-    for param in &in_params[1..] {
+    for param in in_params {
         // Divide param term by =
         let param_pieces: Vec<_> = param.split('=').map(|s| s.trim()).collect();
 
