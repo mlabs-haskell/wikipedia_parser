@@ -38,6 +38,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "css",
     "cyber",
     "date table sorting",
+    "dead link",
     "defaultsort",
     "div",
     "dts", // If this turns out to be used outside of a table, we'll need to handle it
@@ -65,6 +66,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "good article",
     "goal",
     "greek myth",
+    "harvnb",
     "hermeticism",
     "hidden",
     "image",
@@ -124,13 +126,15 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "unreferenced section",
     "unreliable source",
     "update",
+    "url",
     "us census population",
     "use",
     "vague",
     "webarchive",
     "wikisource",
     "wiktionary",
-    "yel"
+    "yel",
+    "yes"
 ];
 
 const MAPPERS: &[(&str, &str)] = &[
@@ -311,7 +315,15 @@ pub fn filter_templates(input: String) -> (bool, String) {
         },
         "oldstyledateny" => return (true, parts[1].to_string()),
         "sortname" => return (true, parts[1].to_string() + " " + parts[2]),
-        "mp" | "minor planet" => return (true, parts[1..].join(" ")),
+        "mp" | "minor planet" | "hlist" => {
+            let vals: Vec<_> = parts
+                .iter()
+                .skip(1)
+                .filter(|s| !s.contains('='))
+                .map(|&s| s)
+                .collect();
+            return (true, vals.join(" "))
+        },
         _ => ()
     }
 
@@ -702,7 +714,8 @@ pub fn filter_templates(input: String) -> (bool, String) {
 
     // Parse birthdate and year templates
     if parts[0].to_lowercase() == "birth date and age" ||
-        parts[0].to_lowercase() == "bda"
+        parts[0].to_lowercase() == "bda" ||
+        parts[0].to_lowercase() == "death date and age"
     {
         let params = get_params(&parts, &["year", "month", "day"]);
         let year = params["year"];
@@ -718,7 +731,9 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Parse rollover abbreviations
-    if parts[0].to_lowercase() == "abbr" {
+    if parts[0].to_lowercase() == "abbr" ||
+        parts[0].to_lowercase() == "tooltip"
+    {
         let params = get_params(&parts, &["text", "meaning"]);
         let text = params["text"];
         let meaning = params["meaning"];
@@ -788,19 +803,31 @@ where
     'b: 'a
 {
     let mut params: HashMap<&str, &str> = HashMap::new();
-    let mut unnamed_count = 0;
+    let mut unnamed_params = Vec::new();
+    let mut numbered_params = HashMap::new();
     for param in &parts[1..] {
         let param_pieces: Vec<_> = param.split('=').map(|s| s.trim()).collect();
         if param_pieces.len() == 1 {
-            if unnamed_count < unnamed_order.len() {
-                let tag_name = unnamed_order[unnamed_count];
-                params.insert(tag_name, param);
-                unnamed_count += 1;
-            }
+            unnamed_params.push(param_pieces[0]);
         }
         else {
             let tag_name = param_pieces[0];
-            params.insert(tag_name, param_pieces[1]);
+            if let Some(num) = tag_name.parse::<usize>().ok() {
+                numbered_params.insert(num - 1, param_pieces[1]);
+            }
+            else {
+                params.insert(tag_name, param_pieces[1]);
+            }
+        }
+    }
+
+    for (&num, param) in &numbered_params {
+        params.insert(unnamed_order[num], param);
+    }
+
+    for i in 0..unnamed_order.len() {
+        if !numbered_params.contains_key(&i) && i < unnamed_params.len() {
+            params.insert(unnamed_order[i], unnamed_params[i]);
         }
     }
 
