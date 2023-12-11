@@ -35,14 +35,15 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "chart",
     "citation",
     "cite",
-    "clarify",
+    "clade",
     "clarify",
     "cleanup",
     "clear",
     "cn",
-    "col",
+    "col-",
     "commons",
     "contains special characters",
+    "coord missing",
     "css",
     "ct",
     "cyber",
@@ -51,6 +52,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "decrease",
     "defaultsort",
     "disambiguation",
+    "distinguish",
     "div",
     "dts", // If this turns out to be used outside of a table, we'll need to handle it
     "dubious",
@@ -59,8 +61,9 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "efs player",
     "election box",
     "elucidate",
+    "end",
     "engvarb",
-    "episode list",
+    "episode list", // This is a table, but we can probably extract information from it
     "esotericism",
     "etymology",
     "excerpt",
@@ -69,11 +72,12 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "failed verification",
     "fbaicon",
     "featured article",
+    "fhgoal",
     "flagcountry",
+    "flagdeco",
     "flagicon",
     "football box",
     "footballbox",
-    "for",
     "france metadata wikidata",
     "full citation needed",
     "further",
@@ -81,6 +85,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "good article",
     "goal",
     "greek myth",
+    "harvid",
     "harvnb",
     "hermeticism",
     "hidden",
@@ -103,6 +108,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "main article",
     "main",
     "maplink",
+    "marriage", // Only meant to appear in infoboxes
     "math",
     "medal", 
     "medical",
@@ -111,11 +117,14 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "multiple issues",
     "music ratings",
     "music",
+    "nat fs g player",
     "nhle",
     "nhrp row",
     "notelist",
     "nts",
     "official website",
+    "oneleg",
+    "open access",
     "other uses",
     "page needed",
     "party color",
@@ -148,7 +157,6 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "s-ttl",
     "see also",
     "sfn",
-    "sfnp",
     "shipwreck list item",
     "short description",
     "shy",
@@ -161,6 +169,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "succession box",
     "sup",
     "table",
+    "taxobox",
     "taxonbar",
     "technical reasons",
     "toc",
@@ -202,7 +211,10 @@ const MAPPERS: &[(&str, &str)] = &[
     ("nom", "Nominated"),
     ("n/a", "N/A"),
     ("r", ""),
-    ("·", "·")
+    ("·", "·"),
+    ("gold1", "1"),
+    ("col", ""),
+    ("for", "")
 ];
 
 const REPLACE_TEMPLATES: &[&str] = &[
@@ -229,7 +241,7 @@ const REPLACE_TEMPLATES: &[&str] = &[
     "script",
     "section link",
     "sic",
-    "transliteration",
+    "transl",
     "vr",
 ];
 
@@ -301,16 +313,20 @@ pub fn filter_templates(input: String) -> (bool, String) {
         .collect();
     let template_name = template_name.join(" ").to_lowercase();
     let params = &parts[1..];
+    let unnamed_params: Vec<_> = params
+        .iter()
+        .filter(|s| !s.contains('='))
+        .map(|&s| s)
+        .collect();
 
     // Handle templates that should be replaced with its last parameter
     let replace = REPLACE_TEMPLATES
         .iter()
         .any(|&s| template_name.starts_with(s));
     if replace {
-        let params: Vec<_> = params.iter().filter(|&s| !s.contains('=')).collect();
-        let num_params = params.len();
+        let num_params = unnamed_params.len();
         if num_params > 0 {
-            return (true, params[num_params - 1].to_string());
+            return (true, unnamed_params[num_params - 1].to_string());
         }
         else {
             return (false, String::new());
@@ -369,40 +385,19 @@ pub fn filter_templates(input: String) -> (bool, String) {
                 }
             }
         },
-        "ietf rfc" => {
-            let numbers: Vec<_> = params
-                .iter()
-                .filter(|s| !s.contains('='))
-                .map(|&s| s)
-                .collect();
-            return (false, format!("RFC {}", numbers.join(", ")));
-        },
+        "ietf rfc" => return (false, format!("RFC {}", unnamed_params.join(", "))),
         "oldstyledateny" => return (true, params[0].to_string()),
         "sortname" => return (true, params[0].to_string() + " " + params[1]),
-        "mp" | "minor planet" | "hlist" => {
-            let vals: Vec<_> = parts
-                .iter()
-                .skip(1)
-                .filter(|s| !s.contains('='))
-                .map(|&s| s)
-                .collect();
-            return (true, vals.join(" "))
-        },
-        "flagioc" => {
+        "mp" | "minor planet" | "hlist" | "linktext" => return (true, unnamed_params.join(" ")),
+        "flagioc" | "flagioc2" => {
             let country = IOC::try_from(params[0].to_lowercase().as_str());
             if let Ok(country) = country {
                 let country = country.to_country();
                 return (false, country.iso_short_name().to_string());
             }
         },
-        "jct" => {
-            let vals: Vec<_> = params
-                .iter()
-                .filter(|s| !s.contains('='))
-                .map(|&s| s)
-                .collect();
-            
-            let pairs = vals.chunks(2);
+        "jct" => {         
+            let pairs = unnamed_params.chunks(2);
             let highways: Vec<_> = pairs
                 .into_iter()
                 .map(|pair| pair.join("-"))
@@ -412,25 +407,34 @@ pub fn filter_templates(input: String) -> (bool, String) {
         },
         "mlbplayer" => return (true, params[1].to_string()),
         "cr" => return (true, params[0].to_string()),
-        "post-nominals" => {
-            let vals: Vec<_> = params
-                .iter()
-                .filter(|s| !s.contains('='))
-                .map(|&s| s)
-                .collect();
-
-            return (true, vals.join(" "))
-        },
+        "post-nominals" | "nflplayer" => return (true, unnamed_params.join(" ")),
         "fbu" | "fb-rt" => return (true, params[1].to_string()),
-        "ship" => return (true, params.join(" ")),
+        "ship" => return (true, unnamed_params.join(" ")),
         "flagmedalist" => return (true, format!("{} ({})", params[0], params[1])),
         "party name with colour" | "party name with color" => 
-            return (true, params[1].to_string()),
+            return (true, unnamed_params[1].to_string()),
+        "suboff" => return (true, unnamed_params.get(0).unwrap_or(&"").to_string()),
+        "esc" => return (true, unnamed_params[0].to_string()),
+        "val" => {
+            match unnamed_params.len() {
+                1 | 3 => return (true, unnamed_params[0].to_string()),
+                2 => return (
+                    true, 
+                    unnamed_params[0].to_string() + "±" + unnamed_params[1]
+                ),
+                _ => ()
+            }
+        },
+        "stn" | "station" => return (true, unnamed_params[0].to_string()),
+        "composition bar" => return (
+            true, 
+            format!("{}/{}", unnamed_params[0], unnamed_params[1])
+        ),
         _ => ()
     }
 
     // Handle cases that need actual parsing
-    if template_name.starts_with("quote") {
+    if template_name == "quote" {
         let params = get_params(&params, &["quote"]);
 
         let quote = params["quote"];
@@ -453,8 +457,8 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Blockquotes are distinct from quote blocks.
-    if template_name.starts_with("blockquote") ||
-        template_name.starts_with("quotation")
+    if template_name == "blockquote" ||
+        template_name == "quotation"
     {
         let params = get_params(&params, &["text", "author"]);
 
@@ -505,8 +509,8 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Blockquotes are distinct from quote blocks.
-    if template_name.starts_with("poemquote") 
-        || template_name.starts_with("poem quote")
+    if template_name == "poemquote"
+        || template_name == "poem quote"
     {
         let params = get_params(&params, &["text"]);
 
@@ -557,8 +561,8 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Parse "as of" blocks
-    if template_name.starts_with("as of") ||
-        template_name.starts_with("asof")
+    if template_name == "as of" ||
+        template_name == "asof"
     {
         let params = get_params(&params, &["year", "month", "day"]);
 
@@ -614,7 +618,7 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Parse bibe verses blocks
-    if template_name.starts_with("bibleverse") {
+    if template_name == "bibleverse" {
         let params = get_params(&params, &["book", "verse", "version", "text"]);
 
         let book = params.get("book");
@@ -633,9 +637,9 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Parse ordered lists
-    if template_name.starts_with("ordered list") ||
-        template_name.starts_with("unbulleted list") ||
-        template_name.starts_with("ubl")
+    if template_name == "ordered list" ||
+        template_name == "unbulleted list" ||
+        template_name == "ubl"
     {
         let mut list_items = Vec::new();
         for &param in params {
@@ -832,22 +836,22 @@ pub fn filter_templates(input: String) -> (bool, String) {
         return (false, date_string);
     }
 
-    // Parse lang templates
-    if template_name.starts_with("lang") {
-        // Filter named parameters
-        let tag_pieces: Vec<_> = params
-            .iter()
-            .filter(|&s| !s.contains('='))
-            .collect();
-        return (true, tag_pieces[tag_pieces.len() - 1].to_string());
-    }
-
     // Parse athlete flag templates
-    if template_name.starts_with("flagathlete") {
+    if template_name == "flagathlete" {
         let params = get_params(&params, &["name", "country"]);
         let name = params["name"];
         let country = params["country"];
         return (true, format!("{} ({})", name, country));
+    }
+
+    // Parse AllMusic links templates
+    if template_name == "allmusic" {
+        let params = get_params(&params, &["1", "2", "title"]);
+        let text = params
+            .get("title")
+            .map(|t| t.to_string() + " at AllMusic")
+            .unwrap_or(String::new());
+        return (true, text);
     }
 
     // Parse birthdate and year templates
@@ -975,7 +979,7 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Parse US house of representatives templates
-    if template_name.starts_with("ushr") {
+    if template_name == "ushr" {
         let params = get_params(&params, &["state", "number"]);
         let state = params["state"];
         let number = params["number"];
@@ -991,7 +995,7 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Parse height data
-    if template_name.starts_with("height") {
+    if template_name == "height" {
         let units = params
             .iter()
             .map(|p| p.split('=').map(|s| s.trim()).collect::<Vec<_>>())
@@ -1010,18 +1014,10 @@ pub fn filter_templates(input: String) -> (bool, String) {
         return (false, units.join(" "));
     }
 
-    // Parse val templates
-    if template_name == "val" {
-        let tag_pieces: Vec<_> = params
-            .iter()
-            .filter(|&s| !s.contains('='))
-            .collect();
-
-        match tag_pieces.len() {
-            1 | 3 => return (true, tag_pieces[0].to_string()),
-            2 => return (true, tag_pieces[0].to_string() + "±" + tag_pieces[1]),
-            _ => ()
-        }
+    // Parse font templates
+    if template_name == "font" {
+        let params = get_params(&params, &["text"]);
+        return (true, params["text"].to_string());
     }
 
     (false, String::from("{{") + &input + "}}")

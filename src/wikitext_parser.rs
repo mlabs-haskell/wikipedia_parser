@@ -199,6 +199,11 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                 tag_no_case("{{startflatlist"),
                 general_content_parser,
                 tag_no_case("{{endflatlist}}")
+            ),
+            look_ahead_delimited(
+                tag_no_case("{{onelegstart"),
+                general_content_parser,
+                tag_no_case("{{onelegend}}")
             )
         )),
         |_| String::new()
