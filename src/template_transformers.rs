@@ -61,7 +61,6 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "efs player",
     "election box",
     "elucidate",
-    "end",
     "engvarb",
     "episode list", // This is a table, but we can probably extract information from it
     "esotericism",
@@ -105,7 +104,6 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "listen",
     "location map",
     "london gazette",
-    "main article",
     "main",
     "maplink",
     "marriage", // Only meant to appear in infoboxes
@@ -214,7 +212,8 @@ const MAPPERS: &[(&str, &str)] = &[
     ("·", "·"),
     ("gold1", "1"),
     ("col", ""),
-    ("for", "")
+    ("for", ""),
+    ("end", "")
 ];
 
 const REPLACE_TEMPLATES: &[&str] = &[
