@@ -31,6 +31,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "certification cite ref",
     "certification table",
     "cfb schedule entry",
+    "chset-cell1",
     "charmap",
     "chart",
     "citation",
@@ -51,6 +52,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "dead link",
     "decrease",
     "defaultsort",
+    "detailslink",
     "disambiguation",
     "distinguish",
     "div",
@@ -77,6 +79,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "flagicon",
     "football box",
     "footballbox",
+    "formatnum",
     "france metadata wikidata",
     "full citation needed",
     "further",
@@ -103,6 +106,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "letter other reps",
     "listen",
     "location map",
+    "lomp",
     "london gazette",
     "main",
     "maplink",
@@ -159,6 +163,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "short description",
     "shy",
     "single chart",
+    "singlechart",
     "small",
     "spaceflight",
     "speciesbox",
@@ -211,19 +216,24 @@ const MAPPERS: &[(&str, &str)] = &[
     ("r", ""),
     ("·", "·"),
     ("gold1", "1"),
+    ("silver2", "2"),
     ("col", ""),
     ("for", ""),
-    ("end", "")
+    ("end", ""),
+    ("ya", "")
 ];
 
 const REPLACE_TEMPLATES: &[&str] = &[
     "avoid wrap",
     "angbr",
+    "australian party style",
     "center",
     "crossref",
     "crossreference",
     "fb",
+    "fbw",
     "flag",
+    "flagg",
     "flagu",
     "flatlist",
     "isbn",
@@ -231,6 +241,7 @@ const REPLACE_TEMPLATES: &[&str] = &[
     "keypress",
     "lang",
     "linktext",
+    "medalsport",
     "midsize",
     "née",
     "notatypo",
@@ -281,14 +292,6 @@ const CONVERSION_SEPARATORS: &[&str] = &[
 // Takes a template, processes it, and returns it and a bool flag 
 // indicating if this output should be processed by the article parser again
 pub fn filter_templates(input: String) -> (bool, String) {
-    // Handle templates that can always be totally removed
-    let remove = REMOVE_TEMPLATES
-        .iter()
-        .any(|&s| input.to_lowercase().starts_with(s));
-    if remove {
-        return (false, String::new());
-    }
-
     // Handle templates that can be simply mapped
     let mapping = MAPPERS
         .iter()
@@ -429,6 +432,14 @@ pub fn filter_templates(input: String) -> (bool, String) {
             true, 
             format!("{}/{}", unnamed_params[0], unnamed_params[1])
         ),
+        "nfl year" => {
+            if unnamed_params.len() == 1 {
+                return (true, unnamed_params[0].to_string());
+            }
+            if unnamed_params.len() == 2 {
+                return (true, format!("{}-{}", unnamed_params[0], unnamed_params[1]));
+            }
+        },
         _ => ()
     }
 
@@ -853,6 +864,26 @@ pub fn filter_templates(input: String) -> (bool, String) {
         return (true, text);
     }
 
+    // Parse YouTube links templates
+    if template_name == "youtube" {
+        let params = get_params(&params, &["id", "title"]);
+        let text = params
+            .get("title")
+            .map(|t| t.to_string() + " on YouTube")
+            .unwrap_or(String::new());
+        return (true, text);
+    }
+
+    // Parse Soccerway links templates
+    if template_name == "soccerway" {
+        let params = get_params(&params, &["id", "name"]);
+        let text = params
+            .get("name")
+            .map(|t| t.to_string() + " at Soccerway")
+            .unwrap_or(String::new());
+        return (true, text);
+    }
+
     // Parse birthdate and year templates
     if ["birth date and age",
         "bda", 
@@ -1017,6 +1048,16 @@ pub fn filter_templates(input: String) -> (bool, String) {
     if template_name == "font" {
         let params = get_params(&params, &["text"]);
         return (true, params["text"].to_string());
+    }
+
+
+
+    // Handle templates that can always be totally removed
+    let remove = REMOVE_TEMPLATES
+        .iter()
+        .any(|&s| input.to_lowercase().starts_with(s));
+    if remove {
+        return (false, String::new());
     }
 
     (false, String::from("{{") + &input + "}}")
