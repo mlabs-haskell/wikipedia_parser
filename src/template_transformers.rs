@@ -1,5 +1,7 @@
-use std::collections::{LinkedList, HashMap};
+use lazy_static::lazy_static;
+
 use keshvar::IOC;
+use std::collections::{LinkedList, HashMap, HashSet};
 
 const REMOVE_TEMPLATES: &[&str] = &[
     "#tag",
@@ -193,88 +195,6 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "yel"
 ];
 
-const MAPPERS: &[(&str, &str)] = &[
-    ("--)", ")"),
-    ("'", "'"),
-    ("' \"", "'\""),
-    ("\" '", "\"'"),
-    ("'\"", "'\""),
-    ("spaces", " "),
-    ("snd", " - "),
-    ("nbsp", " "),
-    ("'s", "'s"),
-    ("en dash", "\u{2013}"),
-    ("year", "2024"),
-    ("!", "!"),
-    ("no", "No"),
-    ("yes", "Yes"),
-    ("yes2", "Yes"),
-    ("yes-no", "Yes"),
-    ("won", "Won"),
-    ("nom", "Nominated"),
-    ("n/a", "N/A"),
-    ("r", ""),
-    ("·", "·"),
-    ("gold1", "1"),
-    ("silver2", "2"),
-    ("col", ""),
-    ("for", ""),
-    ("end", ""),
-    ("ya", "")
-];
-
-const REPLACE_LAST: &[&str] = &[
-    "avoid wrap",
-    "angbr",
-    "australian party style",
-    "center",
-    "crossref",
-    "crossreference",
-    "fb",
-    "fbw",
-    "flag",
-    "flagg",
-    "flagu",
-    "flatlist",
-    "isbn",
-    "m+j",
-    "keypress",
-    "lang",
-    "linktext",
-    "medalsport",
-    "midsize",
-    "née",
-    "notatypo",
-    "nowrap",
-    "oclc",
-    "pslink",
-    "script",
-    "section link",
-    "sic",
-    "transl",
-    "vr",
-];
-
-const REPLACE_FIRST: &[&str] = &[
-    "cr",
-    "esc",
-    "ill",
-    "interlanguage link",
-    "oldstyledateny",
-    "stn",
-    "station"
-];
-
-const MERGE_WITH_SPACES: &[&str] = &[
-    "hlist",
-    "linktext",
-    "minor planet",
-    "mp",
-    "nflplayer",
-    "post-nominals",
-    "ship",
-];
-
 const MONTHS: &[&str] = &[
     "January",
     "February",
@@ -290,39 +210,124 @@ const MONTHS: &[&str] = &[
     "December"
 ];
 
-const CONVERSION_SEPARATORS: &[&str] = &[
-    "-",
-    "\u{2013}",
-    "and",
-    "and(-)",
-    "or",
-    "to",
-    "to(-)",
-    "to about",
-    "+/-",
-    "\u{00B1}",
-    "+",
-    ",",
-    ", and",
-    ", or",
-    "by",
-    "x"
-];
+lazy_static! {
+    static ref MAPPERS: HashMap<String, String> = {
+        [
+            ("--)", ")"),
+            ("'", "'"),
+            ("' \"", "'\""),
+            ("\" '", "\"'"),
+            ("'\"", "'\""),
+            ("spaces", " "),
+            ("snd", " - "),
+            ("nbsp", " "),
+            ("'s", "'s"),
+            ("en dash", "\u{2013}"),
+            ("year", "2024"),
+            ("!", "!"),
+            ("no", "No"),
+            ("yes", "Yes"),
+            ("yes2", "Yes"),
+            ("yes-no", "Yes"),
+            ("won", "Won"),
+            ("nom", "Nominated"),
+            ("n/a", "N/A"),
+            ("r", ""),
+            ("·", "·"),
+            ("gold1", "1"),
+            ("silver2", "2"),
+            ("col", ""),
+            ("for", ""),
+            ("end", ""),
+            ("ya", "")
+        ].iter().map(|(k, v)| (k.to_string(), v.to_string())).collect()
+    };
+
+    static ref REPLACE_LAST: HashSet<String> = {
+        [
+            "avoid wrap",
+            "angbr",
+            "australian party style",
+            "center",
+            "crossref",
+            "crossreference",
+            "fb",
+            "fbw",
+            "flag",
+            "flagg",
+            "flagu",
+            "flatlist",
+            "isbn",
+            "m+j",
+            "keypress",
+            "lang",
+            "linktext",
+            "medalsport",
+            "midsize",
+            "née",
+            "notatypo",
+            "nowrap",
+            "oclc",
+            "pslink",
+            "script",
+            "section link",
+            "sic",
+            "transl",
+            "vr",
+        ].iter().map(|s| s.to_string()).collect()
+    };
+
+    static ref REPLACE_FIRST: HashSet<String> = {
+        [
+            "cr",
+            "esc",
+            "ill",
+            "interlanguage link",
+            "oldstyledateny",
+            "stn",
+            "station"
+        ].iter().map(|s| s.to_string()).collect()
+    };
+
+    static ref MERGE_WITH_SPACES: HashSet<String> = {
+        [
+            "hlist",
+            "linktext",
+            "minor planet",
+            "mp",
+            "nflplayer",
+            "post-nominals",
+            "ship",
+        ].iter().map(|s| s.to_string()).collect()
+    };
+
+    static ref CONVERSION_SEPARATORS: HashSet<String> = {
+        [
+            "-",
+            "\u{2013}",
+            "and",
+            "and(-)",
+            "or",
+            "to",
+            "to(-)",
+            "to about",
+            "+/-",
+            "\u{00B1}",
+            "+",
+            ",",
+            ", and",
+            ", or",
+            "by",
+            "x"
+        ].iter().map(|s| s.to_string()).collect()
+    };
+}
 
 // Takes a template, processes it, and returns it and a bool flag 
 // indicating if this output should be processed by the article parser again
 pub fn filter_templates(input: String) -> (bool, String) {
     // Handle templates that can be simply mapped to a constant
-    let mapping = MAPPERS
-        .iter()
-        .find_map(|&(s, r)| {
-            if s == input.to_lowercase() {
-                Some(r)
-            }
-            else {
-                None
-            }
-        });
+    let mapping = MAPPERS.get(&input.to_lowercase());
     if let Some(mapping) = mapping {
         return (false, mapping.to_string());
     }
@@ -342,9 +347,7 @@ pub fn filter_templates(input: String) -> (bool, String) {
         .collect();
 
     // Handle any template that should be replaced with its last parameter
-    let replace = REPLACE_LAST
-        .iter()
-        .any(|&s| template_name == s);
+    let replace = REPLACE_LAST.contains(&template_name);
     if replace {
         let num_params = unnamed_params.len();
         if num_params > 0 {
@@ -356,9 +359,7 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Handle any template that should be replaced with its first parameter
-    let replace = REPLACE_FIRST
-        .iter()
-        .any(|&s| template_name == s);
+    let replace = REPLACE_FIRST.contains(&template_name);
     if replace {
         let num_params = unnamed_params.len();
         if num_params > 0 {
@@ -370,9 +371,7 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Handle any template where the unnamed params can be joined with spaces
-    let replace = MERGE_WITH_SPACES
-        .iter()
-        .any(|&s| template_name == s);
+    let replace = MERGE_WITH_SPACES.contains(&template_name);
     if replace {
         return (true, unnamed_params.join(" "));
     }
@@ -414,7 +413,7 @@ pub fn filter_templates(input: String) -> (bool, String) {
             };
         },
         "cvt" | "convert" => {
-            if CONVERSION_SEPARATORS.iter().any(|&s| s == unnamed_params[1]) {
+            if CONVERSION_SEPARATORS.contains(unnamed_params[1]) {
                 let s = format!(
                     "{} {} {} {}", 
                     unnamed_params[0], 
