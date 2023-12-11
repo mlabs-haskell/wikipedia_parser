@@ -223,7 +223,7 @@ const MAPPERS: &[(&str, &str)] = &[
     ("ya", "")
 ];
 
-const REPLACE_TEMPLATES: &[&str] = &[
+const REPLACE_LAST: &[&str] = &[
     "avoid wrap",
     "angbr",
     "australian party style",
@@ -253,6 +253,26 @@ const REPLACE_TEMPLATES: &[&str] = &[
     "sic",
     "transl",
     "vr",
+];
+
+const REPLACE_FIRST: &[&str] = &[
+    "cr",
+    "esc",
+    "ill",
+    "interlanguage link",
+    "oldstyledateny",
+    "stn",
+    "station"
+];
+
+const MERGE_WITH_SPACES: &[&str] = &[
+    "hlist",
+    "linktext",
+    "minor planet",
+    "mp",
+    "nflplayer",
+    "post-nominals",
+    "ship",
 ];
 
 const MONTHS: &[&str] = &[
@@ -292,7 +312,7 @@ const CONVERSION_SEPARATORS: &[&str] = &[
 // Takes a template, processes it, and returns it and a bool flag 
 // indicating if this output should be processed by the article parser again
 pub fn filter_templates(input: String) -> (bool, String) {
-    // Handle templates that can be simply mapped
+    // Handle templates that can be simply mapped to a constant
     let mapping = MAPPERS
         .iter()
         .find_map(|&(s, r)| {
@@ -321,10 +341,10 @@ pub fn filter_templates(input: String) -> (bool, String) {
         .map(|&s| s)
         .collect();
 
-    // Handle templates that should be replaced with its last parameter
-    let replace = REPLACE_TEMPLATES
+    // Handle any template that should be replaced with its last parameter
+    let replace = REPLACE_LAST
         .iter()
-        .any(|&s| template_name.starts_with(s));
+        .any(|&s| template_name == s);
     if replace {
         let num_params = unnamed_params.len();
         if num_params > 0 {
@@ -335,9 +355,31 @@ pub fn filter_templates(input: String) -> (bool, String) {
         }
     }
 
-    // Handle simple map cases
+    // Handle any template that should be replaced with its first parameter
+    let replace = REPLACE_FIRST
+        .iter()
+        .any(|&s| template_name == s);
+    if replace {
+        let num_params = unnamed_params.len();
+        if num_params > 0 {
+            return (true, unnamed_params[0].to_string());
+        }
+        else {
+            return (false, String::new());
+        }
+    }
+
+    // Handle any template where the unnamed params can be joined with spaces
+    let replace = MERGE_WITH_SPACES
+        .iter()
+        .any(|&s| template_name == s);
+    if replace {
+        return (true, unnamed_params.join(" "));
+    }
+
+    // Handle simple parsing cases
     match template_name.trim() {
-        "sclass" => return (false, format!("{}-class {}", params[0], params[1])),
+        "sclass" => return (false, format!("{}-class {}", unnamed_params[0], unnamed_params[1])),
         "uss" | "hms" | "hmnzs" => {
             let s = if parts.len() == 2 {
                 format!("{} {}", parts[0], parts[1])
@@ -347,10 +389,7 @@ pub fn filter_templates(input: String) -> (bool, String) {
             };
             return (true, s);
         },
-        "see below" => {
-            let s = format!("(see {})", params[0]);
-            return (true, s);
-        },
+        "see below" => return (true, format!("(see {})", unnamed_params[0])),
         "c." | "circa" => {
             if parts.len() > 1 {
                 let s = format!("{} {}", parts[0], parts[1]);
@@ -360,44 +399,39 @@ pub fn filter_templates(input: String) -> (bool, String) {
                 return (false, parts[0].to_string());
             }
         },
-        "ill" | "interlanguage link" => return (true, parts[1].to_string()),
         "frac" | "fraction" => {
             match params.len() {
                 0 => return (false, "/".to_string()),
-                1 => return (false, format!("1/{}", params[0])),
-                2 => return (false, format!("{}/{}", params[0], params[1])),
-                3 => return (false, format!("{} {}/{}", params[0], params[1], params[2])),
+                1 => return (false, format!("1/{}", unnamed_params[0])),
+                2 => return (false, format!("{}/{}", unnamed_params[0], unnamed_params[1])),
+                3 => return (false, format!(
+                    "{} {}/{}", 
+                    unnamed_params[0], 
+                    unnamed_params[1], 
+                    unnamed_params[2])
+                ),
                 _ => ()
             };
         },
         "cvt" | "convert" => {
-            if CONVERSION_SEPARATORS.iter().any(|&s| s == params[1]) {
-                let s = format!("{} {} {} {}", params[0], params[1], params[2], params[3]);
+            if CONVERSION_SEPARATORS.iter().any(|&s| s == unnamed_params[1]) {
+                let s = format!(
+                    "{} {} {} {}", 
+                    unnamed_params[0], 
+                    unnamed_params[1], 
+                    unnamed_params[2], 
+                    unnamed_params[3]
+                );
                 return (false, s);
             }
             else {
-                let s = format!("{} {}", params[0], params[1]);
+                let s = format!("{} {}", unnamed_params[0], unnamed_params[1]);
                 return (false, s);
             }
         },
-        "bce" | "ce" => {
-            for param in params {
-                if !param.contains('=') {
-                    return (true, param.to_string() + " " + parts[0]);
-                }
-            }
-        },
+        "bce" | "ce" => return (true, unnamed_params[0].to_string() + " " + parts[0]),
         "ietf rfc" => return (false, format!("RFC {}", unnamed_params.join(", "))),
-        "oldstyledateny" => return (true, params[0].to_string()),
-        "sortname" => return (true, params[0].to_string() + " " + params[1]),
-        "mp" | "minor planet" | "hlist" | "linktext" => return (true, unnamed_params.join(" ")),
-        "flagioc" | "flagioc2" => {
-            let country = IOC::try_from(params[0].to_lowercase().as_str());
-            if let Ok(country) = country {
-                let country = country.to_country();
-                return (false, country.iso_short_name().to_string());
-            }
-        },
+        "sortname" => return (true, unnamed_params[0].to_string() + " " + unnamed_params[1]),
         "jct" => {         
             let pairs = unnamed_params.chunks(2);
             let highways: Vec<_> = pairs
@@ -407,16 +441,12 @@ pub fn filter_templates(input: String) -> (bool, String) {
 
             return (true, highways.join("/"))
         },
-        "mlbplayer" => return (true, params[1].to_string()),
-        "cr" => return (true, params[0].to_string()),
-        "post-nominals" | "nflplayer" => return (true, unnamed_params.join(" ")),
-        "fbu" | "fb-rt" => return (true, params[1].to_string()),
-        "ship" => return (true, unnamed_params.join(" ")),
-        "flagmedalist" => return (true, format!("{} ({})", params[0], params[1])),
+        "mlbplayer" => return (true, unnamed_params[1].to_string()),
+        "fbu" | "fb-rt" => return (true, unnamed_params[1].to_string()),
+        "flagmedalist" => return (true, format!("{} ({})", unnamed_params[0], unnamed_params[1])),
         "party name with colour" | "party name with color" => 
             return (true, unnamed_params[1].to_string()),
         "suboff" => return (true, unnamed_params.get(0).unwrap_or(&"").to_string()),
-        "esc" => return (true, unnamed_params[0].to_string()),
         "val" => {
             match unnamed_params.len() {
                 1 | 3 => return (true, unnamed_params[0].to_string()),
@@ -427,7 +457,6 @@ pub fn filter_templates(input: String) -> (bool, String) {
                 _ => ()
             }
         },
-        "stn" | "station" => return (true, unnamed_params[0].to_string()),
         "composition bar" => return (
             true, 
             format!("{}/{}", unnamed_params[0], unnamed_params[1])
@@ -518,7 +547,7 @@ pub fn filter_templates(input: String) -> (bool, String) {
         return (true, output);
     }
 
-    // Blockquotes are distinct from quote blocks.
+    // Handle poems
     if template_name == "poemquote"
         || template_name == "poem quote"
     {
@@ -915,13 +944,24 @@ pub fn filter_templates(input: String) -> (bool, String) {
     }
 
     // Parse Olympic athletes
-    if template_name == "flagiocathlete" ||
-    template_name == "flagioc2athlete"
+    if template_name.starts_with("flagioc") &&
+        template_name.ends_with("athlete")
     {
         let params = get_params(&params, &["name", "country"]);
         let name = params["name"];
         let country = params["country"];
         return (true, format!("{} ({})", name, country));
+    }
+
+    // Handle olympic flag templates
+    if template_name.starts_with("flagioc") &&
+        !template_name.ends_with("athlete")
+    {
+        let country = IOC::try_from(unnamed_params[0].to_lowercase().as_str());
+        if let Ok(country) = country {
+            let country = country.to_country();
+            return (false, country.iso_short_name().to_string());
+        }
     }
 
     // Parse color boxes
