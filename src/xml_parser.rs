@@ -1,6 +1,10 @@
+use std::collections::HashMap;
 use std::fs::File;
 use std::io::{Write, BufReader};
 use std::str;
+use std::sync::{Mutex, Arc};
+use std::thread::sleep;
+use std::time::Duration;
 
 use quick_xml::Error;
 use quick_xml::events::Event;
@@ -8,21 +12,31 @@ use quick_xml::name::QName;
 use quick_xml::reader::Reader;
 use quick_xml::Result;
 
+use rayon::{ThreadPool, ThreadPoolBuilder};
+use regex::Regex;
+
 const DIR: &str = "output/";
 
-pub struct XMLParser<F: Fn(&[u8]) -> String> {
+pub struct XMLParser<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy + 'static> {
     text_processor: F,
     reader: Reader<BufReader<File>>,
-    num_articles: usize
+    num_articles: Arc<Mutex<usize>>,
+    counts: Arc<Mutex<HashMap<String, usize>>>,
+    thread_pool: Option<ThreadPool>,
+    num_threads: Arc<Mutex<usize>>
 }
 
-impl<F: Fn(&[u8]) -> String> XMLParser<F> {
+impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
     pub fn new(text_processor: F, filename: &str) -> Result<Self> {
         let reader = Reader::from_file(filename)?;
+        let thread_pool = ThreadPoolBuilder::new().num_threads(24).build().unwrap();
         Ok(Self {
             text_processor,
             reader,
-            num_articles: 0
+            num_articles: Arc::new(Mutex::new(0)),
+            counts: Arc::new(Mutex::new(HashMap::new())),
+            thread_pool: Some(thread_pool),
+            num_threads: Arc::new(Mutex::new(0))
         })
     }
 
@@ -39,7 +53,21 @@ impl<F: Fn(&[u8]) -> String> XMLParser<F> {
                     Err(Error::TextNotFound)
                 },
             _ => Err(Error::TextNotFound)
+        }?;
+
+        // Get and sort the counts
+        self.thread_pool = None;
+        let counts = self.counts.lock().unwrap();
+        let mut sorted_counts: Vec<_> = counts.iter().collect();
+        sorted_counts.sort_unstable_by_key(|(_, &c)| c);
+
+        // Write the counts
+        let mut file = File::create("counts.csv")?;
+        for (s, c) in sorted_counts.iter().rev() {
+            file.write_fmt(format_args!("{},{}", s, c))?;
         }
+
+        Ok(())
     }
 
     // Parse the body of the XML page
@@ -119,6 +147,7 @@ impl<F: Fn(&[u8]) -> String> XMLParser<F> {
     
         // Skip technical articles about Wikipedia itself
         let title = str::from_utf8(&title)?;
+        let title = title.to_string();
         if !title.starts_with("Wikipedia:") 
             && !title.starts_with("Portal:") 
             && !title.starts_with("File:") 
@@ -126,12 +155,53 @@ impl<F: Fn(&[u8]) -> String> XMLParser<F> {
             && !title.starts_with("Category:") 
             && !title.starts_with("Draft:")
         {
-            if self.num_articles % 100 == 0 {
-                println!("Processing file number {}: {}", self.num_articles, title);
+            let counts = self.counts.clone();
+            let num_articles = self.num_articles.clone();
+            let num_threads = self.num_threads.clone();
+            let text_processor = self.text_processor;
+
+            loop {
+                {
+                    let num_threads = num_threads.lock().unwrap();
+                    if *num_threads < 64 {
+                        break;
+                    }
+                }
+                sleep(Duration::from_millis(100));
             }
-            let text = (self.text_processor)(&text);
-            write_file(title, &text)?;
-            self.num_articles += 1;
+
+            {
+                let mut num_threads = num_threads.lock().unwrap();
+                *num_threads += 1;
+            }
+
+            self.thread_pool.as_mut().unwrap().spawn(move || {
+                {
+                    let mut num_articles = num_articles.lock().unwrap();
+                    if *num_articles % 100 == 0 {
+                        println!("Processing file number {}: {}", *num_articles, title);
+                    }
+                    *num_articles += 1;
+                }
+
+                let re = Regex::new(r"\{\{([^#<>\[\]\|\{\}]+)").unwrap();
+                let text = (text_processor)(&text);
+
+                {
+                    let mut counts = counts.lock().unwrap();
+                    for (_, [template_name]) in re.captures_iter(&text).map(|c| c.extract()) {
+                        counts
+                            .entry(template_name.to_lowercase())
+                            .and_modify(|c| *c += 1)
+                            .or_insert(1);
+                    }
+                }
+
+                {
+                    let mut num_threads = num_threads.lock().unwrap();
+                    *num_threads -= 1;
+                }
+            });
         }
     
         Ok(())
