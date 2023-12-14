@@ -5,6 +5,7 @@
 output/*
 !output/.gitkeep
 vanilla_output
+interesting_outputs
 
 counts.csv
 priority_templates.csv

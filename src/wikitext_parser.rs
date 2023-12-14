@@ -61,6 +61,28 @@ fn article_parser(input: &str) -> String {
     output.replace("(pronounced )", "")
 }
 
+fn template_contents_parser(input: &str) -> String {
+    let helper = alt((
+        table_parser,
+        link_parser,
+        ref_parser,
+        div_parser,
+        quote_parser,
+        comment_parser,
+        list_parser,
+        html_code_parser,
+        map(anychar, |c| c.to_string())
+    ));
+
+    let result = map(
+        many0(helper),
+        |strings| { strings.concat() }
+    )(input);
+
+    let (_, output) = result.unwrap();
+    output
+}
+
 // If next item is special, parse it. Otherwise, move forward one char
 fn general_content_parser(input: &str) -> IResult<&str, String> {
     alt((
@@ -109,7 +131,7 @@ fn section_parser(input: &str) -> IResult<&str, String> {
         delimited(
             tuple((
                 tag::<_, &str, _>("\n=="),
-                none_of("=")
+                peek(none_of("="))
             )), 
             take_until("=="),
             tuple((
@@ -285,13 +307,13 @@ fn template_parser(input: &str) -> IResult<&str, String> {
         ),
         |input| {
             let input = input.concat();
-            let input = article_parser(&input);
-            let (needs_parsing, input) = filter_templates(input);
-            if needs_parsing {
-                article_parser(&input)
+            let reparsed_input = template_contents_parser(&input);
+            let output = filter_templates(&reparsed_input);
+            if let Some(output) = output {
+                output
             }
             else {
-                input
+                String::new()
             }
         }
     )(input)
