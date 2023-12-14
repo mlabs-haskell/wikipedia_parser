@@ -17,7 +17,7 @@ use rayon::{ThreadPool, ThreadPoolBuilder};
 use regex::Regex;
 
 const DIR: &str = "output/";
-const NUM_THREADS: usize = 50;
+const NUM_THREADS: usize = 30;
 
 pub struct XMLParser<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy + 'static> {
     text_processor: F,
@@ -169,7 +169,7 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
             loop {
                 {
                     let active_threads = active_threads.lock().unwrap();
-                    if *active_threads < 2 * NUM_THREADS {
+                    if *active_threads < 4 * NUM_THREADS {
                         break;
                     }
                 }

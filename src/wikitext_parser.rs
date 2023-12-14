@@ -327,7 +327,9 @@ fn template_parser(input: &str) -> IResult<&str, String> {
             else {
                 let skip_logging = [
                     "convert",
-                    "cvt"
+                    "cvt",
+                    "coord",
+                    "location"
                 ];
                 let skip = skip_logging
                     .iter()

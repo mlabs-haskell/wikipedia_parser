@@ -87,7 +87,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "further",
     // "globalize",
     // "good article",
-    // "goal",
+    "goal",
     // "greek myth",
     // "harvid",
     // "harvnb",
@@ -187,9 +187,10 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "url",
     // "us census population",
     // "usa",
-    // "use",
+    "use",
     // "vague",
     // "webarchive",
+    "wikidata",
     // "wikisource",
     // "wiktionary",
     // "yel"
@@ -333,12 +334,15 @@ pub fn filter_templates(input: &str) -> Option<String> {
     // }
 
     // Get the template name and its params
-    let parts: Vec<_> = input.split('|').map(|s| s.trim()).collect();
+    let parts: Vec<_> = input
+        .split('|')
+        .map(|s| s.trim())
+        .collect();
     let template_name: Vec<_> = parts[0]
         .split(' ')
         .filter(|s| !s.is_empty())
         .collect();
-    let template_name = template_name.join(" ").to_lowercase();
+    let template_name = template_name.join(" ").to_lowercase().trim().to_string();
     let params = get_params(&parts[1..]);
 
     // Handle any template that should be replaced with its last parameter
@@ -372,7 +376,7 @@ pub fn filter_templates(input: &str) -> Option<String> {
     // }
 
     // Handle simple parsing cases
-    match template_name.trim() {
+    match template_name.as_str() {
         // "sclass" => return (false, format!("{}-class {}", unnamed_params.get(0)?, unnamed_params.get(1)?)),
         // "uss" | "hms" | "hmnzs" => {
         //     let s = if parts.len() == 2 {
@@ -687,81 +691,87 @@ pub fn filter_templates(input: &str) -> Option<String> {
     //     return (true, list_items.join("\n"));
     // }
 
-    // // Parse coordinate templates
-    // if template_name == "coord" ||
-    //     template_name == "location"
-    // {
-    //     let tag_pieces: Vec<_> = params
-    //         .iter()
-    //         .filter(|&s| !s.contains('='))
-    //         .collect();
+    // Parse coordinate templates
+    if template_name == "coord" ||
+        template_name == "coordinates" ||
+        template_name == "location"
+    {
+        // Remove unnamed params, unusable ones, and empty ones
+        let params: HashMap<_, _> = params
+            .iter()
+            .filter(|(k, v)| 
+                k.chars().all(|c| c.is_numeric()) && !v.contains(":") && !v.is_empty())
+            .map(|(k, &v)| (k.as_str(), v))
+            .collect();
 
-    //     match tag_pieces.len() {
-    //         2 => {
-    //             let (lat_letter, lat) = if tag_pieces.get(0)?.starts_with('-') {
-    //                 ('S', &tag_pieces.get(0)?[1..])
-    //             }
-    //             else {
-    //                 ('N', *tag_pieces.get(0)?)
-    //             };
+        // Sort by numeric label
+        let mut params: Vec<_> = params.iter().map(|(&k, &v)| (k, v)).collect();
+        params.sort_unstable_by_key(|(k, _)| *k);
+        let params: Vec<_> = params.iter().map(|(_, v)| *v).collect();
 
-    //             let (long_letter, long) = if tag_pieces.get(1)?.starts_with('-') {
-    //                 ('W', &tag_pieces.get(0)?[1..])
-    //             }
-    //             else {
-    //                 ('E', *tag_pieces.get(0)?)
-    //             };
+        match params.len() {
+            0 => return None,
+            2 => {
+                let (lat_letter, lat) = if params.get(0)?.starts_with('-') {
+                    ('S', &params.get(0)?[1..])
+                }
+                else {
+                    ('N', *params.get(0)?)
+                };
 
-    //             return (
-    //                 false, 
-    //                 format!(
-    //                     "{}\u{00B0}{} {}\u{00B0}{}", 
-    //                     lat, 
-    //                     lat_letter, 
-    //                     long, 
-    //                     long_letter
-    //                 )
-    //             );
-    //         },
-    //         4 => return (
-    //             false, 
-    //             format!(
-    //                 "{}\u{00B0}{} {}\u{00B0}{}", 
-    //                 tag_pieces.get(0)?, 
-    //                 tag_pieces.get(1)?, 
-    //                 tag_pieces.get(2)?, 
-    //                 tag_pieces.get(3)?
-    //             )
-    //         ),
-    //         6 => return (
-    //             false, 
-    //             format!(
-    //                 "{}\u{00B0}{}'{} {}\u{00B0}{}'{}", 
-    //                 tag_pieces.get(0)?, 
-    //                 tag_pieces.get(1)?, 
-    //                 tag_pieces.get(2)?, 
-    //                 tag_pieces.get(3)?,
-    //                 tag_pieces.get(4)?,
-    //                 tag_pieces.get(5)?
-    //             )
-    //         ),
-    //         8 => return (
-    //             false, 
-    //             format!(
-    //                 "{}\u{00B0}{}'{}\"{} {}\u{00B0}{}'{}\"{}", 
-    //                 tag_pieces.get(0)?, 
-    //                 tag_pieces.get(1)?, 
-    //                 tag_pieces.get(2)?, 
-    //                 tag_pieces.get(3)?,
-    //                 tag_pieces.get(4)?,
-    //                 tag_pieces.get(5)?,
-    //                 tag_pieces.get(6)?,
-    //                 tag_pieces.get(7)?
-    //             )
-    //         ),
-    //         _ => ()
-    //     }
-    // }
+                let (long_letter, long) = if params.get(1)?.starts_with('-') {
+                    ('W', &params.get(0)?[1..])
+                }
+                else {
+                    ('E', *params.get(0)?)
+                };
+
+                return Some(
+                    format!(
+                        "{}\u{00B0}{} {}\u{00B0}{}", 
+                        lat, 
+                        lat_letter, 
+                        long, 
+                        long_letter
+                    )
+                );
+            },
+            4 => return Some(
+                format!(
+                    "{}\u{00B0}{} {}\u{00B0}{}", 
+                    params.get(0)?, 
+                    params.get(1)?, 
+                    params.get(2)?, 
+                    params.get(3)?
+                )
+            ),
+            6 => return Some(
+                format!(
+                    "{}\u{00B0}{}'{} {}\u{00B0}{}'{}", 
+                    params.get(0)?, 
+                    params.get(1)?, 
+                    params.get(2)?, 
+                    params.get(3)?,
+                    params.get(4)?,
+                    params.get(5)?
+                )
+            ),
+            8 => return Some(
+                format!(
+                    "{}\u{00B0}{}'{}\"{} {}\u{00B0}{}'{}\"{}", 
+                    params.get(0)?, 
+                    params.get(1)?, 
+                    params.get(2)?, 
+                    params.get(3)?,
+                    params.get(4)?,
+                    params.get(5)?,
+                    params.get(6)?,
+                    params.get(7)?
+                )
+            ),
+            _ => ()
+        }
+    }
 
     // // Get sorted item from sort templates
     // if template_name == "sort" {
