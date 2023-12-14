@@ -339,12 +339,7 @@ pub fn filter_templates(input: &str) -> Option<String> {
         .filter(|s| !s.is_empty())
         .collect();
     let template_name = template_name.join(" ").to_lowercase();
-    let params = &parts[1..];
-    let unnamed_params: Vec<_> = params
-        .iter()
-        .filter(|s| !s.contains('='))
-        .map(|&s| s)
-        .collect();
+    let params = get_params(&parts[1..]);
 
     // Handle any template that should be replaced with its last parameter
     // let replace = REPLACE_LAST.contains(&template_name);
@@ -413,19 +408,19 @@ pub fn filter_templates(input: &str) -> Option<String> {
         //     };
         // },
         "cvt" | "convert" => {
-            let separator = unnamed_params.get(1)?;
+            let separator = params.get("2")?;
             if CONVERSION_SEPARATORS.contains(*separator) {
                 let s = format!(
                     "{} {} {} {}", 
-                    unnamed_params.get(0)?, 
-                    unnamed_params.get(1)?, 
-                    unnamed_params.get(2)?, 
-                    unnamed_params.get(3)?
+                    params.get("1")?, 
+                    params.get("2")?, 
+                    params.get("3")?, 
+                    params.get("4")?
                 );
                 return Some(s);
             }
             else {
-                let s = format!("{} {}", unnamed_params.get(0)?, unnamed_params.get(1)?);
+                let s = format!("{} {}", params.get("1")?, params.get("2")?);
                 return Some(s);
             }
         },
@@ -1104,17 +1099,14 @@ pub fn filter_templates(input: &str) -> Option<String> {
 }
 
 // Get the template parameters. 
-// If a parameter is unnamed, give it the next unused name from unnamed_order
 fn get_params<'a, 'b>(
-    in_params: &'a [&'a str], 
-    unnamed_order: &'b [&'b str]
-) -> HashMap<&'a str, &'a str> 
+    in_params: &'a [&'a str]
+) -> HashMap<String, &'a str> 
 where
     'b: 'a
 {
     let mut named_params = HashMap::new();
     let mut unnamed_params = Vec::new();
-    let mut numbered_params = HashMap::new();
     for param in in_params {
         // Divide param term by =
         let param_pieces: Vec<_> = param.split('=').map(|s| s.trim()).collect();
@@ -1124,31 +1116,43 @@ where
             unnamed_params.push(param_pieces[0]);
         }
 
-        // Record named param or numbered param
+        // Record named param
         else {
             let tag_name = param_pieces[0];
-            if let Some(num) = tag_name.parse::<usize>().ok() {
-                numbered_params.insert(num - 1, param_pieces[1]);
+            named_params.insert(tag_name.to_string(), param_pieces[1]);
+        }
+    }
+
+    let mut tag_number = 1;
+    for unnamed_param in unnamed_params {
+        loop {
+            let key = tag_number.to_string();
+            if named_params.contains_key(key.as_str()) {
+                tag_number += 1;
             }
             else {
-                named_params.insert(tag_name, param_pieces[1]);
+                break
             }
         }
-    }
 
-    // Pair numbered params with number in ordering
-    for (&num, param) in &numbered_params {
-        if num < unnamed_order.len() {
-            named_params.insert(unnamed_order[num], param);
-        }
-    }
-
-    // Pair unnumbered unnamed params with the associated element in the ordering
-    for (i, param_name) in unnamed_order.iter().enumerate() {
-        if !numbered_params.contains_key(&i) && i < unnamed_params.len() {
-            named_params.insert(param_name, unnamed_params[i]);
-        }
+        let key = tag_number.to_string();
+        named_params.insert(key, unnamed_param);
     }
 
     named_params
+}
+
+// Renamed unnamed params with the given names
+fn rename_params<'a>(
+    mut in_params: HashMap<String, &'a str>, 
+    param_names: &[&str]
+) -> HashMap<String, &'a str> {
+    let counter = 1;
+    for param_name in param_names {
+        let key = counter.to_string();
+        if let Some(val) = in_params.remove(key.as_str()) {
+            in_params.insert(param_name.to_string(), val);
+        }
+    }
+    return in_params;
 }

@@ -287,7 +287,8 @@ fn html_code_parser(input: &str) -> IResult<&str, String> {
                 helper("gallery"),
                 helper("math"),
                 helper("score"),
-                helper("code")
+                helper("code"),
+                helper("nowiki")
             )),
             |_| String::new()
         )
