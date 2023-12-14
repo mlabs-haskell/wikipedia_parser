@@ -1,4 +1,5 @@
-use std::collections::HashMap;
+use core::panic;
+use std::collections::{HashMap, BTreeSet};
 use std::fs::File;
 use std::io::{Write, BufReader};
 use std::str;
@@ -16,27 +17,30 @@ use rayon::{ThreadPool, ThreadPoolBuilder};
 use regex::Regex;
 
 const DIR: &str = "output/";
+const NUM_THREADS: usize = 50;
 
 pub struct XMLParser<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy + 'static> {
     text_processor: F,
     reader: Reader<BufReader<File>>,
-    num_articles: Arc<Mutex<usize>>,
+    num_articles: usize,
     counts: Arc<Mutex<HashMap<String, usize>>>,
     thread_pool: Option<ThreadPool>,
-    num_threads: Arc<Mutex<usize>>
+    processing_articles: Arc<Mutex<BTreeSet<usize>>>,
+    active_threads: Arc<Mutex<usize>>
 }
 
 impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
     pub fn new(text_processor: F, filename: &str) -> Result<Self> {
         let reader = Reader::from_file(filename)?;
-        let thread_pool = ThreadPoolBuilder::new().num_threads(24).build().unwrap();
+        let thread_pool = ThreadPoolBuilder::new().num_threads(NUM_THREADS).build().unwrap();
         Ok(Self {
             text_processor,
             reader,
-            num_articles: Arc::new(Mutex::new(0)),
+            num_articles: 0,
             counts: Arc::new(Mutex::new(HashMap::new())),
             thread_pool: Some(thread_pool),
-            num_threads: Arc::new(Mutex::new(0))
+            processing_articles: Arc::new(Mutex::new(BTreeSet::new())),
+            active_threads: Arc::new(Mutex::new(0))
         })
     }
 
@@ -64,7 +68,7 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
         // Write the counts
         let mut file = File::create("counts.csv")?;
         for (s, c) in sorted_counts.iter().rev() {
-            file.write_fmt(format_args!("{},{}", s, c))?;
+            file.write_fmt(format_args!("{},{}\n", s, c))?;
         }
 
         Ok(())
@@ -154,52 +158,68 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
             && !title.starts_with("Template:") 
             && !title.starts_with("Category:") 
             && !title.starts_with("Draft:")
+            && !title.starts_with("Module:")
+            && !title.starts_with("MediaWiki:")
         {
             let counts = self.counts.clone();
-            let num_articles = self.num_articles.clone();
-            let num_threads = self.num_threads.clone();
+            let processing_articles = self.processing_articles.clone();
+            let active_threads = self.active_threads.clone();
             let text_processor = self.text_processor;
 
+            // Pause until we have some free threads
             loop {
                 {
-                    let num_threads = num_threads.lock().unwrap();
-                    if *num_threads < 64 {
+                    let active_threads = active_threads.lock().unwrap();
+                    if *active_threads < 2 * NUM_THREADS {
                         break;
                     }
                 }
                 sleep(Duration::from_millis(100));
             }
 
+            let article_id = self.num_articles;
+            self.num_articles += 1;
+
+            // Increase the number of active threads
             {
-                let mut num_threads = num_threads.lock().unwrap();
-                *num_threads += 1;
+                *active_threads.lock().unwrap() += 1;
             }
 
             self.thread_pool.as_mut().unwrap().spawn(move || {
+                // Add article to the list of articles being actively processed
                 {
-                    let mut num_articles = num_articles.lock().unwrap();
-                    if *num_articles % 100 == 0 {
-                        println!("Processing file number {}: {}", *num_articles, title);
+                    let mut processing_articles = processing_articles.lock().unwrap();
+                    processing_articles.insert(article_id);
+    
+                    if article_id % 10_000 == 0 {
+                        println!("Processing the following files: {:?}", *processing_articles);
                     }
-                    *num_articles += 1;
                 }
 
+                // Process the text
                 let re = Regex::new(r"\{\{([^#<>\[\]\|\{\}]+)").unwrap();
                 let text = (text_processor)(&text);
 
+                // Count the number of templates
                 {
                     let mut counts = counts.lock().unwrap();
                     for (_, [template_name]) in re.captures_iter(&text).map(|c| c.extract()) {
                         counts
-                            .entry(template_name.to_lowercase())
+                            .entry(template_name.trim().to_lowercase())
                             .and_modify(|c| *c += 1)
                             .or_insert(1);
                     }
                 }
 
+                // Remove the article from the list of articles being processed
                 {
-                    let mut num_threads = num_threads.lock().unwrap();
-                    *num_threads -= 1;
+                    let mut processing_articles = processing_articles.lock().unwrap();
+                    processing_articles.remove(&article_id);
+                }
+
+                // Decrement number of active threads
+                {
+                    *active_threads.lock().unwrap() -= 1;
                 }
             });
         }

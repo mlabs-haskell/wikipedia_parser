@@ -21,7 +21,6 @@ const REMOVE_SECTIONS: &[&str] = &[
     "footnotes",
     "further reading",
     "gallery",
-    "bibliography" ,
     "explanatory notes",
     "citations",
     "general bibliography",
@@ -51,7 +50,7 @@ pub fn extract_text(input: &[u8]) -> String {
 fn article_parser(input: &str) -> String {
     let result = map(
         many0(general_content_parser),
-        |strings| { strings.join("") }
+        |strings| { strings.concat() }
     )(input);
 
     // This is safe because the above parser will always succeed
@@ -82,17 +81,25 @@ fn general_content_parser(input: &str) -> IResult<&str, String> {
 // Remove list formatting from list items
 fn list_parser(input: &str) -> IResult<&str, String> {
     map(
-        look_ahead_delimited(
+        preceded(
             tuple((
                 tag("\n"),
                 many1(
                     one_of("*:;#")
                 )
             )), 
-            general_content_parser, 
-            peek(tag("\n"))
+            many_till(
+                alt((
+                    html_code_parser,
+                    map(anychar, |c| c.to_string())
+                )),
+                tag("\n")
+            )
         ),
-        |strings| "\n".to_owned() + &strings.join("")
+        |(strings, _)| {
+            let s = "\n".to_string() + &strings.concat();
+            article_parser(&s)
+        }
     )(input)
 }
 
@@ -100,19 +107,17 @@ fn list_parser(input: &str) -> IResult<&str, String> {
 fn section_parser(input: &str) -> IResult<&str, String> {
     let mut header_helper = map(
         delimited(
-            tag("\n=="), 
-            many1(
+            tuple((
+                tag::<_, &str, _>("\n=="),
                 none_of("=")
-            ),
+            )), 
+            take_until("=="),
             tuple((
                 tag("=="),
                 none_of("=")
             ))
         ),
-        |v| {
-            let s: String = v.iter().collect();
-            s.trim().to_lowercase()
-        }
+        |s| s.trim().to_lowercase()
     );
 
     let (new_input, header) = header_helper(input)?;
@@ -143,69 +148,29 @@ fn section_parser(input: &str) -> IResult<&str, String> {
 // TODO: We may want to grab text from tables
 fn table_parser(input: &str) -> IResult<&str, String> {
     map(
-        alt((
-            look_ahead_delimited(
-                alt((
-                    // Standard start for a table
-                    tag("\n{|"),
+        look_ahead_delimited(
+            alt((
+                // Standard start for a table
+                tag("\n{|"),
 
-                    // Templates that can start tables
-                    tag_no_case("{{Awards table"),
-                    tag_no_case("{{Certification Table Top"),
-                    tag_no_case("{{col-begin"),
-                    tag_no_case("{{NRHP header}}")
-                )),
-                general_content_parser,
-                tag("|}")
-            ),
-
-            // Some tables have templated headers and footers
-            look_ahead_delimited(
+                // Templates that can start tables
+                tag_no_case("{{Awards table"),
                 tag_no_case("{{Certification Table Top"),
-                general_content_parser,
-                tag_no_case("{{Certification Table Bottom}}")
-            ),
-            look_ahead_delimited(
-                tag_no_case("{{Refbegin"),
-                general_content_parser,
-                tag_no_case("{{Refend}}")
-            ),
-            look_ahead_delimited(
-                tag_no_case("{{Football squad start}}"),
-                general_content_parser,
-                tag_no_case("{{Football squad end}}")
-            ),
-            look_ahead_delimited(
-                tag_no_case("{{election box begin"),
-                general_content_parser,
-                tag_no_case("{{election box end}}")
-            ),
-            look_ahead_delimited(
-                tag_no_case("{{shipwreck list begin"),
-                general_content_parser,
-                tag_no_case("{{shipwreck list end}}")
-            ),
-            look_ahead_delimited(
-                tag_no_case("{{s-start"),
-                general_content_parser,
-                tag_no_case("{{s-end}}")
-            ),
-            look_ahead_delimited(
-                tag_no_case("{{col-start"),
-                general_content_parser,
-                tag_no_case("{{col-end}}")
-            ),
-            look_ahead_delimited(
-                tag_no_case("{{startflatlist"),
-                general_content_parser,
-                tag_no_case("{{endflatlist}}")
-            ),
-            look_ahead_delimited(
-                tag_no_case("{{onelegstart"),
-                general_content_parser,
-                tag_no_case("{{onelegend}}")
-            )
-        )),
+                tag_no_case("{{LegSeats3"),
+                tag_no_case("{{NRHP header}}")
+            )),
+            alt((
+                table_parser,
+                map(anychar, |_| String::new())
+            )),
+            alt((
+                terminated(
+                    tag("|}"),
+                    none_of("}")
+                ),
+                peek(tag("\n=="))
+            ))
+        ),
         |_| String::new()
     )(input)
 }
@@ -269,7 +234,10 @@ fn html_code_parser(input: &str) -> IResult<&str, String> {
             delimited(
                 tag("</"), 
                 tag(html_tag), 
-                tag(">")
+                preceded(
+                    many0(none_of(">")),
+                    tag(">")
+                )
             )
         )
     };
@@ -277,6 +245,7 @@ fn html_code_parser(input: &str) -> IResult<&str, String> {
     alt((
         map(
             alt((
+                helper("small"),
                 helper("big"),
                 helper("sub"),
                 helper("sup"),
@@ -295,7 +264,8 @@ fn html_code_parser(input: &str) -> IResult<&str, String> {
                 helper("imagemap"),
                 helper("gallery"),
                 helper("math"),
-                helper("score")
+                helper("score"),
+                helper("code")
             )),
             |_| String::new()
         )
@@ -327,24 +297,89 @@ fn template_parser(input: &str) -> IResult<&str, String> {
     )(input)
 }
 
-// Handle the command codes for bolds and italics 
-fn quote_parser(input: &str) -> IResult<&str, String> {
-    let helper = |delimiter| {
-        map(
-            look_ahead_delimited(
-                tag(delimiter), 
-                general_content_parser, 
-                tag(delimiter)
+// Parser for when we are in a 2 quote string
+fn two_quote_state(input: &str) -> IResult<&str, String> {
+    map(
+        tuple((
+            many_till(
+                anychar, 
+                alt((
+                    peek(tag("''")),
+                    peek(tag("\n"))
+                ))
             ),
-            |strings| strings.concat()
-        )
-    };
+            alt((
+                preceded(
+                    tag("'''"),
+                    five_quote_state
+                ),
+                map(tag("''"), |_| String::new())
+            ))
+        )),
+        |((chars, _), suffix)| chars.into_iter().collect::<String>() + &suffix
+    )(input)
+}
 
-    alt((
-        helper("'''''"),
-        helper("'''"),
-        helper("''")
-    ))(input)
+// Parser for when we are in a 3 quote string
+fn three_quote_state(input: &str) -> IResult<&str, String> {
+    map(
+        tuple((
+            many_till(
+                anychar, 
+                alt((
+                    peek(tag("''")),
+                    peek(tag("\n"))
+                ))
+            ),
+            alt((
+                map(tag("'''"), |_| String::new()),
+                preceded(
+                    tag("''"),
+                    five_quote_state
+                )
+            ))
+        )),
+        |((chars, _), suffix)| chars.into_iter().collect::<String>() + &suffix
+    )(input)
+}
+
+// Parser for when we are in a 5 quote string
+fn five_quote_state(input: &str) -> IResult<&str, String> {
+    map(
+        tuple((
+            many_till(
+                anychar, 
+                alt((
+                    peek(tag("''")),
+                    peek(tag("\n"))
+                ))
+            ),
+            alt((
+                map(tag("'''''"), |_| String::new()),
+                preceded(
+                    tag("'''"),
+                    two_quote_state
+                ),
+                preceded(
+                    tag("''"),
+                    three_quote_state
+                )
+            ))
+        )),
+        |((chars, _), suffix)| chars.into_iter().collect::<String>() + &suffix
+    )(input)
+}
+
+// Handle the command codes for bolds and italics 
+fn quote_parser(input: &str) -> IResult<&str, String> { 
+    map(
+        alt((
+            preceded(tag("'''''"), five_quote_state),
+            preceded(tag("'''"), three_quote_state),
+            preceded(tag("''"), two_quote_state)
+        )),
+        |s| article_parser(&s)
+    )(input)
 }
 
 // Handle the command codes for links to other articles and to images
