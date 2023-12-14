@@ -65,7 +65,7 @@ fn template_contents_parser(input: &str) -> String {
     let helper = alt((
         table_parser,
         link_parser,
-        ref_parser,
+        empty_tag_parser,
         div_parser,
         quote_parser,
         comment_parser,
@@ -90,7 +90,7 @@ fn general_content_parser(input: &str) -> IResult<&str, String> {
         template_parser, 
         section_parser,
         link_parser,
-        ref_parser,
+        empty_tag_parser,
         div_parser,
         quote_parser,
         comment_parser,
@@ -197,29 +197,41 @@ fn table_parser(input: &str) -> IResult<&str, String> {
     )(input)
 }
 
-// Parse refs and get rid of them
-fn ref_parser(input: &str) -> IResult<&str, String> {
-    // Take the opening tag
-    let (input, tag_attrs) = delimited(
-        tag("<ref"),
-        take_until(">"),
-        tag(">")
-    )(input)?;
+// Parse potentially empty tags and get rid of them
+fn empty_tag_parser<'a>(input: &'a str) -> IResult<&'a str, String> {
+    let helper = |tag_name| {
+        move |input: &'a str| {
+            let tag_opener = format!("<{}", tag_name);
+            let tag_ender = format!("</{}>", tag_name);
 
-    // If the tag is empty, we have consumed it and we are done
-    if tag_attrs.ends_with('/') {
-        Ok((input, String::new()))
-    }
+            // Take the opening tag
+            let (input, tag_attrs) = delimited(
+                tag(tag_opener.as_str()),
+                take_until(">"),
+                tag(">")
+            )(input)?;
 
-    // Otherwise, consume until the end tag
-    else {
-        let (input, _) = terminated(
-            take_until("</ref>"),
-            tag("</ref>")
-        )(input)?;
+            // If the tag is empty, we have consumed it and we are done
+            if tag_attrs.ends_with('/') {
+                Ok((input, String::new()))
+            }
 
-        Ok((input, String::new()))
-    }
+            // Otherwise, consume until the end tag
+            else {
+                let (input, _) = terminated(
+                    take_until(tag_ender.as_str()),
+                    tag(tag_ender.as_str())
+                )(input)?;
+
+                Ok((input, String::new()))
+            }
+        }
+    };
+
+    alt((
+        helper("ref"),
+        helper("nowiki")
+    ))(input)
 }
 
 // Parse divs and get rid of them
@@ -287,8 +299,7 @@ fn html_code_parser(input: &str) -> IResult<&str, String> {
                 helper("gallery"),
                 helper("math"),
                 helper("score"),
-                helper("code"),
-                helper("nowiki")
+                helper("code")
             )),
             |_| String::new()
         )
@@ -314,6 +325,18 @@ fn template_parser(input: &str) -> IResult<&str, String> {
                 output
             }
             else {
+                let skip_logging = [
+                    "convert",
+                    "cvt"
+                ];
+                let skip = skip_logging
+                    .iter()
+                    .any(|prefix| input.to_lowercase().trim().starts_with(prefix));
+
+                if !skip {
+                    println!("Problem template: {}", input);
+                }
+
                 String::new()
             }
         }
