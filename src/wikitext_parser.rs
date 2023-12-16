@@ -43,7 +43,10 @@ pub fn extract_text(input: &[u8]) -> String {
     // Remove all double (or more) carriage returns
     let re = Regex::new(r"\n\n+").unwrap();
     let output = re.replace_all(&output, "\n");
-    output.to_string()
+
+    // Perform some final cleanup
+    let output = output.trim().to_owned();
+    output.replace("(pronounced )", "")
 }
 
 // Nom parser that allows us to extract needed text while knowing the article structure
@@ -56,9 +59,7 @@ fn article_parser(input: &str) -> String {
     // This is safe because the above parser will always succeed
     let (_, output) = result.unwrap();
 
-    // Perform some final cleanup
-    let output = output.trim().to_owned();
-    output.replace("(pronounced )", "")
+    output
 }
 
 fn template_contents_parser(input: &str) -> String {
@@ -136,7 +137,7 @@ fn section_parser(input: &str) -> IResult<&str, String> {
             take_until("=="),
             tuple((
                 tag("=="),
-                none_of("=")
+                peek(none_of("="))
             ))
         ),
         |s| s.trim().to_lowercase()
@@ -170,29 +171,47 @@ fn section_parser(input: &str) -> IResult<&str, String> {
 // TODO: We may want to grab text from tables
 fn table_parser(input: &str) -> IResult<&str, String> {
     map(
-        look_ahead_delimited(
-            alt((
-                // Standard start for a table
-                tag("\n{|"),
+        alt((
+            // look_ahead_delimited(
+            //     tag_no_case("{{col-float"), 
+            //     template_parser, 
+            //     tag_no_case("col-float-end}}")
+            // ),
+            // look_ahead_delimited(
+            //     tag_no_case("{{columns-start"), 
+            //     template_parser, 
+            //     tag_no_case("columns-end}}")
+            // ),
+            // look_ahead_delimited(
+            //     tag_no_case("{{div col"), 
+            //     template_parser, 
+            //     tag_no_case("div cold end}}")
+            // ),
+            look_ahead_delimited(
+                alt((
+                    // Standard start for a table
+                    tag("\n{|"),
 
-                // Templates that can start tables
-                tag_no_case("{{Awards table"),
-                tag_no_case("{{Certification Table Top"),
-                tag_no_case("{{LegSeats3"),
-                tag_no_case("{{NRHP header}}")
-            )),
-            alt((
-                table_parser,
-                map(anychar, |_| String::new())
-            )),
-            alt((
-                terminated(
-                    tag("|}"),
-                    none_of("}")
-                ),
-                peek(tag("\n=="))
-            ))
-        ),
+                    // Templates that can start tables
+                    tag_no_case("{{Awards table"),
+                    tag_no_case("{{Certification Table Top"),
+                    tag_no_case("{{LegSeats3"),
+                    tag_no_case("{{NRHP header}}"),
+                    tag_no_case("{{col-begin")
+                )),
+                alt((
+                    table_parser,
+                    map(anychar, |_| String::new())
+                )),
+                alt((
+                    terminated(
+                        tag("|}"),
+                        none_of("}")
+                    ),
+                    peek(tag("\n=="))
+                ))
+            ),
+        )),
         |_| String::new()
     )(input)
 }
@@ -319,9 +338,18 @@ fn template_parser(input: &str) -> IResult<&str, String> {
         ),
         |input| {
             let input = input.concat();
+            // if input.trim().to_lowercase().starts_with("flagathlete") {
+            //     println!("Raw template: {}", input);
+            // }
             let reparsed_input = template_contents_parser(&input);
+            // if input.trim().to_lowercase().starts_with("flagathlete") {
+            //     println!("Reparsed template: {}", reparsed_input);
+            // }
             let output = filter_templates(&reparsed_input);
             if let Some(output) = output {
+                // if input.trim().to_lowercase().starts_with("flagathlete") {
+                //     println!("Final: {}", output);
+                // }
                 output
             }
             else {
@@ -329,7 +357,10 @@ fn template_parser(input: &str) -> IResult<&str, String> {
                     "convert",
                     "cvt",
                     "coord",
-                    "location"
+                    "location",
+                    "lang",
+                    "small",
+                    "nihongo"
                 ];
                 let skip = skip_logging
                     .iter()

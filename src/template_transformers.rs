@@ -1,7 +1,7 @@
 use lazy_static::lazy_static;
 
 use keshvar::IOC;
-use std::collections::{LinkedList, HashMap, HashSet};
+use std::collections::{LinkedList, HashMap, HashSet, BTreeMap};
 
 const REMOVE_TEMPLATES: &[&str] = &[
     // "#tag",
@@ -28,22 +28,22 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "by whom",
     // "canadian party colour",
     // "cbb roster",
-    // "cbb schedule entry",
+    "cbb schedule",
     // "cbignore",
     // "certification cite ref",
     // "certification table",
-    // "cfb schedule entry",
+    "cfb schedule",
     // "chset-cell1",
     // "charmap",
     // "chart",
-    // "citation",
-    // "cite",
+    "citation",
+    "cite",
     // "clade",
     // "clarify",
     // "cleanup",
     // "clear",
     // "cn",
-    // "col-",
+    "col-",
     // "commons",
     // "contains special characters",
     // "coord missing",
@@ -57,16 +57,16 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "detailslink",
     // "disambiguation",
     // "distinguish",
-    // "div",
-    // "dts", // If this turns out to be used outside of a table, we'll need to handle it
+    "div col",
+    "dts", // If this turns out to be used outside of a table, we'll need to handle it
     // "dubious",
     // "economic",
-    // "efn",
+    "efn",
     // "efs player",
-    // "election box",
+    "election box",
     // "elucidate",
     // "engvarb",
-    // "episode list", // This is a table, but we can probably extract information from it
+    "episode list", // This is a table, but we can probably extract information from it
     // "esotericism",
     // "etymology",
     // "excerpt",
@@ -79,10 +79,11 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "flagcountry",
     // "flagdeco",
     "flagicon",
-    // "football box",
+    "football box",
     // "footballbox",
     // "formatnum",
     // "france metadata wikidata",
+    "fs player",
     // "full citation needed",
     // "further",
     // "globalize",
@@ -98,8 +99,8 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "imdb",
     // "in lang",
     // "inflation",
-    // "infobox",
-    // "ipa", // TODO: We can probably do something with IPA pronunciations
+    "infobox",
+    "ipa", // TODO: We can probably do something with IPA pronunciations
     // "italic",
     // "largest cities",
     // "latin letter",
@@ -107,16 +108,16 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "legend",
     // "letter other reps",
     // "listen",
-    // "location map",
+    "location map",
     // "lomp",
     // "london gazette",
-    // "main",
+    "main",
     // "maplink",
     // "marriage", // Only meant to appear in infoboxes
     // "math",
     // "medal", 
     // "medical",
-    // "more citations needed",
+    "more citations needed",
     // "multiple image",
     // "multiple issues",
     // "music ratings",
@@ -146,29 +147,27 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "preshead",
     // "presrow",
     // "primary source",
-    // "rating",
     // "redirect",
     // "refimprove",
     "reflist",
-    // "refn",
+    "refn",
     // "relevance",
     // "respell", // This is another IPA-related item
-    // "rp",
+    "rp",
     // "s-aft",
     // "s-bef",
     // "s-end",
     // "s-start",
     // "s-ttl",
-    // "see also",
+    "see also",
     "sfn",
-    // "shipwreck list item",
+    "shipwreck list",
     "short description",
     // "shy",
     // "single chart",
     // "singlechart",
-    // "small",
     // "spaceflight",
-    // "speciesbox",
+    "speciesbox",
     // "specify",
     // "subon",
     // "succession box",
@@ -193,7 +192,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "wikidata",
     // "wikisource",
     // "wiktionary",
-    // "yel"
+    "yel"
 ];
 
 const MONTHS: &[&str] = &[
@@ -221,6 +220,7 @@ lazy_static! {
             ("'\"", "'\""),
             ("spaces", " "),
             ("snd", " - "),
+            ("spnd", " - "),
             ("nbsp", " "),
             ("'s", "'s"),
             ("en dash", "\u{2013}"),
@@ -246,47 +246,46 @@ lazy_static! {
 
     static ref REPLACE_LAST: HashSet<String> = {
         [
-            "avoid wrap",
-            "angbr",
-            "australian party style",
-            "center",
-            "crossref",
-            "crossreference",
-            "fb",
-            "fbw",
-            "flag",
-            "flagg",
-            "flagu",
-            "flatlist",
-            "isbn",
+            // "avoid wrap",
+            // "angbr",
+            // "australian party style",
+            // "center",
+            // "crossref",
+            // "crossreference",
+            // "fb",
+            // "fbw",
+            // "flagg",
+            // "flagu",
+            // "flatlist",
             "m+j",
-            "keypress",
+            // "keypress",
             "lang",
-            "linktext",
-            "medalsport",
-            "midsize",
-            "née",
-            "notatypo",
-            "nowrap",
-            "oclc",
-            "pslink",
-            "script",
-            "section link",
-            "sic",
-            "transl",
-            "vr",
+            // "linktext",
+            // "medalsport",
+            // "midsize",
+            // "née",
+            // "notatypo",
+            // "nowrap",
+            // "oclc",
+            // "pslink",
+            // "script",
+            // "section link",
+            // "sic",
+            // "transl",
+            // "vr",
         ].iter().map(|s| s.to_string()).collect()
     };
 
     static ref REPLACE_FIRST: HashSet<String> = {
         [
-            "cr",
-            "esc",
+            // "cr",
+            // "esc",
+            "flag",
             "ill",
             "interlanguage link",
-            "oldstyledateny",
-            "stn",
-            "station"
+            // "oldstyledateny",
+            // "stn",
+            // "station"
         ].iter().map(|s| s.to_string()).collect()
     };
 
@@ -298,7 +297,7 @@ lazy_static! {
             "mp",
             "nflplayer",
             "post-nominals",
-            "ship",
+            "ship"
         ].iter().map(|s| s.to_string()).collect()
     };
 
@@ -327,12 +326,6 @@ lazy_static! {
 // Takes a template, processes it, and returns it and a bool flag 
 // indicating if this output should be processed by the article parser again
 pub fn filter_templates(input: &str) -> Option<String> {
-    // Handle templates that can be simply mapped to a constant
-    // let mapping = MAPPERS.get(&input.to_lowercase());
-    // if let Some(mapping) = mapping {
-    //     return (false, mapping.to_string());
-    // }
-
     // Get the template name and its params
     let parts: Vec<_> = input
         .split('|')
@@ -345,35 +338,51 @@ pub fn filter_templates(input: &str) -> Option<String> {
     let template_name = template_name.join(" ").to_lowercase().trim().to_string();
     let params = get_params(&parts[1..]);
 
+    // Handle templates that can be simply mapped to a constant
+    let mapping = MAPPERS.get(&template_name);
+    if mapping.is_some() {
+        return mapping.cloned();
+    }
+
     // Handle any template that should be replaced with its last parameter
-    // let replace = REPLACE_LAST.contains(&template_name);
-    // if replace {
-    //     let num_params = unnamed_params.len();
-    //     if num_params > 0 {
-    //         return (true, unnamed_params[num_params - 1].to_string());
-    //     }
-    //     else {
-    //         return (false, String::new());
-    //     }
-    // }
+    let replace = REPLACE_LAST.contains(&template_name);
+    if replace {
+        return params
+            .iter()
+            .filter_map(|(k, v)| {
+                let k = k.parse::<usize>().ok()?;
+                Some((k, v))
+            })
+            .max_by_key(|&(k, _)| k)
+            .map(|(_, v)| v.to_string());
+    }
 
     // Handle any template that should be replaced with its first parameter
-    // let replace = REPLACE_FIRST.contains(&template_name);
-    // if replace {
-    //     let num_params = unnamed_params.len();
-    //     if num_params > 0 {
-    //         return (true, unnamed_params.get(0)?.to_string());
-    //     }
-    //     else {
-    //         return (false, String::new());
-    //     }
-    // }
+    let replace = REPLACE_FIRST.contains(&template_name);
+    if replace {
+        return params
+            .iter()
+            .filter_map(|(k, v)| {
+                let k = k.parse::<usize>().ok()?;
+                Some((k, v))
+            })
+            .min_by_key(|&(k, _)| k)
+            .map(|(_, v)| v.to_string());
+    }
 
     // Handle any template where the unnamed params can be joined with spaces
-    // let replace = MERGE_WITH_SPACES.contains(&template_name);
-    // if replace {
-    //     return (true, unnamed_params.join(" "));
-    // }
+    let replace = MERGE_WITH_SPACES.contains(&template_name);
+    if replace {
+        let params: BTreeMap<_, _> = params
+            .iter()
+            .filter_map(|(k, &v)| {
+                let k = k.parse::<usize>().ok()?;
+                Some((k, v))
+            })
+            .collect();
+        let params: Vec<_> = params.values().map(|&v| v).collect();
+        return Some(params.join(" "));
+    }
 
     // Handle simple parsing cases
     match template_name.as_str() {
@@ -411,6 +420,16 @@ pub fn filter_templates(input: &str) -> Option<String> {
         //         _ => ()
         //     };
         // },
+        "rating" => {
+            let score = params.get("1")?;
+            let possible = params.get("2");
+            if let Some(possible) = possible {
+                return Some(format!("{score}/{possible}"));
+            }
+            else {
+                return Some(score.to_string());
+            }
+        },
         "cvt" | "convert" => {
             let separator = params.get("2")?;
             if CONVERSION_SEPARATORS.contains(*separator) {
@@ -428,18 +447,19 @@ pub fn filter_templates(input: &str) -> Option<String> {
                 return Some(s);
             }
         },
+        "small" => return params.get("1").map(|s| s.to_string()),
+        "sortname" => {
+            let params = rename_params(params, &["first", "last"]);
+            let first = params.get("first")?;
+            return Some(
+                params
+                    .get("last")
+                    .map(|l| first.to_string() + " " + l)
+                    .unwrap_or(first.to_string())
+            );
+        },
         // "bce" | "ce" => return (true, unnamed_params.get(0)?.to_string() + " " + parts.get(0)?),
         // "ietf rfc" => return (false, format!("RFC {}", unnamed_params.join(", "))),
-        // "sortname" => return (true, unnamed_params.get(0)?.to_string() + " " + unnamed_params.get(1)?),
-        // "jct" => {         
-        //     let pairs = unnamed_params.chunks(2);
-        //     let highways: Vec<_> = pairs
-        //         .into_iter()
-        //         .map(|pair| pair.join("-"))
-        //         .collect();
-
-        //     return (true, highways.join("/"))
-        // },
         // "mlbplayer" => return (true, unnamed_params.get(1)?.to_string()),
         // "fbu" | "fb-rt" => return (true, unnamed_params.get(1)?.to_string()),
         // "flagmedalist" => return (true, format!("{} ({})", unnamed_params.get(0)?, unnamed_params.get(1)?)),
@@ -691,6 +711,24 @@ pub fn filter_templates(input: &str) -> Option<String> {
     //     return (true, list_items.join("\n"));
     // }
 
+    // Handle highway junctions
+    if template_name == "jct" {  
+        // Remove unnamed params, unusable ones, and empty ones
+        let params: BTreeMap<_, _> = params
+            .iter()
+            .filter_map(|(k, &v)| Some((k.parse::<usize>().ok()?, v)))
+            .collect();
+        let params: Vec<_> = params.values().cloned().collect();
+
+        let pairs = params.chunks(2);
+        let highways: Vec<_> = pairs
+            .into_iter()
+            .map(|pair| pair.join("-"))
+            .collect();
+
+        return Some(highways.join("/"))
+    }
+
     // Parse coordinate templates
     if template_name == "coord" ||
         template_name == "coordinates" ||
@@ -773,6 +811,19 @@ pub fn filter_templates(input: &str) -> Option<String> {
         }
     }
 
+    if template_name == "isbn" {
+        // Remove unnamed params, unusable ones, and empty ones
+        let params: BTreeMap<_, _> = params
+            .iter()
+            .filter(|(k, v)| 
+                k.chars().all(|c| c.is_numeric()) && !v.is_empty())
+            .map(|(k, &v)| (k.parse::<usize>().unwrap(), v))
+            .collect();
+
+        let isbns: Vec<_> = params.values().map(|&v| v).collect();
+        return Some(isbns.join(", "));
+    }
+
     // // Get sorted item from sort templates
     // if template_name == "sort" {
     //     let params = get_params(&params, &["1", "2"]);
@@ -780,75 +831,77 @@ pub fn filter_templates(input: &str) -> Option<String> {
     //     return (true, sort_item.unwrap_or(&"").to_string());
     // }
 
-    // // Get dates
-    // if template_name == "start date" ||
-    //     template_name == "start date and age" ||
-    //     template_name == "end date"
-    // {
-    //     // Get the tags we have and remove empty ones
-    //     let params = get_params(&params, &[
-    //         "year", 
-    //         "month", 
-    //         "day", 
-    //         "hour", 
-    //         "minute", 
-    //         "second", 
-    //         "timezone"
-    //     ]);
-    //     let tags: HashMap<_, _> = params
-    //         .into_iter()
-    //         .filter(|(_, v)| !v.is_empty())
-    //         .collect();
+    // Get dates
+    if template_name == "start date" ||
+        template_name == "start date and age" ||
+        template_name == "end date"
+    {
+        // Get the tags we have and remove empty ones
+        let params = rename_params(params, &[
+            "year", 
+            "month", 
+            "day", 
+            "hour", 
+            "minute", 
+            "second", 
+            "timezone"
+        ]);
+        let tags: HashMap<_, _> = params
+            .into_iter()
+            .filter(|(_, v)| !v.is_empty())
+            .collect();
 
-    //     // Collect the tags into variables
-    //     let year = tags.get("year");
-    //     let month = tags
-    //         .get("month")
-    //         .and_then(|s| s.parse::<usize>().ok().map(|i| MONTHS[i - 1]));
-    //     let day = tags.get("day");
-    //     let hour = tags.get("hour");
-    //     let minute = tags.get("minute");
-    //     let second = tags.get("second");
-    //     let timezone = tags.get("timezone").map(|&tz| {
-    //         if tz == "Z" {
-    //             "UTC"
-    //         }
-    //         else {
-    //             tz
-    //         }
-    //     });
+        // Collect the tags into variables
+        let year = tags.get("year");
+        let month = tags
+            .get("month")
+            .and_then(|s| 
+                s.parse::<usize>().ok().map(|i| MONTHS.get(i - 1).unwrap_or(s))
+            );
+        let day = tags.get("day");
+        let hour = tags.get("hour");
+        let minute = tags.get("minute");
+        let second = tags.get("second");
+        let timezone = tags.get("timezone").map(|&tz| {
+            if tz == "Z" {
+                "UTC"
+            }
+            else {
+                tz
+            }
+        });
         
-    //     // Construct the time piecemeal
-    //     let mut date_string = String::new();
-    //     if let Some(year) = year {
-    //         date_string += year;
-    //     }
+        // Construct the time piecemeal
+        let mut date_string = String::new();
+        if let Some(year) = year {
+            date_string += year;
+        }
         
-    //     if let Some(month) = month {
-    //         if let Some(day) = day {
-    //             date_string = format!("{} {}, {}", month, day, date_string);
-    //         }
-    //         else {
-    //             date_string = format!("{} {}", month, date_string);
-    //         }
-    //     }
+        if let Some(month) = month {
+            if let Some(day) = day {
+                date_string = format!("{} {}, {}", month, day, date_string);
+            }
+            else {
+                date_string = format!("{} {}", month, date_string);
+            }
+        }
 
-    //     // Hour can only be displayed if minute also exists
-    //     if let Some((hour, minute)) = hour.and_then(|h| minute.map(|m| (h, m))) {
-    //         let mut s = format!("{}:{}", hour, minute);
-    //         if let Some(second) = second {
-    //             s += ":";
-    //             s += second;
-    //         }
-    //         date_string = format!("{}, {}", s, date_string);
-    //     }
+        // Hour can only be displayed if minute also exists
+        if let Some((hour, minute)) = hour.and_then(|h| minute.map(|m| (h, m))) {
+            let mut s = format!("{}:{}", hour, minute);
+            if let Some(second) = second {
+                s += ":";
+                s += second;
+            }
+            date_string = format!("{}, {}", s, date_string);
+        }
 
-    //     if let Some (timezone) = timezone {
-    //         date_string = format!("{} ({})", date_string, timezone);
-    //     }
+        if let Some (timezone) = timezone {
+            date_string = format!("{} ({})", date_string, timezone);
+        }
 
-    //     return (false, date_string)
-    // }
+        return Some(date_string)
+    }
 
     // // Get film dates
     // if template_name == "film date" {
@@ -881,12 +934,12 @@ pub fn filter_templates(input: &str) -> Option<String> {
     // }
 
     // // Parse athlete flag templates
-    // if template_name == "flagathlete" {
-    //     let params = get_params(&params, &["name", "country"]);
-    //     let name = params["name"];
-    //     let country = params["country"];
-    //     return (true, format!("{} ({})", name, country));
-    // }
+    if template_name == "flagathlete" {
+        let params = rename_params(params, &["name", "country"]);
+        let name = params.get("name")?;
+        let country = params.get("country")?;
+        return Some(format!("{} ({})", name, country));
+    }
 
     // // Parse AllMusic links templates
     // if template_name == "allmusic" {
@@ -918,25 +971,37 @@ pub fn filter_templates(input: &str) -> Option<String> {
     //     return (true, text);
     // }
 
-    // // Parse birthdate and year templates
-    // if ["birth date and age",
-    //     "bda", 
-    //     "death date and age",
-    //     "birth date",
-    //     "birth date and age2"].contains(&template_name.as_str())
-    // {
-    //     let params = get_params(&params, &["year", "month", "day"]);
-    //     let year = params["year"];
-    //     let month = params["month"];
-    //     let day = params["day"];
+    // Parse birthdate and year templates
+    if ["birth date and age",
+        "bda", 
+        "death date and age",
+        "birth date",
+        "birth date and age2"].contains(&template_name.as_str())
+    {
+        let params = rename_params(params, &["year", "month", "day"]);
+        let year = params.get("year")?;
+        let month = params.get("month");
+        let day = params.get("day");
 
-    //     let month = month
-    //         .parse::<usize>()
-    //         .map(|m| MONTHS[m - 1])
-    //         .unwrap_or(month);
+        let prefix = month
+            .map(|m| {
+                let m = m
+                    .parse::<usize>()
+                    .ok()
+                    .and_then(|m| MONTHS.get(m - 1))
+                    .unwrap_or(&m);
 
-    //     return (false, format!("{month} {day}, {year}"));
-    // }
+                if let Some(d) = day {
+                    format!("{m} {d}, ")
+                }
+                else {
+                    format!("{m}, ")
+                }
+            })
+            .unwrap_or(String::new());
+
+        return Some(prefix + year);
+    }
 
     // // Parse rollover abbreviations
     // if template_name == "abbr" ||
@@ -977,54 +1042,54 @@ pub fn filter_templates(input: &str) -> Option<String> {
     // }
 
     // // Parse Japanese translation helpers
-    // if template_name == "nihongo" {
-    //     let params = get_params(&params, &["english", "kanji", "romaji", "extra1", "extra2"]);
-    //     let params: HashMap<_, _> = params
-    //         .into_iter()
-    //         .filter(|(_, s)| !s.is_empty())
-    //         .collect();
+    if template_name == "nihongo" {
+        let params = rename_params(params, &["english", "kanji", "romaji", "extra1", "extra2"]);
+        let params: HashMap<_, _> = params
+            .into_iter()
+            .filter(|(_, s)| !s.is_empty())
+            .collect();
 
-    //     let english = params.get("english");
-    //     let kanji = params["kanji"];
-    //     let romaji = params.get("romaji");
-    //     let extra1 = params.get("extra1");
-    //     let extra2 = params.get("extra2");
+        let english = params.get("english");
+        let kanji = params.get("kanji")?;
+        let romaji = params.get("romaji");
+        let extra1 = params.get("extra1");
+        let extra2 = params.get("extra2");
 
-    //     // Determine main display of text
-    //     let formatted_text = if let Some(english) = english {
-    //         english
-    //     }
-    //     else if let Some(romaji) = romaji {
-    //         romaji
-    //     }
-    //     else {
-    //         ""
-    //     };
-    //     let mut formatted_text = formatted_text.to_string() + "(" + kanji;
+        // Determine main display of text
+        let formatted_text = if let Some(english) = english {
+            english
+        }
+        else if let Some(romaji) = romaji {
+            romaji
+        }
+        else {
+            ""
+        };
+        let mut formatted_text = formatted_text.to_string() + "(" + kanji;
 
-    //     // Add romaji in parens if english wasn't present
-    //     if english.is_none() {
-    //         if let Some(romaji) = romaji {
-    //             formatted_text += ", ";
-    //             formatted_text += romaji;
-    //         }
-    //     }
+        // Add romaji in parens if english wasn't present
+        if english.is_none() {
+            if let Some(romaji) = romaji {
+                formatted_text += ", ";
+                formatted_text += romaji;
+            }
+        }
 
-    //     // Add extra1 in parens if present
-    //     if let Some(extra1) = extra1 {
-    //         formatted_text += ", ";
-    //         formatted_text += extra1;
-    //     }
+        // Add extra1 in parens if present
+        if let Some(extra1) = extra1 {
+            formatted_text += ", ";
+            formatted_text += extra1;
+        }
 
-    //     // Terminate parens and add extra2 if present
-    //     formatted_text += ")";
-    //     if let Some(extra2) = extra2 {
-    //         formatted_text += " ";
-    //         formatted_text += extra2;
-    //     }
+        // Terminate parens and add extra2 if present
+        formatted_text += ")";
+        if let Some(extra2) = extra2 {
+            formatted_text += " ";
+            formatted_text += extra2;
+        }
 
-    //     return (true, formatted_text);
-    // }
+        return Some(formatted_text);
+    }
 
     // // Parse Chinese translation helpers
     // if template_name == "zh" {
@@ -1157,12 +1222,13 @@ fn rename_params<'a>(
     mut in_params: HashMap<String, &'a str>, 
     param_names: &[&str]
 ) -> HashMap<String, &'a str> {
-    let counter = 1;
+    let mut counter = 1;
     for param_name in param_names {
         let key = counter.to_string();
         if let Some(val) = in_params.remove(key.as_str()) {
             in_params.insert(param_name.to_string(), val);
         }
+        counter += 1;
     }
     return in_params;
 }

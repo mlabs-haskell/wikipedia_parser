@@ -150,7 +150,7 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
         }
     
         // Skip technical articles about Wikipedia itself
-        let title = str::from_utf8(&title)?;
+        let title = String::from_utf8(title)?;
         if !title.starts_with("Wikipedia:") 
             && !title.starts_with("Portal:") 
             && !title.starts_with("File:") 
@@ -190,7 +190,7 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
                     let mut processing_articles = processing_articles.lock().unwrap();
                     processing_articles.insert(article_id);
     
-                    if article_id % 10_000 == 0 {
+                    if article_id % 100_000 == 0 {
                         println!("Processing the following files: {:?}", *processing_articles);
                     }
                 }
@@ -200,8 +200,10 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
                 let text = (text_processor)(&text);
 
                 // Write the test to a file
-                // let title = format!("{}_{}", article_id, title);
-                // write_file(&title, &text).unwrap();
+                if article_id % 10_000 == 0 {
+                    let title = format!("{}_{}", article_id, title);
+                    write_file(&title, &text).unwrap();
+                }
 
                 // Count the number of templates
                 {
