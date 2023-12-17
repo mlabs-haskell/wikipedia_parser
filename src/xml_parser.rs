@@ -190,7 +190,7 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
                     let mut processing_articles = processing_articles.lock().unwrap();
                     processing_articles.insert(article_id);
     
-                    if article_id % 100_000 == 0 {
+                    if article_id % 10_000 == 0 {
                         println!("Processing the following files: {:?}", *processing_articles);
                     }
                 }

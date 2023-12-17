@@ -6,7 +6,7 @@ use std::collections::{LinkedList, HashMap, HashSet, BTreeMap};
 const REMOVE_TEMPLATES: &[&str] = &[
     // "#tag",
     // "0",
-    // "about",
+    "about",
     // "according to whom",
     // "additional citation needed",
     // "agriculture",
@@ -14,9 +14,9 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "album chart",
     // "algeria",
     // "ambiguous",
-    // "american football roster",
+    "american football roster",
     // "anarchism",
-    // "anchor",
+    "anchor",
     // "ancient greek religion",
     // "anthropology",
     // "apollo",
@@ -41,8 +41,8 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "clade",
     // "clarify",
     // "cleanup",
-    // "clear",
-    // "cn",
+    "clear",
+    "cn",
     "col-",
     // "commons",
     // "contains special characters",
@@ -62,7 +62,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "dubious",
     // "economic",
     "efn",
-    // "efs player",
+    "efs player",
     "election box",
     // "elucidate",
     // "engvarb",
@@ -71,6 +71,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "etymology",
     // "excerpt",
     // "expand",
+    "extended football squad player",
     // "fact",
     // "failed verification",
     // "fbaicon",
@@ -80,7 +81,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "flagdeco",
     "flagicon",
     "football box",
-    // "footballbox",
+    "footballbox",
     // "formatnum",
     // "france metadata wikidata",
     "fs player",
@@ -101,7 +102,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "inflation",
     "infobox",
     "ipa", // TODO: We can probably do something with IPA pronunciations
-    // "italic",
+    "italic title",
     // "largest cities",
     // "latin letter",
     // "leagueicon",
@@ -114,12 +115,12 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "main",
     // "maplink",
     // "marriage", // Only meant to appear in infoboxes
-    // "math",
+    "math",
     // "medal", 
     // "medical",
     "more citations needed",
     // "multiple image",
-    // "multiple issues",
+    "multiple issues",
     // "music ratings",
     // "music",
     // "nat fs g player",
@@ -166,6 +167,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "shy",
     // "single chart",
     // "singlechart",
+    "sort",
     // "spaceflight",
     "speciesbox",
     // "specify",
@@ -177,7 +179,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "taxonbar",
     // "technical reasons",
     // "toc",
-    // "track listing",
+    "track listing", // Something can probably be done with this one
     // "undue weight section",
     // "unreferenced",
     // "unreferenced section",
@@ -240,7 +242,9 @@ lazy_static! {
             ("col", ""),
             ("for", ""),
             ("end", ""),
-            ("ya", "")
+            ("ya", ""),
+            ("=", "="),
+            ("pi", "π")
         ].iter().map(|(k, v)| (k.to_string(), v.to_string())).collect()
     };
 
@@ -265,7 +269,6 @@ lazy_static! {
             // "midsize",
             // "née",
             // "notatypo",
-            // "nowrap",
             // "oclc",
             // "pslink",
             // "script",
@@ -298,6 +301,16 @@ lazy_static! {
             "nflplayer",
             "post-nominals",
             "ship"
+        ].iter().map(|s| s.to_string()).collect()
+    };
+
+    static ref CONCATENATE: HashSet<String> = {
+        [
+            "not a typo",
+            "typo",
+            "proper name",
+            "chem name",
+            "as written",
         ].iter().map(|s| s.to_string()).collect()
     };
 
@@ -384,6 +397,20 @@ pub fn filter_templates(input: &str) -> Option<String> {
         return Some(params.join(" "));
     }
 
+    // Handle any template where the unnamed params can just be concatenated
+    let replace = CONCATENATE.contains(&template_name);
+    if replace {
+        let params: BTreeMap<_, _> = params
+            .iter()
+            .filter_map(|(k, &v)| {
+                let k = k.parse::<usize>().ok()?;
+                Some((k, v))
+            })
+            .collect();
+        let params: Vec<_> = params.values().map(|&v| v).collect();
+        return Some(params.concat());
+    }
+
     // Handle simple parsing cases
     match template_name.as_str() {
         // "sclass" => return (false, format!("{}-class {}", unnamed_params.get(0)?, unnamed_params.get(1)?)),
@@ -420,6 +447,7 @@ pub fn filter_templates(input: &str) -> Option<String> {
         //         _ => ()
         //     };
         // },
+        "nowrap" => return Some(parts[1..].concat()),
         "rating" => {
             let score = params.get("1")?;
             let possible = params.get("2");
@@ -513,6 +541,28 @@ pub fn filter_templates(input: &str) -> Option<String> {
     //     let output = quote.to_owned() + &caption;
     //     return (true, output);
     // }
+
+    if template_name == "sic" {
+        // Remove unnamed params, unusable ones, and empty ones
+        let params: BTreeMap<_, _> = params
+            .iter()
+            .filter_map(|(k, &v)| Some((k.parse::<usize>().ok()?, v)))
+            .filter(|(_, v)| *v != "?")
+            .collect();
+        let params: Vec<_> = params.values().cloned().collect();
+
+        return Some(params.concat())
+    }
+
+    // Handle the entire "lang" family of templates
+    if template_name.starts_with("lang") {
+        // Remove named params
+        let params: BTreeMap<_, _> = params
+            .iter()
+            .filter_map(|(k, &v)| Some((k.parse::<usize>().ok()?, v)))
+            .collect();
+        return params.values().last().map(|s| s.to_string());
+    }
 
     // // Blockquotes are distinct from quote blocks.
     // if template_name == "blockquote" ||
@@ -618,62 +668,68 @@ pub fn filter_templates(input: &str) -> Option<String> {
     //     return (true, output);
     // }
 
-    // // Parse "as of" blocks
-    // if template_name == "as of" ||
-    //     template_name == "asof"
-    // {
-    //     let params = get_params(&params, &["year", "month", "day"]);
+    // Parse "as of" blocks
+    if template_name == "as of" ||
+        template_name == "asof"
+    {
+        let params = rename_params(params, &["year", "month", "day"]);
 
-    //     let alt = params.get("alt");
-    //     let year = params.get("year");
-    //     let month = params
-    //         .get("month")
-    //         .and_then(|s| s.parse::<usize>().ok().map(|i| MONTHS[i - 1]));
-    //     let day = params.get("day");
-    //     let since = params.get("since");
-    //     let post = params.get("post");
+        let alt = params.get("alt");
+        let year = params.get("year");
+        let month = params
+            .get("month")
+            .map(|s| 
+                s
+                    .parse::<usize>()
+                    .ok()
+                    .and_then(|i| MONTHS.get(i - 1))
+                    .unwrap_or(s)
+                );
+        let day = params.get("day");
+        let since = params.get("since");
+        let post = params.get("post");
 
-    //     if let Some(alt) = alt {
-    //         return (true, alt.to_string());
-    //     }
-    //     else {
-    //         let mut output = if since == Some(&"y") {
-    //             "Since ".to_string()
-    //         }
-    //         else {
-    //             let as_of = if parts.get(0)?.chars().next() == Some('A') {
-    //                 "As of"
-    //             }
-    //             else {
-    //                 "as of"
-    //             };
-    //             as_of.to_string() + " "
-    //         };
+        if let Some(alt) = alt {
+            return Some(alt.to_string());
+        }
+        else {
+            let mut output = if since == Some(&"y") {
+                "Since ".to_string()
+            }
+            else {
+                let as_of = if parts.get(0)?.chars().next() == Some('A') {
+                    "As of"
+                }
+                else {
+                    "as of"
+                };
+                as_of.to_string() + " "
+            };
 
-    //         if let Some(day) = day {
-    //             output += day;
-    //             output += " ";
-    //         }
+            if let Some(day) = day {
+                output += day;
+                output += " ";
+            }
 
-    //         if let Some(month) = month {
-    //             output += month;
-    //             output += " ";
-    //         }
+            if let Some(month) = month {
+                output += month;
+                output += " ";
+            }
 
-    //         if let Some(year) = year {
-    //             output += year;
-    //             output += " ";
-    //         }
+            if let Some(year) = year {
+                output += year;
+                output += " ";
+            }
 
-    //         let mut output = output.trim().to_string();
-    //         if let Some(post) = post {
-    //             output += post;
-    //             output += " ";
-    //         }
+            let mut output = output.trim().to_string();
+            if let Some(post) = post {
+                output += post;
+                output += " ";
+            }
 
-    //         return (false, output);
-    //     }
-    // }
+            return Some(output);
+        }
+    }
 
     // // Parse bibe verses blocks
     // if template_name == "bibleverse" {
@@ -1013,26 +1069,27 @@ pub fn filter_templates(input: &str) -> Option<String> {
     //     return (true, format!("{} ({})", text, meaning));
     // }
 
-    // // Parse Olympic athletes
-    // if template_name.starts_with("flagioc") &&
-    //     template_name.ends_with("athlete")
-    // {
-    //     let params = get_params(&params, &["name", "country"]);
-    //     let name = params["name"];
-    //     let country = params["country"];
-    //     return (true, format!("{} ({})", name, country));
-    // }
+    if template_name.starts_with("flagioc") {
+        // Display Olympic athletes
+        if template_name.ends_with("athlete") || template_name.ends_with("medalist") {
+            let name = params.get("1")?;
+            let country = params.get("2")?;
+            return Some(format!("{} ({})", name, country));
+        }
 
-    // // Handle olympic flag templates
-    // if template_name.starts_with("flagioc") &&
-    //     !template_name.ends_with("athlete")
-    // {
-    //     let country = IOC::try_from(unnamed_params.get(0)?.to_lowercase().as_str());
-    //     if let Ok(country) = country {
-    //         let country = country.to_country();
-    //         return (false, country.iso_short_name().to_string());
-    //     }
-    // }
+        // Display Olympic countries, using IOC mappings if available
+        else {
+            let country = params.get("1")?;
+            let ioc_country = IOC::try_from(country.to_lowercase().as_str()).ok();
+            if let Some(ioc_country) = ioc_country {
+                let ioc_country = ioc_country.to_country();
+                return Some(ioc_country.iso_short_name().to_string());
+            }
+            else {
+                return Some(country.to_string());
+            }
+        }
+    }
 
     // // Parse color boxes
     // if template_name == "color box" {
@@ -1091,34 +1148,32 @@ pub fn filter_templates(input: &str) -> Option<String> {
         return Some(formatted_text);
     }
 
-    // // Parse Chinese translation helpers
-    // if template_name == "zh" {
-    //     let params = get_params(&params, &[]);
+    // Parse Chinese translation helpers
+    if template_name == "zh" {
+        let order = [
+            "t",
+            "s",
+            "c",
+            "p",
+            "hp",
+            "tp",
+            "w",
+            "j",
+            "cy",
+            "sl",
+            "poj",
+            "zhu",
+            "l"
+        ];
+        let mut vals = Vec::new();
+        for name in order {
+            params.get(name).filter(|t| !t.is_empty()).map(|&t| vals.push(t));
+        }
 
-    //     let order = [
-    //         "t",
-    //         "s",
-    //         "c",
-    //         "p",
-    //         "hp",
-    //         "tp",
-    //         "w",
-    //         "j",
-    //         "cy",
-    //         "sl",
-    //         "poj",
-    //         "zhu",
-    //         "l"
-    //     ];
-    //     let mut vals = Vec::new();
-    //     for name in order {
-    //         params.get(name).map(|&t| vals.push(t));
-    //     }
+        return Some(vals.join("; "))
+    }
 
-    //     return (true, vals.join("; "))
-    // }
-
-    // // Parse US house of representatives templates
+    // Parse US house of representatives templates
     // if template_name == "ushr" {
     //     let params = get_params(&params, &["state", "number"]);
     //     let state = params["state"];

@@ -28,6 +28,11 @@ const REMOVE_SECTIONS: &[&str] = &[
     "sources"
 ];
 
+const REMOVE_LINKS: &[&str] = &[
+    "file:",
+    "image:"
+];
+
 // Take a given wikitext-formatted string and extract the useful text
 pub fn extract_text(input: &[u8]) -> String {
     let input = from_utf8(input).unwrap();
@@ -67,7 +72,7 @@ fn template_contents_parser(input: &str) -> String {
         table_parser,
         link_parser,
         empty_tag_parser,
-        div_parser,
+        no_content_tag_parser,
         quote_parser,
         comment_parser,
         list_parser,
@@ -92,7 +97,7 @@ fn general_content_parser(input: &str) -> IResult<&str, String> {
         section_parser,
         link_parser,
         empty_tag_parser,
-        div_parser,
+        no_content_tag_parser,
         quote_parser,
         comment_parser,
         list_parser,
@@ -221,7 +226,6 @@ fn empty_tag_parser<'a>(input: &'a str) -> IResult<&'a str, String> {
     let helper = |tag_name| {
         move |input: &'a str| {
             let tag_opener = format!("<{}", tag_name);
-            let tag_ender = format!("</{}>", tag_name);
 
             // Take the opening tag
             let (input, tag_attrs) = delimited(
@@ -237,6 +241,7 @@ fn empty_tag_parser<'a>(input: &'a str) -> IResult<&'a str, String> {
 
             // Otherwise, consume until the end tag
             else {
+                let tag_ender = format!("</{}>", tag_name);
                 let (input, _) = terminated(
                     take_until(tag_ender.as_str()),
                     tag(tag_ender.as_str())
@@ -247,6 +252,8 @@ fn empty_tag_parser<'a>(input: &'a str) -> IResult<&'a str, String> {
         }
     };
 
+    // Allow for an early bailout
+    let (input, _) = peek(tag("<"))(input)?;
     alt((
         helper("ref"),
         helper("nowiki")
@@ -254,18 +261,36 @@ fn empty_tag_parser<'a>(input: &'a str) -> IResult<&'a str, String> {
 }
 
 // Parse divs and get rid of them
-fn div_parser(input: &str) -> IResult<&str, String> {
-    map(
+fn no_content_tag_parser(input: &str) -> IResult<&str, String> {
+    let helper = |tag_name| {
         alt((
-            delimited(
-                tag("<div"),
-                take_until(">"),
-                tag(">")
+            map(
+                tuple((
+                    tag("<"),
+                    tag(tag_name),
+                    take_until(">"),
+                    tag(">")
+                )),
+                |_| String::new()
             ),
-            tag("</div>")
-        )),
-        |_| String::new()
-    )(input)
+            map(
+                tuple((
+                    tag("</"),
+                    tag(tag_name),
+                    take_until(">"),
+                    tag(">")
+                )),
+                |_| String::new()
+            )
+        ))
+    };
+
+    // Allow for an early bailout
+    let (input, _) = peek(tag("<"))(input)?;
+    alt((
+        helper("div"),
+        helper("br")
+    ))(input)
 }
 
 fn html_code_parser(input: &str) -> IResult<&str, String> {
@@ -295,6 +320,8 @@ fn html_code_parser(input: &str) -> IResult<&str, String> {
         )
     };
 
+    // Allow for an early bailout
+    let (input, _) = peek(tag("<"))(input)?;
     alt((
         map(
             alt((
@@ -338,16 +365,16 @@ fn template_parser(input: &str) -> IResult<&str, String> {
         ),
         |input| {
             let input = input.concat();
-            // if input.trim().to_lowercase().starts_with("flagathlete") {
+            // if input.trim().to_lowercase().starts_with("zh") {
             //     println!("Raw template: {}", input);
             // }
             let reparsed_input = template_contents_parser(&input);
-            // if input.trim().to_lowercase().starts_with("flagathlete") {
+            // if input.trim().to_lowercase().starts_with("zh") {
             //     println!("Reparsed template: {}", reparsed_input);
             // }
             let output = filter_templates(&reparsed_input);
             if let Some(output) = output {
-                // if input.trim().to_lowercase().starts_with("flagathlete") {
+                // if input.trim().to_lowercase().starts_with("zh") {
                 //     println!("Final: {}", output);
                 // }
                 output
@@ -451,6 +478,9 @@ fn five_quote_state(input: &str) -> IResult<&str, String> {
 
 // Handle the command codes for bolds and italics 
 fn quote_parser(input: &str) -> IResult<&str, String> { 
+    // Allow for an early bailout
+    let (input, _) = peek(tag("''"))(input)?;
+
     map(
         alt((
             preceded(tag("'''''"), five_quote_state),
@@ -475,11 +505,17 @@ fn link_parser(input: &str) -> IResult<&str, String> {
         |v: Vec<String>| {
             let s = v.concat();
             let s = article_parser(&s);
-            if s.starts_with("File:") {
+            let s_lower = s.to_lowercase();
+            if REMOVE_LINKS.iter().any(|prefix| s_lower.starts_with(prefix)) {
                 String::new()
             }
             else {
-                s.split('|').last().unwrap().to_owned()
+                if let Some((_, out)) = s.split_once('|') {
+                    out.to_string()
+                }
+                else {
+                    s
+                }
             }
         }
     )(input)
