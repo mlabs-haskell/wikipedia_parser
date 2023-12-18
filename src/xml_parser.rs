@@ -199,16 +199,25 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
                 let re = Regex::new(r"\{\{([^#<>\[\]\|\{\}]+)").unwrap();
                 let text = (text_processor)(&text);
 
-                // Write the test to a file
+                // Write the text to a file
                 if article_id % 10_000 == 0 {
                     let title = format!("{}_{}", article_id, title);
                     write_file(&title, &text).unwrap();
                 }
 
+                // Collect the template names
+                let template_names: Vec<_> = re
+                    .captures_iter(&text)
+                    .map(|c| {
+                        let (_, [template_name]) = c.extract();
+                        template_name
+                    })
+                    .collect();
+
                 // Count the number of templates
                 {
                     let mut counts = counts.lock().unwrap();
-                    for (_, [template_name]) in re.captures_iter(&text).map(|c| c.extract()) {
+                    for template_name in template_names.into_iter() {
                         counts
                             .entry(template_name.trim().to_lowercase())
                             .and_modify(|c| *c += 1)

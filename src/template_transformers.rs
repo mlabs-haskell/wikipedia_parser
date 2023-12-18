@@ -9,6 +9,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "about",
     // "according to whom",
     // "additional citation needed",
+    "afb game box",
     // "agriculture",
     // "alabama",
     // "album chart",
@@ -21,7 +22,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "ancient greek religion",
     // "anthropology",
     // "apollo",
-    // "authority control",
+    "authority control",
     "automatic taxobox",
     // "awards table",
     // "basic forms of government",
@@ -102,7 +103,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "harvnb",
     // "hermeticism",
     // "hidden",
-    // "hs",
+    "hs listed building",
     // "image",
     // "imdb",
     // "in lang",
@@ -126,11 +127,12 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "medal", 
     // "medical",
     "more citations needed",
-    // "multiple image",
+    "multiple image",
     "multiple issues",
     // "music ratings",
     // "music",
     "nat fs g player",
+    "nat fs player",
     "national football squad player",
     // "nhle",
     "nhrp",
@@ -139,6 +141,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "official website",
     "oneleg",
     // "open access",
+    "orphan",
     "other uses",
     // "page needed",
     "party color",
@@ -203,7 +206,8 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "webarchive",
     "wikidata",
     // "wikisource",
-    // "wiktionary",
+    "wiktionary",
+    "x",
     "yel"
 ];
 
@@ -284,7 +288,8 @@ lazy_static! {
             // "script",
             // "section link",
             // "sic",
-            // "transl",
+            "transl",
+            "transliteration",
             // "vr",
         ].iter().map(|s| s.to_string()).collect()
     };
@@ -306,6 +311,7 @@ lazy_static! {
 
     static ref MERGE_WITH_SPACES: HashSet<String> = {
         [
+            "au",
             "hlist",
             "linktext",
             "minor planet",
@@ -436,15 +442,19 @@ pub fn filter_templates(input: &str) -> Option<String> {
             return Some(s);
         },
         // "see below" => return (true, format!("(see {})", unnamed_params.get(0)?)),
-        // "c." | "circa" => {
-        //     if parts.len() > 1 {
-        //         let s = format!("{} {}", parts[0], parts[1]);
-        //         return (true, s);
-        //     }
-        //     else {
-        //         return (false, parts[0].to_string());
-        //     }
-        // },
+        "c." | "circa" => {
+            if let Some(date1) = params.get("1") {
+                if let Some(date2) = params.get("2") {
+                    return Some(format!("{} {}-{}", parts[0], date1, date2));
+                }
+                else {
+                    return Some(format!("{} {}", parts[0], date1));
+                }
+            }
+            else {
+                return Some(parts[0].to_string());
+            }
+        },
         // "frac" | "fraction" => {
         //     match params.len() {
         //         0 => return (false, "/".to_string()),
@@ -506,16 +516,22 @@ pub fn filter_templates(input: &str) -> Option<String> {
         // "party name with colour" | "party name with color" => 
         //     return (true, unnamed_params.get(1)?.to_string()),
         // "suboff" => return (true, unnamed_params.get(0).unwrap_or(&"").to_string()),
-        // "val" => {
-        //     match unnamed_params.len() {
-        //         1 | 3 => return (true, unnamed_params.get(0)?.to_string()),
-        //         2 => return (
-        //             true, 
-        //             unnamed_params.get(0)?.to_string() + "±" + unnamed_params.get(1)?
-        //         ),
-        //         _ => ()
-        //     }
-        // },
+        "val" => {
+            let number = params.get("1");
+            if let Some(number) = number {
+                let error = params.get("2");
+                if let Some(error) = error {
+                    return Some(format!("{} ± {}", number, error));
+                }
+                else {
+                    return Some(number.to_string());
+                }
+            }
+            else {
+                let exponent = params.get("e")?;
+                return Some(format!("10 ^ {}", exponent));
+            }
+        },
         // "composition bar" => return (
         //     true, 
         //     format!("{}/{}", unnamed_params.get(0)?, unnamed_params.get(1)?)

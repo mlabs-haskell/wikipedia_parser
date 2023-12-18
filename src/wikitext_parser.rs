@@ -120,6 +120,7 @@ fn list_parser(input: &str) -> IResult<&str, String> {
             many_till(
                 alt((
                     html_code_parser,
+                    template_parser,
                     map(anychar, |c| c.to_string())
                 )),
                 peek(tag("\n"))
@@ -203,7 +204,8 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                     tag_no_case("{{Certification Table Top"),
                     tag_no_case("{{LegSeats3"),
                     tag_no_case("{{NRHP header"),
-                    tag_no_case("{{col-begin")
+                    tag_no_case("{{col-begin"),
+                    tag_no_case("{{HS listed building header")
                 )),
                 alt((
                     table_parser,
@@ -367,16 +369,16 @@ fn template_parser(input: &str) -> IResult<&str, String> {
         ),
         |input| {
             let input = input.concat();
-            // if input.trim().to_lowercase().starts_with("quote|") {
+            // if input.trim().to_lowercase().starts_with("au|") {
             //     println!("Raw template: {}", input);
             // }
             let reparsed_input = template_contents_parser(&input);
-            // if input.trim().to_lowercase().starts_with("quote|") {
+            // if input.trim().to_lowercase().starts_with("au|") {
             //     println!("Reparsed template: {}", reparsed_input);
             // }
             let output = filter_templates(&reparsed_input);
             if let Some(output) = output {
-                // if input.trim().to_lowercase().starts_with("quote|") {
+                // if input.trim().to_lowercase().starts_with("au|") {
                 //     println!("Final: {}", output);
                 // }
                 output
@@ -392,7 +394,9 @@ fn template_parser(input: &str) -> IResult<&str, String> {
                     "nihongo",
                     "blockquote",
                     "abbr",
-                    "columns-list"
+                    "columns-list",
+                    "quote",
+                    "val"
                 ];
                 let skip = skip_logging
                     .iter()
