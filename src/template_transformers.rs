@@ -12,6 +12,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "agriculture",
     // "alabama",
     // "album chart",
+    "album ratings",
     // "algeria",
     // "ambiguous",
     "american football roster",
@@ -21,24 +22,30 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "anthropology",
     // "apollo",
     // "authority control",
+    "automatic taxobox",
     // "awards table",
     // "basic forms of government",
-    // "blp",
+    "basketballbox",
+    "blp",
     // "broader",
     // "by whom",
+    "canadian election result",
     // "canadian party colour",
-    // "cbb roster",
+    "canelec",
+    "cbb roster",
     "cbb schedule",
+    "cbb yearly record",
     // "cbignore",
     // "certification cite ref",
     // "certification table",
     "cfb schedule",
+    "cfb yearly record",
     // "chset-cell1",
     // "charmap",
     // "chart",
     "citation",
     "cite",
-    // "clade",
+    "clade",
     // "clarify",
     // "cleanup",
     "clear",
@@ -48,15 +55,14 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "contains special characters",
     // "coord missing",
     // "css",
-    // "ct",
     // "cyber",
     // "date table sorting",
     // "dead link",
     // "decrease",
     // "defaultsort",
     // "detailslink",
-    // "disambiguation",
-    // "distinguish",
+    "disambiguation",
+    "distinguish",
     "div col",
     "dts", // If this turns out to be used outside of a table, we'll need to handle it
     // "dubious",
@@ -65,7 +71,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "efs player",
     "election box",
     // "elucidate",
-    // "engvarb",
+    "engvarb",
     "episode list", // This is a table, but we can probably extract information from it
     // "esotericism",
     // "etymology",
@@ -74,9 +80,10 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "extended football squad player",
     // "fact",
     // "failed verification",
+    "family name hatnote",
     // "fbaicon",
     // "featured article",
-    // "fhgoal",
+    "fhgoal",
     // "flagcountry",
     // "flagdeco",
     "flagicon",
@@ -86,7 +93,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "france metadata wikidata",
     "fs player",
     // "full citation needed",
-    // "further",
+    "further",
     // "globalize",
     // "good article",
     "goal",
@@ -106,7 +113,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "largest cities",
     // "latin letter",
     // "leagueicon",
-    // "legend",
+    "legend",
     // "letter other reps",
     // "listen",
     "location map",
@@ -123,19 +130,20 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "multiple issues",
     // "music ratings",
     // "music",
-    // "nat fs g player",
+    "nat fs g player",
+    "national football squad player",
     // "nhle",
-    // "nhrp row",
+    "nhrp",
     // "notelist",
     // "nts",
     // "official website",
-    // "oneleg",
+    "oneleg",
     // "open access",
-    // "other uses",
+    "other uses",
     // "page needed",
-    // "party color",
+    "party color",
     // "party shading",
-    // "party stripe",
+    "party stripe",
     // "pb",
     // "pengoal",
     // "performance",
@@ -144,17 +152,18 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "portal",
     // "pp-protected",
     // "pp",
-    // "presfoot",
-    // "preshead",
-    // "presrow",
+    "presfoot",
+    "preshead",
+    "presrow",
     // "primary source",
     // "redirect",
-    // "refimprove",
+    "refimprove",
     "reflist",
     "refn",
     // "relevance",
     // "respell", // This is another IPA-related item
     "rp",
+    "rugbybox",
     // "s-aft",
     // "s-bef",
     // "s-end",
@@ -171,20 +180,21 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "spaceflight",
     "speciesbox",
     // "specify",
+    "stv election box",
     // "subon",
     // "succession box",
     // "sup",
     // "table",
-    // "taxobox",
+    "taxobox",
     // "taxonbar",
     // "technical reasons",
     // "toc",
     "track listing", // Something can probably be done with this one
+    "twoleg",
     // "undue weight section",
-    // "unreferenced",
-    // "unreferenced section",
+    "unreferenced",
     // "unreliable source",
-    // "update",
+    "update",
     // "url",
     // "us census population",
     // "usa",
@@ -281,14 +291,16 @@ lazy_static! {
 
     static ref REPLACE_FIRST: HashSet<String> = {
         [
+            "columns-list",
             // "cr",
+            "ct",
             // "esc",
             "flag",
             "ill",
             "interlanguage link",
             // "oldstyledateny",
-            // "stn",
-            // "station"
+            "stn",
+            "station"
         ].iter().map(|s| s.to_string()).collect()
     };
 
@@ -414,15 +426,15 @@ pub fn filter_templates(input: &str) -> Option<String> {
     // Handle simple parsing cases
     match template_name.as_str() {
         // "sclass" => return (false, format!("{}-class {}", unnamed_params.get(0)?, unnamed_params.get(1)?)),
-        // "uss" | "hms" | "hmnzs" => {
-        //     let s = if parts.len() == 2 {
-        //         format!("{} {}", parts[0], parts[1])
-        //     }
-        //     else {
-        //         format!("{} {} ({})", parts.get(0)?, parts.get(1)?, parts.get(2)?)
-        //     };
-        //     return (true, s);
-        // },
+        "uss" | "hms" | "hmnzs" => {
+            let s = if parts.len() == 2 {
+                format!("{} {}", parts[0], parts[1])
+            }
+            else {
+                format!("{} {} ({})", parts.get(0)?, parts.get(1)?, parts.get(2)?)
+            };
+            return Some(s);
+        },
         // "see below" => return (true, format!("(see {})", unnamed_params.get(0)?)),
         // "c." | "circa" => {
         //     if parts.len() > 1 {
@@ -447,7 +459,7 @@ pub fn filter_templates(input: &str) -> Option<String> {
         //         _ => ()
         //     };
         // },
-        "nowrap" => return Some(parts[1..].concat()),
+        "nowrap" | "mvar" => return Some(parts[1..].concat()),
         "rating" => {
             let score = params.get("1")?;
             let possible = params.get("2");
@@ -520,28 +532,6 @@ pub fn filter_templates(input: &str) -> Option<String> {
     }
 
     // Handle cases that need actual parsing
-    // if template_name == "quote" {
-    //     let params = get_params(&params, &["quote"]);
-
-    //     let quote = params["quote"];
-    //     let author = params.get("author");
-    //     let source = params.get("source");
-
-    //     let caption = 
-    //         if let Some((author, source)) = author.zip(source) {
-    //             author.to_string() + ", " + source
-    //         }
-    //         else if let Some(caption) = author.or(source) {
-    //             caption.to_string()
-    //         }
-    //         else {
-    //             String::new()
-    //         };
-        
-    //     let output = quote.to_owned() + &caption;
-    //     return (true, output);
-    // }
-
     if template_name == "sic" {
         // Remove unnamed params, unusable ones, and empty ones
         let params: BTreeMap<_, _> = params
@@ -564,57 +554,62 @@ pub fn filter_templates(input: &str) -> Option<String> {
         return params.values().last().map(|s| s.to_string());
     }
 
-    // // Blockquotes are distinct from quote blocks.
-    // if template_name == "blockquote" ||
-    //     template_name == "quotation"
-    // {
-    //     let params = get_params(&params, &["text", "author"]);
+    // Handle quotation blocks
+    if template_name == "blockquote" ||
+        template_name == "quotation" ||
+        template_name == "quote"
+    {
+        let params = rename_params(params, &["text", "author"]);
 
-    //     let text = params["text"];
-    //     let author = params.get("author").or(params.get("sign"));
-    //     let title = params.get("title");
-    //     let source = params.get("source");
-    //     let character = params.get("character");
+        let text = params
+            .get("text")
+            .or(params.get("quote"))
+            .or(params.get("quotetext"))
+            .or(params.get("content"))?;
+        let author = params.get("author").or(params.get("sign"));
+        let title = params.get("title");
+        let source = params.get("source");
+        let character = params.get("character");
 
-    //     // Merge the source, title, and author pieces so long as they exist
-    //     let mut caption_suffix_pieces = LinkedList::new();
-    //     if let Some(s) = source {
-    //         caption_suffix_pieces.push_front(s);
-    //     }
-    //     if let Some(t) = title {
-    //         caption_suffix_pieces.push_front(t);
-    //     }
-    //     if let Some(a) = author {
-    //         caption_suffix_pieces.push_front(a);
-    //     }
-    //     let caption_suffix = caption_suffix_pieces
-    //         .into_iter()
-    //         .map(|s| s.to_owned())
-    //         .collect::<Vec<_>>()
-    //         .join(", ");
+        // Merge the source, title, and author pieces so long as they exist
+        let mut caption_suffix_pieces = LinkedList::new();
+        if let Some(s) = source {
+            caption_suffix_pieces.push_front(s);
+        }
+        if let Some(t) = title {
+            caption_suffix_pieces.push_front(t);
+        }
+        if let Some(a) = author {
+            caption_suffix_pieces.push_front(a);
+        }
+        let caption_suffix = caption_suffix_pieces
+            .into_iter()
+            .map(|s| s.to_owned())
+            .collect::<Vec<_>>()
+            .join(", ");
 
-    //     // Prepend the character to the caption if it exists
-    //     let caption = if let Some(c) = character {
-    //         if caption_suffix.is_empty() {
-    //             c.to_string()
-    //         }
-    //         else {
-    //             format!("{c}, in {caption_suffix}")
-    //         }
-    //     }
-    //     else {
-    //         caption_suffix
-    //     };
+        // Prepend the character to the caption if it exists
+        let caption = if let Some(c) = character {
+            if caption_suffix.is_empty() {
+                c.to_string()
+            }
+            else {
+                format!("{c}, in {caption_suffix}")
+            }
+        }
+        else {
+            caption_suffix
+        };
         
-    //     // Format the quote by adding the source if it exists
-    //     let output = if caption.is_empty() {
-    //         text.to_owned()
-    //     }
-    //     else {
-    //         format!("\"{text}\"-{caption}")
-    //     };
-    //     return (true, output);
-    // }
+        // Format the quote by adding the source if it exists
+        let output = if caption.is_empty() {
+            text.to_string()
+        }
+        else {
+            format!("\"{text}\"-{caption}")
+        };
+        return Some(output);
+    }
 
     // // Handle poems
     // if template_name == "poemquote"
@@ -1059,15 +1054,15 @@ pub fn filter_templates(input: &str) -> Option<String> {
         return Some(prefix + year);
     }
 
-    // // Parse rollover abbreviations
-    // if template_name == "abbr" ||
-    //     template_name == "tooltip"
-    // {
-    //     let params = get_params(&params, &["text", "meaning"]);
-    //     let text = params["text"];
-    //     let meaning = params["meaning"];
-    //     return (true, format!("{} ({})", text, meaning));
-    // }
+    // Parse rollover abbreviations
+    if template_name == "abbr" ||
+        template_name == "tooltip"
+    {
+        let params = rename_params(params, &["text", "meaning"]);
+        let text = params.get("text")?;
+        let meaning = params.get("meaning")?;
+        return Some(format!("{} ({})", text, meaning));
+    }
 
     if template_name.starts_with("flagioc") {
         // Display Olympic athletes
@@ -1092,11 +1087,11 @@ pub fn filter_templates(input: &str) -> Option<String> {
     }
 
     // // Parse color boxes
-    // if template_name == "color box" {
-    //     let params = get_params(&params, &["color", "text"]);
-    //     let text = params.get("text").unwrap_or(&"");
-    //     return (true, text.to_string());
-    // }
+    if template_name == "color box" {
+        let params = rename_params(params, &["color", "text"]);
+        let text = params.get("text").unwrap_or(&"");
+        return Some(text.to_string());
+    }
 
     // // Parse Japanese translation helpers
     if template_name == "nihongo" {
@@ -1174,20 +1169,20 @@ pub fn filter_templates(input: &str) -> Option<String> {
     }
 
     // Parse US house of representatives templates
-    // if template_name == "ushr" {
-    //     let params = get_params(&params, &["state", "number"]);
-    //     let state = params["state"];
-    //     let number = params["number"];
+    if template_name == "ushr" {
+        let params = rename_params(params, &["state", "number"]);
+        let state = params.get("state")?;
+        let number = params.get("number")?;
 
-    //     let number = if number == "AL" {
-    //         "at-large".to_string()
-    //     }
-    //     else {
-    //         number.to_string() + "th"
-    //     };
+        let number = if *number == "AL" {
+            "at-large".to_string()
+        }
+        else {
+            number.to_string() + "th"
+        };
 
-    //     return (true, format!("{}'s {} congressional district", state, number));
-    // }
+        return Some(format!("{}'s {} congressional district", state, number));
+    }
 
     // // Parse height data
     // if template_name == "height" {

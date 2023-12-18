@@ -41,6 +41,7 @@ pub fn extract_text(input: &[u8]) -> String {
     let input = decode_html_entities(input).to_string();
     let input = input.replace("&ndash;", "\u{2013}");
     let input = input.replace("&nbsp;", "\u{00a0}");
+    let input = input.replace("&minus;", "-");
 
     // Use nom to parse the important information from the article
     let output = article_parser(input.as_str());
@@ -121,7 +122,7 @@ fn list_parser(input: &str) -> IResult<&str, String> {
                     html_code_parser,
                     map(anychar, |c| c.to_string())
                 )),
-                tag("\n")
+                peek(tag("\n"))
             )
         ),
         |(strings, _)| {
@@ -201,7 +202,7 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                     tag_no_case("{{Awards table"),
                     tag_no_case("{{Certification Table Top"),
                     tag_no_case("{{LegSeats3"),
-                    tag_no_case("{{NRHP header}}"),
+                    tag_no_case("{{NRHP header"),
                     tag_no_case("{{col-begin")
                 )),
                 alt((
@@ -332,7 +333,8 @@ fn html_code_parser(input: &str) -> IResult<&str, String> {
                 helper("span"),
                 helper("blockquote"),
                 helper("abbr"),
-                helper("poem")
+                helper("poem"),
+                helper("syntaxhighlight")
             )),
             |strings| {
                 let s = strings.concat();
@@ -365,16 +367,16 @@ fn template_parser(input: &str) -> IResult<&str, String> {
         ),
         |input| {
             let input = input.concat();
-            // if input.trim().to_lowercase().starts_with("zh") {
+            // if input.trim().to_lowercase().starts_with("quote|") {
             //     println!("Raw template: {}", input);
             // }
             let reparsed_input = template_contents_parser(&input);
-            // if input.trim().to_lowercase().starts_with("zh") {
+            // if input.trim().to_lowercase().starts_with("quote|") {
             //     println!("Reparsed template: {}", reparsed_input);
             // }
             let output = filter_templates(&reparsed_input);
             if let Some(output) = output {
-                // if input.trim().to_lowercase().starts_with("zh") {
+                // if input.trim().to_lowercase().starts_with("quote|") {
                 //     println!("Final: {}", output);
                 // }
                 output
@@ -387,7 +389,10 @@ fn template_parser(input: &str) -> IResult<&str, String> {
                     "location",
                     "lang",
                     "small",
-                    "nihongo"
+                    "nihongo",
+                    "blockquote",
+                    "abbr",
+                    "columns-list"
                 ];
                 let skip = skip_logging
                     .iter()
