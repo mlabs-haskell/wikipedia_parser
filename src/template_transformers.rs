@@ -3,290 +3,6 @@ use lazy_static::lazy_static;
 use keshvar::IOC;
 use std::collections::{LinkedList, HashMap, HashSet, BTreeMap};
 
-const REMOVE_TEMPLATES: &[&str] = &[
-    // "#tag",
-    // "0",
-    "4teambracket-tennis3",
-    "8teambracket",
-    "16teambracket-compact-tennis3",
-    "about",
-    // "according to whom",
-    // "additional citation needed",
-    "advert",
-    "afb game box",
-    // "agriculture",
-    "ahnentafel",
-    "aircraft specs",
-    // "alabama",
-    // "album chart",
-    "album ratings",
-    "album reviews",
-    // "algeria",
-    // "ambiguous",
-    "american football roster",
-    // "anarchism",
-    "anchor",
-    // "ancient greek religion",
-    // "anthropology",
-    // "apollo",
-    "authority control",
-    "automatic taxobox",
-    "automatic_taxobox",
-    // "awards table",
-    "bar box",
-    "bar percent",
-    "basho",
-    // "basic forms of government",
-    "basketballbox",
-    "better source needed",
-    "blp",
-    // "broader",
-    "by whom",
-    "canadian election result",
-    // "canadian party colour",
-    "canelec",
-    "cascite",
-    "cbb roster",
-    "cbb schedule",
-    "cbb yearly record",
-    // "cbignore",
-    // "certification cite ref",
-    // "certification table",
-    "cfb schedule",
-    "cfb yearly record",
-    // "chset-cell1",
-    // "charmap",
-    // "chart",
-    "chembox",
-    "chinese",
-    "citation",
-    "cite",
-    "clade",
-    "clarify",
-    "cleanup",
-    "clear",
-    "cn",
-    "coi",
-    "col-",
-    "colbegin",
-    "colend",
-    "collegeprimarystyle",
-    "commons category",
-    "compact toc",
-    // "contains special characters",
-    "coord missing",
-    // "css",
-    // "cyber",
-    "dab",
-    // "date table sorting",
-    "dead link",
-    // "decrease",
-    // "defaultsort",
-    // "detailslink",
-    "disambig",
-    "disambiguation",
-    "distinguish",
-    "div col",
-    "draw key",
-    "drugbox",
-    "dts", // If this turns out to be used outside of a table, we'll need to handle it
-    "dubious",
-    "dynamic list",
-    // "economic",
-    "efn",
-    "efs player",
-    "efs start",
-    "election box",
-    "election results",
-    // "elucidate",
-    "empty section",
-    "engvarb",
-    "episode list", // This is a table, but we can probably extract information from it
-    "episode table", // Same as above
-    // "esotericism",
-    // "etymology",
-    // "excerpt",
-    "expand",
-    "extended football squad player",
-    "external media",
-    "fact",
-    "failed verification",
-    "family name hatnote",
-    "fb_rs",
-    // "fbaicon",
-    "fdacite",
-    // "featured article",
-    "fhgoal",
-    // "flagcountry",
-    // "flagdeco",
-    "flagicon",
-    "football box",
-    "footballbox",
-    "for multi",
-    // "formatnum",
-    // "france metadata wikidata",
-    "fs player",
-    // "full citation needed",
-    "further",
-    "gallery",
-    "gbmapping",
-    "geodis",
-    "geogroup",
-    "given name",
-    // "globalize",
-    "good article",
-    "goal",
-    // "greek myth",
-    // "harvid",
-    // "harvnb",
-    "hatnote",
-    // "hermeticism",
-    // "hidden",
-    "historical populations",
-    "hndis",
-    "hs listed building",
-    // "image",
-    // "imdb",
-    "in lang",
-    "incomplete list",
-    "infobox",
-    "ipa", // TODO: We can probably do something with IPA pronunciations
-    "italic title",
-    "jctbtm",
-    "jcttop",
-    // "largest cities",
-    // "latin letter",
-    "lead too short",
-    // "leagueicon",
-    "legend",
-    // "letter other reps",
-    "listen",
-    "location map",
-    "lomp",
-    // "london gazette",
-    "main",
-    // "maplink",
-    // "marriage", // Only meant to appear in infoboxes
-    "math",
-    "medal", 
-    // "medical",
-    "more citations needed",
-    "more footnotes",
-    "moresources",
-    "multiple image",
-    "multiple issues",
-    "music ratings",
-    // "music",
-    "nat fs g player",
-    "nat fs player",
-    "national football squad player",
-    "ncaa color cell",
-    "nfl predraft",
-    // "nhle",
-    "nhrp",
-    "no footnotes",
-    "no plot",
-    "notability",
-    "note",
-    "notelist",
-    // "nts",
-    // "official website",
-    "one source",
-    "oneleg",
-    // "open access",
-    "orphan",
-    "other people",
-    "other places",
-    "other ships",
-    "other uses",
-    "page needed",
-    "party color",
-    // "party shading",
-    "party stripe",
-    // "pb",
-    // "pengoal",
-    // "performance",
-    "pie chart",
-    // "plainlist",
-    // "political",
-    "portal",
-    "portuguese name",
-    // "pp-protected",
-    // "pp",
-    "presfoot",
-    "preshead",
-    "presrow",
-    "primary sources",
-    "redirect",
-    "ref",
-    "refimprove",
-    "reflist",
-    "refn",
-    // "relevance",
-    "respell", // This is another IPA-related item
-    "rp",
-    "rugbybox",
-    // "s-aft",
-    "s-bef",
-    "s-end",
-    "s-start",
-    "s-ttl",
-    "see",
-    "see also",
-    "series overview",
-    "sfn",
-    "shipwreck list",
-    "short description",
-    "short pages monitor",
-    // "shy",
-    // "single chart",
-    // "singlechart",
-    "sort",
-    // "spaceflight",
-    "speciesbox",
-    // "specify",
-    "stack",
-    "starbox",
-    "stv election box",
-    // "subon",
-    // "succession box",
-    "sumo record",
-    // "sup",
-    "surname",
-    // "table",
-    "taxobox",
-    // "taxonbar",
-    // "technical reasons",
-    "tennis events",
-    "tenniseventinfo",
-    "toc",
-    "track listing", // Something can probably be done with this one
-    "tracklist",
-    "twoleg",
-    // "undue weight section",
-    "unreferenced",
-    "unreliable source?",
-    "update",
-    // "url",
-    "us census population",
-    // "usa",
-    "use",
-    // "vague",
-    "video game reviews",
-    "weather box",
-    "webarchive",
-    "when",
-    "wide image",
-    "wikt",
-    "who",
-    "wikidata",
-    // "wikisource",
-    "wiktionary",
-    "x",
-    "year nav topic",
-    "yel"
-];
-
 const MONTHS: &[&str] = &[
     "January",
     "February",
@@ -343,30 +59,8 @@ lazy_static! {
 
     static ref REPLACE_LAST: HashSet<String> = {
         [
-            // "avoid wrap",
-            // "angbr",
-            // "australian party style",
-            // "center",
-            // "crossref",
-            // "crossreference",
-            // "fb",
-            // "fbw",
-            // "flagg",
-            // "flagu",
-            // "flatlist",
             "m+j",
-            // "keypress",
             "lang",
-            // "linktext",
-            // "medalsport",
-            // "midsize",
-            // "née",
-            // "notatypo",
-            // "oclc",
-            // "pslink",
-            // "script",
-            // "section link",
-            // "sic",
             "transl",
             "transliteration",
             // "vr",
@@ -377,15 +71,12 @@ lazy_static! {
         [
             "cast listing",
             "columns-list",
-            // "cr",
             "ct",
-            // "esc",
             "flag",
             "ill",
             "interlanguage link",
             "interlanguage link multi",
             "mesh",
-            // "oldstyledateny",
             "stn",
             "station",
             "sup"
@@ -654,14 +345,6 @@ pub fn filter_templates(input: &str) -> Option<String> {
             }
             return Some(vals.concat())
         },
-        // "bce" | "ce" => return (true, unnamed_params.get(0)?.to_string() + " " + parts.get(0)?),
-        // "ietf rfc" => return (false, format!("RFC {}", unnamed_params.join(", "))),
-        // "mlbplayer" => return (true, unnamed_params.get(1)?.to_string()),
-        // "fbu" | "fb-rt" => return (true, unnamed_params.get(1)?.to_string()),
-        // "flagmedalist" => return (true, format!("{} ({})", unnamed_params.get(0)?, unnamed_params.get(1)?)),
-        // "party name with colour" | "party name with color" => 
-        //     return (true, unnamed_params.get(1)?.to_string()),
-        // "suboff" => return (true, unnamed_params.get(0).unwrap_or(&"").to_string()),
         "val" => {
             let number = params.get("1");
             if let Some(number) = number {
@@ -685,18 +368,6 @@ pub fn filter_templates(input: &str) -> Option<String> {
                 .collect();
             return Some(positions.join(", "));
         },
-        // "composition bar" => return (
-        //     true, 
-        //     format!("{}/{}", unnamed_params.get(0)?, unnamed_params.get(1)?)
-        // ),
-        // "nfl year" => {
-        //     if unnamed_params.len() == 1 {
-        //         return (true, unnamed_params.get(0)?.to_string());
-        //     }
-        //     if unnamed_params.len() == 2 {
-        //         return (true, format!("{}-{}", unnamed_params.get(0)?, unnamed_params.get(1)?));
-        //     }
-        // },
         _ => ()
     }
 
@@ -782,57 +453,57 @@ pub fn filter_templates(input: &str) -> Option<String> {
         return Some(output);
     }
 
-    // // Handle poems
-    // if template_name == "poemquote"
-    //     || template_name == "poem quote"
-    // {
-    //     let params = get_params(&params, &["text"]);
+    // Handle poems
+    if template_name == "poemquote"
+        || template_name == "poem quote"
+    {
+        let params = rename_params(params, &["text"]);
 
-    //     let text = params["text"];
-    //     let character = params.get("char");
-    //     let author = params.get("author").or(params.get("sign"));
-    //     let source = params.get("source");
-    //     let title = params.get("title");
+        let text = params.get("text")?;
+        let character = params.get("char");
+        let author = params.get("author").or(params.get("sign"));
+        let source = params.get("source");
+        let title = params.get("title");
 
-    //     // Merge the source, title, and author pieces so long as they exist
-    //     let mut caption_suffix_pieces = LinkedList::new();
-    //     if let Some(s) = source {
-    //         caption_suffix_pieces.push_front(s);
-    //     }
-    //     if let Some(t) = title {
-    //         caption_suffix_pieces.push_front(t);
-    //     }
-    //     if let Some(a) = author {
-    //         caption_suffix_pieces.push_front(a);
-    //     }
-    //     let caption_suffix = caption_suffix_pieces
-    //         .into_iter()
-    //         .map(|s| s.to_owned())
-    //         .collect::<Vec<_>>()
-    //         .join(", ");
+        // Merge the source, title, and author pieces so long as they exist
+        let mut caption_suffix_pieces = LinkedList::new();
+        if let Some(s) = source {
+            caption_suffix_pieces.push_front(s);
+        }
+        if let Some(t) = title {
+            caption_suffix_pieces.push_front(t);
+        }
+        if let Some(a) = author {
+            caption_suffix_pieces.push_front(a);
+        }
+        let caption_suffix = caption_suffix_pieces
+            .into_iter()
+            .map(|s| s.to_owned())
+            .collect::<Vec<_>>()
+            .join(", ");
 
-    //     // Prepend the character to the caption if it exists
-    //     let caption = if let Some(c) = character {
-    //         if caption_suffix.is_empty() {
-    //             c.to_string()
-    //         }
-    //         else {
-    //             format!("{c}, in {caption_suffix}")
-    //         }
-    //     }
-    //     else {
-    //         caption_suffix
-    //     };
+        // Prepend the character to the caption if it exists
+        let caption = if let Some(c) = character {
+            if caption_suffix.is_empty() {
+                c.to_string()
+            }
+            else {
+                format!("{c}, in {caption_suffix}")
+            }
+        }
+        else {
+            caption_suffix
+        };
         
-    //     // Format the quote by adding the source if it exists
-    //     let output = if caption.is_empty() {
-    //         text.to_owned()
-    //     }
-    //     else {
-    //         format!("\"{text}\"-{caption}")
-    //     };
-    //     return (true, output);
-    // }
+        // Format the quote by adding the source if it exists
+        let output = if caption.is_empty() {
+            text.to_string()
+        }
+        else {
+            format!("\"{text}\"-{caption}")
+        };
+        return Some(output);
+    }
 
     // Parse "as of" blocks
     if template_name == "as of" ||
@@ -897,41 +568,45 @@ pub fn filter_templates(input: &str) -> Option<String> {
         }
     }
 
-    // // Parse bibe verses blocks
-    // if template_name == "bibleverse" {
-    //     let params = get_params(&params, &["book", "verse", "version", "text"]);
+    // Parse bible verses blocks
+    if template_name == "bibleverse" {
+        let params = rename_params(params, &["book", "verse", "version", "text"]);
 
-    //     let book = params.get("book");
-    //     let verse = params.get("verse");
-    //     let text = params.get("text");
+        let book = params.get("book");
+        let verse = params.get("verse");
+        let text = params.get("text");
 
-    //     if let Some(text) = text {
-    //         return (true, text.to_string());
-    //     }
-    //     else if let Some(book) = book {
-    //         if let Some(verse) = verse {
-    //             return (true, format!("{}, {}", book, verse));
-    //         }
-    //         return (true, book.to_string());
-    //     }
-    // }
+        if let Some(text) = text {
+            return Some(text.to_string());
+        }
+        else if let Some(book) = book {
+            if let Some(verse) = verse {
+                return Some(format!("{}, {}", book, verse));
+            }
+            return Some(book.to_string());
+        }
+        else {
+            return None
+        }
+    }
 
-    // // Parse ordered lists
-    // if template_name == "ordered list" ||
-    //     template_name == "unbulleted list" ||
-    //     template_name == "ubl"
-    // {
-    //     let mut list_items = Vec::new();
-    //     for &param in params {
-    //         let mut param_pieces = param.split('=');
-    //         let first_piece = param_pieces.next().unwrap();
-    //         if first_piece.ends_with('\\') || first_piece.ends_with("{{") {
-    //             list_items.push(param);
-    //         }
-    //     }
+    // Parse ordered lists
+    if template_name == "ordered list" ||
+        template_name == "unbulleted list" ||
+        template_name == "ubl"
+    {
+        let list_items: BTreeMap<_, _> = params
+            .iter()
+            .filter_map(|(k, &v)| k.parse::<usize>().ok().map(|k| (k, v)))
+            .collect();
 
-    //     return (true, list_items.join("\n"));
-    // }
+        let list_items: Vec<_> = list_items
+            .into_iter()
+            .map(|(_, v)| v)
+            .collect();
+
+        return Some(list_items.join("\n"));
+    }
 
     // Handle highway junctions
     if template_name == "jct" {  
@@ -1029,7 +704,7 @@ pub fn filter_templates(input: &str) -> Option<String> {
                     params.get(7)?
                 )
             ),
-            _ => ()
+            _ => return None
         }
     }
 
@@ -1118,35 +793,31 @@ pub fn filter_templates(input: &str) -> Option<String> {
         return Some(date_string)
     }
 
-    // // Get film dates
-    // if template_name == "film date" {
-    //     // Get the tags we have and remove empty ones
-    //     let params = get_params(&params, &["year", "month", "day"]);
-    //     let tags: HashMap<_, _> = params
-    //         .into_iter()
-    //         .filter(|(_, v)| !v.is_empty())
-    //         .collect();
+    // Get film dates
+    if template_name == "film date" {
+        // Get the tags we have and remove empty ones
+        let params = rename_params(params, &["year", "month", "day"]);
 
-    //     // Collect the tags into variables
-    //     let year = tags["year"];
-    //     let month = tags
-    //         .get("month")
-    //         .and_then(|s| s.parse::<usize>().ok().map(|i| MONTHS[i - 1]));
-    //     let day = tags.get("day");
+        // Collect the tags into variables
+        let year = params.get("year")?;
+        let month = params
+            .get("month")
+            .and_then(|s| s.parse::<usize>().ok().map(|i| MONTHS[i - 1]));
+        let day = params.get("day");
         
-    //     // Construct the date piecemeal
-    //     let mut date_string = year.to_string();
+        // Construct the date piecemeal
+        let mut date_string = year.to_string();
         
-    //     if let Some(day) = day {
-    //         date_string = format!("{}, {}", day, date_string);
-    //     }
+        if let Some(day) = day {
+            date_string = format!("{}, {}", day, date_string);
+        }
 
-    //     if let Some(month) = month {
-    //         date_string = format!("{} {}", month, date_string);
-    //     }
+        if let Some(month) = month {
+            date_string = format!("{} {}", month, date_string);
+        }
 
-    //     return (false, date_string);
-    // }
+        return Some(date_string);
+    }
 
     // // Parse athlete flag templates
     if template_name == "flagathlete" {
@@ -1164,36 +835,6 @@ pub fn filter_templates(input: &str) -> Option<String> {
         let start_year = params.get("start_year")?;
         return Some(format!("{} {} ({})", index, value, start_year));
     }
-
-    // // Parse AllMusic links templates
-    // if template_name == "allmusic" {
-    //     let params = get_params(&params, &["1", "2", "title"]);
-    //     let text = params
-    //         .get("title")
-    //         .map(|t| t.to_string() + " at AllMusic")
-    //         .unwrap_or(String::new());
-    //     return (true, text);
-    // }
-
-    // // Parse YouTube links templates
-    // if template_name == "youtube" {
-    //     let params = get_params(&params, &["id", "title"]);
-    //     let text = params
-    //         .get("title")
-    //         .map(|t| t.to_string() + " on YouTube")
-    //         .unwrap_or(String::new());
-    //     return (true, text);
-    // }
-
-    // // Parse Soccerway links templates
-    // if template_name == "soccerway" {
-    //     let params = get_params(&params, &["id", "name"]);
-    //     let text = params
-    //         .get("name")
-    //         .map(|t| t.to_string() + " at Soccerway")
-    //         .unwrap_or(String::new());
-    //     return (true, text);
-    // }
 
     // Parse birthdate and year templates
     if ["birth date and age",
@@ -1379,43 +1020,31 @@ pub fn filter_templates(input: &str) -> Option<String> {
         return Some(format!("{}'s {} congressional district", state, number));
     }
 
-    // // Parse height data
-    // if template_name == "height" {
-    //     let units = params
-    //         .iter()
-    //         .map(|p| p.split('=').map(|s| s.trim()).collect::<Vec<_>>())
-    //         .map(|v| (v.get(0)?, v.get(1)?))
-    //         .filter(|(name, _)| {
-    //             ![
-    //                 "precision",
-    //                 "frac",
-    //                 "abbr",
-    //                 "wiki",
-    //                 "out"
-    //             ].contains(&name)
-    //         })
-    //         .map(|(name, val)| format!("{} {}", val, name))
-    //         .collect::<Vec<_>>();
-    //     return (false, units.join(" "));
-    // }
-
-    // // Parse font templates
-    // if template_name == "font" {
-    //     let params = get_params(&params, &["text"]);
-    //     return (true, params["text"].to_string());
-    // }
-
-
-
-    // Handle templates that can always be totally removed
-    let remove = REMOVE_TEMPLATES
-        .iter()
-        .any(|&s| input.to_lowercase().starts_with(s));
-    if remove {
-        return Some(String::new());
+    // Parse height data
+    if template_name == "height" {
+        let units = params
+            .iter()
+            .filter(|(name, _)| {
+                ![
+                    "precision",
+                    "frac",
+                    "abbr",
+                    "wiki",
+                    "out"
+                ].contains(&name.as_str())
+            })
+            .map(|(name, val)| format!("{} {}", val, name))
+            .collect::<Vec<_>>();
+        return Some(units.join(" "));
     }
 
-    Some(String::from("{{") + &input + "}}")
+    // Parse font templates
+    if template_name == "font" {
+        let params = rename_params(params, &["text"]);
+        return params.get("text").map(|s| s.to_string())
+    }
+
+    None
 }
 
 // Get the template parameters. 

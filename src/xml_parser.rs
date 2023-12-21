@@ -1,7 +1,8 @@
 use core::panic;
 use std::collections::BTreeSet;
-use std::fs::File;
+use std::fs::{File, create_dir_all};
 use std::io::{Write, BufReader};
+use std::path::Path;
 use std::str;
 use std::sync::{Mutex, Arc};
 use std::thread::sleep;
@@ -16,7 +17,7 @@ use quick_xml::Result;
 use rayon::{ThreadPool, ThreadPoolBuilder};
 
 const DIR: &str = "output/";
-const NUM_THREADS: usize = 30;
+const NUM_THREADS: usize = 32;
 
 pub struct XMLParser<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy + 'static> {
     text_processor: F,
@@ -152,7 +153,7 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
             loop {
                 {
                     let active_threads = active_threads.lock().unwrap();
-                    if *active_threads < 16 * NUM_THREADS {
+                    if *active_threads < 32 * NUM_THREADS {
                         break;
                     }
                 }
@@ -182,10 +183,8 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
                 let text = (text_processor)(&text);
 
                 // Write the text to a file
-                if article_id % 10_000 == 0 {
-                    let title = format!("{}_{}", article_id, title);
-                    write_file(&title, &text).unwrap();
-                }
+                let title = format!("{}_{}", article_id, title);
+                write_file(&title, &text).unwrap();
 
                 // Remove the article from the list of articles being processed
                 {
@@ -258,11 +257,19 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
 }
 
 fn write_file(title: &str, text: &str) -> Result<()> {
+    // Figure out where to write the file
     let dir = String::from(DIR);
     let title = title.replace(|c: char| !c.is_alphanumeric(), "_");
     let title: String = title.chars().take(100).collect();
-    let path = dir + &title + ".txt";
+    let sub_dir: String = title.chars().take(3).collect();
+    let path = dir + "/" + &sub_dir + "/" + &title + ".txt";
 
+    // Create the directories that will contain the file
+    let path = Path::new(&path);
+    let prefix = path.parent().unwrap();
+    create_dir_all(prefix)?;
+
+    // Write the file
     let mut file = File::create(path);
     if let Ok(f) = file.as_mut() {
         f.write_all(text.as_bytes())?;
