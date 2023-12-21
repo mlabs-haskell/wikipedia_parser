@@ -1,5 +1,5 @@
 use core::panic;
-use std::collections::{HashMap, BTreeSet, HashSet};
+use std::collections::BTreeSet;
 use std::fs::File;
 use std::io::{Write, BufReader};
 use std::str;
@@ -14,7 +14,6 @@ use quick_xml::reader::Reader;
 use quick_xml::Result;
 
 use rayon::{ThreadPool, ThreadPoolBuilder};
-use regex::Regex;
 
 const DIR: &str = "output/";
 const NUM_THREADS: usize = 30;
@@ -23,7 +22,6 @@ pub struct XMLParser<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy + 'stat
     text_processor: F,
     reader: Reader<BufReader<File>>,
     num_articles: usize,
-    counts: Arc<Mutex<HashMap<String, usize>>>,
     thread_pool: Option<ThreadPool>,
     processing_articles: Arc<Mutex<BTreeSet<usize>>>,
     active_threads: Arc<Mutex<usize>>
@@ -37,7 +35,6 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
             text_processor,
             reader,
             num_articles: 0,
-            counts: Arc::new(Mutex::new(HashMap::new())),
             thread_pool: Some(thread_pool),
             processing_articles: Arc::new(Mutex::new(BTreeSet::new())),
             active_threads: Arc::new(Mutex::new(0))
@@ -57,21 +54,7 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
                     Err(Error::TextNotFound)
                 },
             _ => Err(Error::TextNotFound)
-        }?;
-
-        // Get and sort the counts
-        self.thread_pool = None;
-        let counts = self.counts.lock().unwrap();
-        let mut sorted_counts: Vec<_> = counts.iter().collect();
-        sorted_counts.sort_unstable_by_key(|(_, &c)| c);
-
-        // Write the counts
-        let mut file = File::create("counts.csv")?;
-        for (s, c) in sorted_counts.iter().rev() {
-            file.write_fmt(format_args!("{},{}\n", s, c))?;
         }
-
-        Ok(())
     }
 
     // Parse the body of the XML page
@@ -161,7 +144,6 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
             && !title.starts_with("MediaWiki:")
             && !title.to_lowercase().ends_with("(disambiguation)")
         {
-            let counts = self.counts.clone();
             let processing_articles = self.processing_articles.clone();
             let active_threads = self.active_threads.clone();
             let text_processor = self.text_processor;
@@ -197,34 +179,12 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
                 }
 
                 // Process the text
-                let re = Regex::new(r"\{\{([^#<>\[\]\|\{\}]+)").unwrap();
                 let text = (text_processor)(&text);
-                //let text = String::from_utf8(text).unwrap();
 
                 // Write the text to a file
                 if article_id % 10_000 == 0 {
                     let title = format!("{}_{}", article_id, title);
                     write_file(&title, &text).unwrap();
-                }
-
-                // Collect the template names
-                let template_names: HashSet<_> = re
-                    .captures_iter(&text)
-                    .map(|c| {
-                        let (_, [template_name]) = c.extract();
-                        template_name
-                    })
-                    .collect();
-
-                // Count the number of templates
-                {
-                    let mut counts = counts.lock().unwrap();
-                    for template_name in template_names.into_iter() {
-                        counts
-                            .entry(template_name.trim().to_lowercase())
-                            .and_modify(|c| *c += 1)
-                            .or_insert(1);
-                    }
                 }
 
                 // Remove the article from the list of articles being processed

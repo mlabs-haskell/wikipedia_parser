@@ -193,18 +193,20 @@ fn template_parser(input: &str) -> IResult<&str, String> {
         ),
         |input| {
             let input = input.concat();
-            // if input.trim().to_lowercase().starts_with("stnlnk|") {
-            //     println!("Raw template: {}", input);
-            // }
+            let debug = false;
+            let s = "censusau|";
+            if debug && input.trim().to_lowercase().starts_with(s) {
+                println!("Raw template: {}", input);
+            }
             let (_, reparsed_input) = template_contents_parser(&input).unwrap();
-            // if input.trim().to_lowercase().starts_with("stnlnk|") {
-            //     println!("Reparsed template: {}", reparsed_input);
-            // }
+            if debug && input.trim().to_lowercase().starts_with(s) {
+                println!("Reparsed template: {}", reparsed_input);
+            }
             let output = filter_templates(&reparsed_input);
             if let Some(output) = output {
-                // if input.trim().to_lowercase().starts_with("stnlnk|") {
-                //     println!("Final: {}", output);
-                // }
+                if debug && input.trim().to_lowercase().starts_with(s) {
+                    println!("Final: {}", output);
+                }
                 output
             }
             else {

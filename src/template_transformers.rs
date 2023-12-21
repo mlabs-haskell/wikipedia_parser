@@ -7,6 +7,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "#tag",
     // "0",
     "4teambracket-tennis3",
+    "8teambracket",
     "16teambracket-compact-tennis3",
     "about",
     // "according to whom",
@@ -19,6 +20,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "alabama",
     // "album chart",
     "album ratings",
+    "album reviews",
     // "algeria",
     // "ambiguous",
     "american football roster",
@@ -29,6 +31,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "apollo",
     "authority control",
     "automatic taxobox",
+    "automatic_taxobox",
     // "awards table",
     "bar box",
     "bar percent",
@@ -38,7 +41,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "better source needed",
     "blp",
     // "broader",
-    // "by whom",
+    "by whom",
     "canadian election result",
     // "canadian party colour",
     "canelec",
@@ -55,6 +58,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "charmap",
     // "chart",
     "chembox",
+    "chinese",
     "citation",
     "cite",
     "clade",
@@ -62,10 +66,13 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "cleanup",
     "clear",
     "cn",
+    "coi",
     "col-",
     "colbegin",
     "colend",
+    "collegeprimarystyle",
     "commons category",
+    "compact toc",
     // "contains special characters",
     "coord missing",
     // "css",
@@ -83,11 +90,12 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "draw key",
     "drugbox",
     "dts", // If this turns out to be used outside of a table, we'll need to handle it
-    // "dubious",
+    "dubious",
     "dynamic list",
     // "economic",
     "efn",
     "efs player",
+    "efs start",
     "election box",
     "election results",
     // "elucidate",
@@ -104,6 +112,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "fact",
     "failed verification",
     "family name hatnote",
+    "fb_rs",
     // "fbaicon",
     "fdacite",
     // "featured article",
@@ -147,6 +156,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "jcttop",
     // "largest cities",
     // "latin letter",
+    "lead too short",
     // "leagueicon",
     "legend",
     // "letter other reps",
@@ -162,6 +172,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "medical",
     "more citations needed",
     "more footnotes",
+    "moresources",
     "multiple image",
     "multiple issues",
     "music ratings",
@@ -169,9 +180,12 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "nat fs g player",
     "nat fs player",
     "national football squad player",
+    "ncaa color cell",
+    "nfl predraft",
     // "nhle",
     "nhrp",
     "no footnotes",
+    "no plot",
     "notability",
     "note",
     "notelist",
@@ -185,13 +199,14 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "other places",
     "other ships",
     "other uses",
-    // "page needed",
+    "page needed",
     "party color",
     // "party shading",
     "party stripe",
     // "pb",
     // "pengoal",
     // "performance",
+    "pie chart",
     // "plainlist",
     // "political",
     "portal",
@@ -203,6 +218,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "presrow",
     "primary sources",
     "redirect",
+    "ref",
     "refimprove",
     "reflist",
     "refn",
@@ -211,12 +227,13 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "rp",
     "rugbybox",
     // "s-aft",
-    // "s-bef",
-    // "s-end",
+    "s-bef",
+    "s-end",
     "s-start",
-    // "s-ttl",
+    "s-ttl",
     "see",
     "see also",
+    "series overview",
     "sfn",
     "shipwreck list",
     "short description",
@@ -229,6 +246,7 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "speciesbox",
     // "specify",
     "stack",
+    "starbox",
     "stv election box",
     // "subon",
     // "succession box",
@@ -240,13 +258,14 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "taxonbar",
     // "technical reasons",
     "tennis events",
+    "tenniseventinfo",
     "toc",
     "track listing", // Something can probably be done with this one
     "tracklist",
     "twoleg",
     // "undue weight section",
     "unreferenced",
-    // "unreliable source",
+    "unreliable source?",
     "update",
     // "url",
     "us census population",
@@ -258,11 +277,13 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "webarchive",
     "when",
     "wide image",
+    "wikt",
     "who",
     "wikidata",
     // "wikisource",
     "wiktionary",
     "x",
+    "year nav topic",
     "yel"
 ];
 
@@ -495,7 +516,6 @@ pub fn filter_templates(input: &str) -> Option<String> {
 
     // Handle simple parsing cases
     match template_name.as_str() {
-        // "sclass" => return (false, format!("{}-class {}", unnamed_params.get(0)?, unnamed_params.get(1)?)),
         "uss" | "hms" | "hmnzs" => {
             let s = if parts.len() == 2 {
                 format!("{} {}", parts[0], parts[1])
@@ -504,6 +524,13 @@ pub fn filter_templates(input: &str) -> Option<String> {
                 format!("{} {} ({})", parts.get(0)?, parts.get(1)?, parts.get(2)?)
             };
             return Some(s);
+        },
+        "ss" => {
+            let name = params.get("1")?;
+            if let Some(id) = params.get("2") {
+                return Some(format!("{} ({})", name, id));
+            }
+            return Some(name.to_string());
         },
         // "see below" => return (true, format!("(see {})", unnamed_params.get(0)?)),
         "c." | "circa" => {
@@ -518,6 +545,10 @@ pub fn filter_templates(input: &str) -> Option<String> {
             else {
                 return Some(parts[0].to_string());
             }
+        },
+        "censusau" => {
+            let year = params.get("1")?;
+            return Some(format!("{} census", year));
         },
         "frac" | "fraction" => {
             match params.len() {
@@ -597,6 +628,32 @@ pub fn filter_templates(input: &str) -> Option<String> {
             }
             return Some(ret_val);
         },
+        "ra" => {
+            let mut vals = Vec::new();
+            if let Some(h) = params.get("1") {
+                vals.push(format!("{}h", h));
+            }
+            if let Some(m) = params.get("2") {
+                vals.push(format!("{}m", m));
+            }
+            if let Some(s) = params.get("3") {
+                vals.push(format!("{}s", s));
+            }
+            return Some(vals.join(" "))
+        },
+        "dec" => {
+            let mut vals = Vec::new();
+            if let Some(d) = params.get("1") {
+                vals.push(format!("{}°", d));
+            }
+            if let Some(m) = params.get("2") {
+                vals.push(format!("{}'", m));
+            }
+            if let Some(s) = params.get("3") {
+                vals.push(format!("{}''", s));
+            }
+            return Some(vals.concat())
+        },
         // "bce" | "ce" => return (true, unnamed_params.get(0)?.to_string() + " " + parts.get(0)?),
         // "ietf rfc" => return (false, format!("RFC {}", unnamed_params.join(", "))),
         // "mlbplayer" => return (true, unnamed_params.get(1)?.to_string()),
@@ -620,6 +677,13 @@ pub fn filter_templates(input: &str) -> Option<String> {
                 let exponent = params.get("e")?;
                 return Some(format!("10 ^ {}", exponent));
             }
+        },
+        "rlp" => {
+            let positions: Vec<_> = params
+                .iter()
+                .filter_map(|(k, v)| k.parse::<usize>().ok().map(|_| *v))
+                .collect();
+            return Some(positions.join(", "));
         },
         // "composition bar" => return (
         //     true, 
@@ -982,13 +1046,6 @@ pub fn filter_templates(input: &str) -> Option<String> {
         return Some(isbns.join(", "));
     }
 
-    // // Get sorted item from sort templates
-    // if template_name == "sort" {
-    //     let params = get_params(&params, &["1", "2"]);
-    //     let sort_item = params.get("2").or(params.get("1"));
-    //     return (true, sort_item.unwrap_or(&"").to_string());
-    // }
-
     // Get dates
     if template_name == "start date" ||
         template_name == "start date and age" ||
@@ -1285,7 +1342,9 @@ pub fn filter_templates(input: &str) -> Option<String> {
     }
 
     // Parse Korean translation helpers
-    if template_name == "korean" {
+    if template_name == "korean" ||
+        template_name == "ko-hhrm"
+    {
         let params = rename_params(params, &["hangul", "hanja", "rr", "mr"]);
         let order = [
             ("hangul", "Korean"),
