@@ -6,11 +6,16 @@ use std::collections::{LinkedList, HashMap, HashSet, BTreeMap};
 const REMOVE_TEMPLATES: &[&str] = &[
     // "#tag",
     // "0",
+    "4teambracket-tennis3",
+    "16teambracket-compact-tennis3",
     "about",
     // "according to whom",
     // "additional citation needed",
+    "advert",
     "afb game box",
     // "agriculture",
+    "ahnentafel",
+    "aircraft specs",
     // "alabama",
     // "album chart",
     "album ratings",
@@ -25,14 +30,19 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "authority control",
     "automatic taxobox",
     // "awards table",
+    "bar box",
+    "bar percent",
+    "basho",
     // "basic forms of government",
     "basketballbox",
+    "better source needed",
     "blp",
     // "broader",
     // "by whom",
     "canadian election result",
     // "canadian party colour",
     "canelec",
+    "cascite",
     "cbb roster",
     "cbb schedule",
     "cbb yearly record",
@@ -44,45 +54,58 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "chset-cell1",
     // "charmap",
     // "chart",
+    "chembox",
     "citation",
     "cite",
     "clade",
-    // "clarify",
-    // "cleanup",
+    "clarify",
+    "cleanup",
     "clear",
     "cn",
     "col-",
-    // "commons",
+    "colbegin",
+    "colend",
+    "commons category",
     // "contains special characters",
-    // "coord missing",
+    "coord missing",
     // "css",
     // "cyber",
+    "dab",
     // "date table sorting",
-    // "dead link",
+    "dead link",
     // "decrease",
     // "defaultsort",
     // "detailslink",
+    "disambig",
     "disambiguation",
     "distinguish",
     "div col",
+    "draw key",
+    "drugbox",
     "dts", // If this turns out to be used outside of a table, we'll need to handle it
     // "dubious",
+    "dynamic list",
     // "economic",
     "efn",
     "efs player",
     "election box",
+    "election results",
     // "elucidate",
+    "empty section",
     "engvarb",
     "episode list", // This is a table, but we can probably extract information from it
+    "episode table", // Same as above
     // "esotericism",
     // "etymology",
     // "excerpt",
-    // "expand",
+    "expand",
     "extended football squad player",
-    // "fact",
-    // "failed verification",
+    "external media",
+    "fact",
+    "failed verification",
     "family name hatnote",
     // "fbaicon",
+    "fdacite",
     // "featured article",
     "fhgoal",
     // "flagcountry",
@@ -90,58 +113,77 @@ const REMOVE_TEMPLATES: &[&str] = &[
     "flagicon",
     "football box",
     "footballbox",
+    "for multi",
     // "formatnum",
     // "france metadata wikidata",
     "fs player",
     // "full citation needed",
     "further",
+    "gallery",
+    "gbmapping",
+    "geodis",
+    "geogroup",
+    "given name",
     // "globalize",
-    // "good article",
+    "good article",
     "goal",
     // "greek myth",
     // "harvid",
     // "harvnb",
+    "hatnote",
     // "hermeticism",
     // "hidden",
+    "historical populations",
+    "hndis",
     "hs listed building",
     // "image",
     // "imdb",
-    // "in lang",
-    // "inflation",
+    "in lang",
+    "incomplete list",
     "infobox",
     "ipa", // TODO: We can probably do something with IPA pronunciations
     "italic title",
+    "jctbtm",
+    "jcttop",
     // "largest cities",
     // "latin letter",
     // "leagueicon",
     "legend",
     // "letter other reps",
-    // "listen",
+    "listen",
     "location map",
-    // "lomp",
+    "lomp",
     // "london gazette",
     "main",
     // "maplink",
     // "marriage", // Only meant to appear in infoboxes
     "math",
-    // "medal", 
+    "medal", 
     // "medical",
     "more citations needed",
+    "more footnotes",
     "multiple image",
     "multiple issues",
-    // "music ratings",
+    "music ratings",
     // "music",
     "nat fs g player",
     "nat fs player",
     "national football squad player",
     // "nhle",
     "nhrp",
-    // "notelist",
+    "no footnotes",
+    "notability",
+    "note",
+    "notelist",
     // "nts",
     // "official website",
+    "one source",
     "oneleg",
     // "open access",
     "orphan",
+    "other people",
+    "other places",
+    "other ships",
     "other uses",
     // "page needed",
     "party color",
@@ -152,30 +194,33 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "performance",
     // "plainlist",
     // "political",
-    // "portal",
+    "portal",
+    "portuguese name",
     // "pp-protected",
     // "pp",
     "presfoot",
     "preshead",
     "presrow",
-    // "primary source",
-    // "redirect",
+    "primary sources",
+    "redirect",
     "refimprove",
     "reflist",
     "refn",
     // "relevance",
-    // "respell", // This is another IPA-related item
+    "respell", // This is another IPA-related item
     "rp",
     "rugbybox",
     // "s-aft",
     // "s-bef",
     // "s-end",
-    // "s-start",
+    "s-start",
     // "s-ttl",
+    "see",
     "see also",
     "sfn",
     "shipwreck list",
     "short description",
+    "short pages monitor",
     // "shy",
     // "single chart",
     // "singlechart",
@@ -183,27 +228,37 @@ const REMOVE_TEMPLATES: &[&str] = &[
     // "spaceflight",
     "speciesbox",
     // "specify",
+    "stack",
     "stv election box",
     // "subon",
     // "succession box",
+    "sumo record",
     // "sup",
+    "surname",
     // "table",
     "taxobox",
     // "taxonbar",
     // "technical reasons",
-    // "toc",
+    "tennis events",
+    "toc",
     "track listing", // Something can probably be done with this one
+    "tracklist",
     "twoleg",
     // "undue weight section",
     "unreferenced",
     // "unreliable source",
     "update",
     // "url",
-    // "us census population",
+    "us census population",
     // "usa",
     "use",
     // "vague",
-    // "webarchive",
+    "video game reviews",
+    "weather box",
+    "webarchive",
+    "when",
+    "wide image",
+    "who",
     "wikidata",
     // "wikisource",
     "wiktionary",
@@ -237,6 +292,8 @@ lazy_static! {
             ("spaces", " "),
             ("snd", " - "),
             ("spnd", " - "),
+            ("spaced ndash", " - "),
+            ("ndash", "-"),
             ("nbsp", " "),
             ("'s", "'s"),
             ("en dash", "\u{2013}"),
@@ -258,7 +315,8 @@ lazy_static! {
             ("end", ""),
             ("ya", ""),
             ("=", "="),
-            ("pi", "π")
+            ("pi", "π"),
+            ("-", "")
         ].iter().map(|(k, v)| (k.to_string(), v.to_string())).collect()
     };
 
@@ -296,6 +354,7 @@ lazy_static! {
 
     static ref REPLACE_FIRST: HashSet<String> = {
         [
+            "cast listing",
             "columns-list",
             // "cr",
             "ct",
@@ -303,14 +362,18 @@ lazy_static! {
             "flag",
             "ill",
             "interlanguage link",
+            "interlanguage link multi",
+            "mesh",
             // "oldstyledateny",
             "stn",
-            "station"
+            "station",
+            "sup"
         ].iter().map(|s| s.to_string()).collect()
     };
 
     static ref MERGE_WITH_SPACES: HashSet<String> = {
         [
+            "airport codes",
             "au",
             "hlist",
             "linktext",
@@ -318,6 +381,7 @@ lazy_static! {
             "mp",
             "nflplayer",
             "post-nominals",
+            "postnominals",
             "ship"
         ].iter().map(|s| s.to_string()).collect()
     };
@@ -455,20 +519,27 @@ pub fn filter_templates(input: &str) -> Option<String> {
                 return Some(parts[0].to_string());
             }
         },
-        // "frac" | "fraction" => {
-        //     match params.len() {
-        //         0 => return (false, "/".to_string()),
-        //         1 => return (false, format!("1/{}", unnamed_params[0])),
-        //         2 => return (false, format!("{}/{}", unnamed_params[0], unnamed_params[1])),
-        //         3 => return (false, format!(
-        //             "{} {}/{}", 
-        //             unnamed_params[0], 
-        //             unnamed_params[1], 
-        //             unnamed_params[2])
-        //         ),
-        //         _ => ()
-        //     };
-        // },
+        "frac" | "fraction" => {
+            match params.len() {
+                0 => return Some("/".to_string()),
+                1 => return Some(format!("1/{}", params.get("1")?)),
+                2 => return Some(format!("{}/{}", params.get("1")?, params.get("2")?)),
+                3 => return Some(format!(
+                    "{} {}/{}", 
+                    params.get("1")?, 
+                    params.get("2")?, 
+                    params.get("3")?)
+                ),
+                _ => return None
+            };
+        },
+        "nee" => {
+            let name = params
+                .get("1")
+                .map(|v| " ".to_string() + v)
+                .unwrap_or(String::new());
+            return Some("née".to_string() + &name)
+        },
         "nowrap" | "mvar" => return Some(parts[1..].concat()),
         "rating" => {
             let score = params.get("1")?;
@@ -497,6 +568,14 @@ pub fn filter_templates(input: &str) -> Option<String> {
                 return Some(s);
             }
         },
+        "player" => return Some(params.get("1")?.to_string() + " " + params.get("3")?),
+        "rws" | "stnlnk" => 
+            return params.get("3").or(params.get("1")).map(|s| s.to_string()),
+        "sclass" => {
+            let classname = params.get("1")?;
+            let shiptype = params.get("2")?;
+            return Some(format!("{}-class {}", classname, shiptype));
+        },
         "small" => return params.get("1").map(|s| s.to_string()),
         "sortname" => {
             let params = rename_params(params, &["first", "last"]);
@@ -507,6 +586,16 @@ pub fn filter_templates(input: &str) -> Option<String> {
                     .map(|l| first.to_string() + " " + l)
                     .unwrap_or(first.to_string())
             );
+        },
+        "translation" => {
+            let mut ret_val = "transl.".to_string();
+            if let Some(meaning1) = params.get("1") {
+                ret_val = format!("{} {}", ret_val, meaning1);
+            }
+            if let Some(meaning2) = params.get("2") {
+                ret_val = format!("{} - transl. {}", ret_val, meaning2);
+            }
+            return Some(ret_val);
         },
         // "bce" | "ce" => return (true, unnamed_params.get(0)?.to_string() + " " + parts.get(0)?),
         // "ietf rfc" => return (false, format!("RFC {}", unnamed_params.join(", "))),
@@ -573,9 +662,11 @@ pub fn filter_templates(input: &str) -> Option<String> {
     // Handle quotation blocks
     if template_name == "blockquote" ||
         template_name == "quotation" ||
-        template_name == "quote"
+        template_name == "quote" ||
+        template_name == "quote box" ||
+        template_name == "cquote"
     {
-        let params = rename_params(params, &["text", "author"]);
+        let params = rename_params(params, &["text", "author", "source"]);
 
         let text = params
             .get("text")
@@ -1008,6 +1099,15 @@ pub fn filter_templates(input: &str) -> Option<String> {
         return Some(format!("{} ({})", name, country));
     }
 
+    // Parse inflation templates
+    if template_name == "inflation" {
+        let params = rename_params(params, &["index", "value", "start_year"]);
+        let index = params.get("index")?;
+        let value = params.get("value")?;
+        let start_year = params.get("start_year")?;
+        return Some(format!("{} {} ({})", index, value, start_year));
+    }
+
     // // Parse AllMusic links templates
     // if template_name == "allmusic" {
     //     let params = get_params(&params, &["1", "2", "title"]);
@@ -1184,6 +1284,26 @@ pub fn filter_templates(input: &str) -> Option<String> {
         return Some(vals.join("; "))
     }
 
+    // Parse Korean translation helpers
+    if template_name == "korean" {
+        let params = rename_params(params, &["hangul", "hanja", "rr", "mr"]);
+        let order = [
+            ("hangul", "Korean"),
+            ("hanja", "Hanja"),
+            ("rr", "RR"),
+            ("mr", "MR")
+        ];
+        let mut labels = Vec::new();
+
+        for (key, text) in order {
+            if let Some(val) = params.get(key) {
+                labels.push(format!("{}: {}", text, val));
+            }
+        }
+
+        return Some(labels.join("; "))
+    }
+
     // Parse US house of representatives templates
     if template_name == "ushr" {
         let params = rename_params(params, &["state", "number"]);
@@ -1290,6 +1410,10 @@ fn rename_params<'a>(
 ) -> HashMap<String, &'a str> {
     let mut counter = 1;
     for param_name in param_names {
+        if in_params.contains_key(&param_name.to_string()) {
+            continue;
+        }
+
         let key = counter.to_string();
         if let Some(val) = in_params.remove(key.as_str()) {
             in_params.insert(param_name.to_string(), val);

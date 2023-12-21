@@ -1,5 +1,5 @@
 use core::panic;
-use std::collections::{HashMap, BTreeSet};
+use std::collections::{HashMap, BTreeSet, HashSet};
 use std::fs::File;
 use std::io::{Write, BufReader};
 use std::str;
@@ -159,6 +159,7 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
             && !title.starts_with("Draft:")
             && !title.starts_with("Module:")
             && !title.starts_with("MediaWiki:")
+            && !title.to_lowercase().ends_with("(disambiguation)")
         {
             let counts = self.counts.clone();
             let processing_articles = self.processing_articles.clone();
@@ -169,7 +170,7 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
             loop {
                 {
                     let active_threads = active_threads.lock().unwrap();
-                    if *active_threads < 4 * NUM_THREADS {
+                    if *active_threads < 16 * NUM_THREADS {
                         break;
                     }
                 }
@@ -198,6 +199,7 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
                 // Process the text
                 let re = Regex::new(r"\{\{([^#<>\[\]\|\{\}]+)").unwrap();
                 let text = (text_processor)(&text);
+                //let text = String::from_utf8(text).unwrap();
 
                 // Write the text to a file
                 if article_id % 10_000 == 0 {
@@ -206,7 +208,7 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
                 }
 
                 // Collect the template names
-                let template_names: Vec<_> = re
+                let template_names: HashSet<_> = re
                     .captures_iter(&text)
                     .map(|c| {
                         let (_, [template_name]) = c.extract();
