@@ -802,7 +802,7 @@ pub fn filter_templates(input: &str) -> Option<String> {
         let year = params.get("year")?;
         let month = params
             .get("month")
-            .and_then(|s| s.parse::<usize>().ok().map(|i| MONTHS[i - 1]));
+            .and_then(|s| s.parse::<usize>().ok().and_then(|i| MONTHS.get(i - 1)));
         let day = params.get("day");
         
         // Construct the date piecemeal

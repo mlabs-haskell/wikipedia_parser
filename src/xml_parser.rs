@@ -16,10 +16,12 @@ use quick_xml::Result;
 
 use rayon::{ThreadPool, ThreadPoolBuilder};
 
-const DIR: &str = "output/";
-const NUM_THREADS: usize = 32;
+use crate::tree::Tree;
 
-pub struct XMLParser<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy + 'static> {
+const DIR: &str = "text_output/";
+const NUM_THREADS: usize = 30;
+
+pub struct XMLParser<F: Fn(&str) -> String + Clone + Sync + Send + Copy + 'static> {
     text_processor: F,
     reader: Reader<BufReader<File>>,
     num_articles: usize,
@@ -28,7 +30,7 @@ pub struct XMLParser<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy + 'stat
     active_threads: Arc<Mutex<usize>>
 }
 
-impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
+impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
     pub fn new(text_processor: F, filename: &str) -> Result<Self> {
         let reader = Reader::from_file(filename)?;
         let thread_pool = ThreadPoolBuilder::new().num_threads(NUM_THREADS).build().unwrap();
@@ -143,6 +145,7 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
             && !title.starts_with("Draft:")
             && !title.starts_with("Module:")
             && !title.starts_with("MediaWiki:")
+            && !title.starts_with("Help:")
             && !title.to_lowercase().ends_with("(disambiguation)")
         {
             let processing_articles = self.processing_articles.clone();
@@ -180,6 +183,7 @@ impl<F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
                 }
 
                 // Process the text
+                let text = String::from_utf8(text).unwrap();
                 let text = (text_processor)(&text);
 
                 // Write the text to a file
@@ -261,13 +265,20 @@ fn write_file(title: &str, text: &str) -> Result<()> {
     let dir = String::from(DIR);
     let title = title.replace(|c: char| !c.is_alphanumeric(), "_");
     let title: String = title.chars().take(100).collect();
-    let sub_dir: String = title.chars().take(3).collect();
+    let mut sub_dir: String = title.chars().take(4).collect();
+    if sub_dir.ends_with(|c: char| !c.is_numeric()) {
+        sub_dir = "0000".to_string();
+    }
     let path = dir + "/" + &sub_dir + "/" + &title + ".txt";
 
     // Create the directories that will contain the file
     let path = Path::new(&path);
     let prefix = path.parent().unwrap();
     create_dir_all(prefix)?;
+
+    // Convert text to JSON
+    //let tree = Tree::from_string(text);
+    //let text = serde_json::to_string_pretty(&tree).unwrap();
 
     // Write the file
     let mut file = File::create(path);

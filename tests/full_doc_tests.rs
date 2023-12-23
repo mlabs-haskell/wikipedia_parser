@@ -22,7 +22,7 @@ fn processed_file(filename: &str) -> String {
 // Load the raw and processed file of the given name, and make sure they are equal
 fn test_full_doc(article_name: &str) {
     let raw = raw_file(article_name);
-    let output = extract_text(raw.as_bytes());
+    let output = extract_text(&raw);
 
     let processed = processed_file(article_name);
 
