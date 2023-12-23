@@ -1,11 +1,10 @@
 use html_escape::decode_html_entities;
 use regex::Regex;
-use std::str::from_utf8;
 
 use nom::{IResult, Parser, InputLength};
 use nom::branch::alt;
 use nom::bytes::complete::{tag, take_until, tag_no_case};
-use nom::character::complete::{none_of, anychar, one_of};
+use nom::character::complete::{none_of, anychar, one_of, space0};
 use nom::combinator::{map, peek, eof, fail};
 use nom::error::ParseError;
 use nom::multi::{many0, many_till, many1};
@@ -30,13 +29,12 @@ const REMOVE_SECTIONS: &[&str] = &[
 
 const REMOVE_LINKS: &[&str] = &[
     "file:",
-    "image:"
+    "image:",
+    "category:"
 ];
 
 // Take a given wikitext-formatted string and extract the useful text
-pub fn extract_text(input: &[u8]) -> String {
-    let input = from_utf8(input).unwrap();
-
+pub fn extract_text(input: &str) -> String {
     // Convert html codes to their proper characters
     let input = decode_html_entities(input).to_string();
     let input = input.replace("&ndash;", "\u{2013}");
@@ -115,10 +113,26 @@ fn table_parser(input: &str) -> IResult<&str, String> {
             look_ahead_delimited(
                 tag_no_case("{{refbegin"), 
                 map(anychar, |_| String::new()), 
-                tuple((
-                    tag_no_case("{{refend"),
-                    many0(none_of("{}")),
-                    tag("}}")
+                alt((
+                    map(
+                        tuple((
+                            tag_no_case("{{refend"),
+                            many0(none_of("{}")),
+                            tag("}}")
+                        )),
+                        |_| ""
+                    ),
+                    alt((
+                        map(
+                            tuple((
+                                tag_no_case("{{refend"),
+                                many0(none_of("{}")),
+                                tag("}}")
+                            )),
+                            |_| ""
+                        ),
+                        peek(tag("\n=="))
+                    ))
                 ))
             ),
             look_ahead_delimited(
@@ -153,7 +167,19 @@ fn table_parser(input: &str) -> IResult<&str, String> {
             look_ahead_delimited(
                 alt((
                     // Standard start for a table
-                    tag("\n{|"),
+                    preceded(
+                        tuple((
+                            tag("\n"),
+                            many0(
+                                alt((
+                                    map(one_of(":"), |_| String::new()),
+                                    no_content_tag_parser,
+                                    comment_parser
+                                ))
+                            )
+                        )),
+                        tag("{|")
+                    ),
 
                     // Templates that can start tables
                     tag_no_case("{{Awards table"),
@@ -161,7 +187,9 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                     tag_no_case("{{LegSeats3"),
                     tag_no_case("{{NRHP header"),
                     tag_no_case("{{col-begin"),
-                    tag_no_case("{{HS listed building header")
+                    tag_no_case("{{HS listed building header"),
+                    tag_no_case("{{election table"),
+                    tag_no_case("{{Bs out2 header")
                 )),
                 alt((
                     table_parser,
@@ -170,7 +198,7 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                 alt((
                     terminated(
                         tag("|}"),
-                        none_of("}")
+                        peek(none_of("}"))
                     ),
                     peek(tag("\n=="))
                 ))
@@ -186,6 +214,7 @@ fn template_parser(input: &str) -> IResult<&str, String> {
         look_ahead_delimited(
             tag("{{"),
             alt((
+                html_code_parser,
                 template_parser,
                 map(anychar, |c| c.to_string())
             )), 
@@ -429,6 +458,7 @@ fn no_content_tag_parser(input: &str) -> IResult<&str, String> {
             map(
                 tuple((
                     tag("<"),
+                    space0,
                     tag(tag_name),
                     take_until(">"),
                     tag(">")
@@ -438,9 +468,20 @@ fn no_content_tag_parser(input: &str) -> IResult<&str, String> {
             map(
                 tuple((
                     tag("</"),
+                    space0,
                     tag(tag_name),
                     take_until(">"),
                     tag(">")
+                )),
+                |_| String::new()
+            ),
+            map(
+                tuple((
+                    tag("<"),
+                    space0,
+                    tag(tag_name),
+                    take_until("/>"),
+                    tag("/>")
                 )),
                 |_| String::new()
             )
@@ -452,7 +493,8 @@ fn no_content_tag_parser(input: &str) -> IResult<&str, String> {
     alt((
         helper("div"),
         helper("br"),
-        helper("onlyinclude")
+        helper("onlyinclude"),
+        helper("section")
     ))(input)
 }
 
