@@ -5,7 +5,7 @@ use nom::{IResult, Parser, InputLength};
 use nom::branch::alt;
 use nom::bytes::complete::{tag, take_until, tag_no_case};
 use nom::character::complete::{none_of, anychar, one_of, space0};
-use nom::combinator::{map, peek, eof, fail};
+use nom::combinator::{map, peek, eof, fail, verify};
 use nom::error::ParseError;
 use nom::multi::{many0, many_till, many1};
 use nom::sequence::{delimited, preceded, terminated, tuple};
@@ -62,6 +62,7 @@ fn article_parser(input: &str) -> String {
 
     // This is safe because the above parser will always succeed
     let (_, output) = result.unwrap();
+
 
     output
 }
@@ -174,7 +175,8 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                                 alt((
                                     map(one_of(":"), |_| String::new()),
                                     no_content_tag_parser,
-                                    comment_parser
+                                    comment_parser,
+                                    verify(template_parser, |s: &str| s.is_empty())
                                 ))
                             )
                         )),
@@ -436,8 +438,8 @@ fn html_code_parser(input: &str) -> IResult<&str, String> {
                 helper("syntaxhighlight")
             )),
             |strings| {
-                let s = strings.concat();
-                article_parser(&s)
+                let s = "\n".to_string() + &strings.concat();
+                article_parser(&s).trim().to_string()
             }
         ),
         map(
