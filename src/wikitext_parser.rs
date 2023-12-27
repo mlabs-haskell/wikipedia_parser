@@ -189,7 +189,8 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                     tag_no_case("{{col-begin"),
                     tag_no_case("{{HS listed building header"),
                     tag_no_case("{{election table"),
-                    tag_no_case("{{Bs out2 header")
+                    tag_no_case("{{Bs out2 header"),
+                    tag_no_case("{{Bs in2 header")
                 )),
                 alt((
                     table_parser,
@@ -200,7 +201,8 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                         tag("|}"),
                         peek(none_of("}"))
                     ),
-                    peek(tag("\n=="))
+                    peek(tag("\n==")),
+                    eof
                 ))
             ),
         )),
