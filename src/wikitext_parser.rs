@@ -43,6 +43,7 @@ pub fn extract_text(input: &str) -> String {
     let input = input.replace("&minus;", "-");
 
     // Use nom to parse the important information from the article
+    let input = "\n".to_string() + &input;
     let output = article_parser(input.as_str());
 
     // Remove all double (or more) carriage returns
@@ -176,7 +177,7 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                                 tag("\n"),
                                 many0(
                                     alt((
-                                        value(String::new(), one_of(":")),
+                                        value(String::new(), one_of(": ")),
                                         no_content_tag_parser,
                                         comment_parser,
                                         verify(template_parser, |s: &str| s.is_empty())
@@ -198,7 +199,12 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                     tag_no_case("{{HS listed building header"),
                     tag_no_case("{{election table"),
                     tag_no_case("{{Bs out2 header"),
-                    tag_no_case("{{Bs in2 header")
+                    tag_no_case("{{Bs in2 header"),
+                    tag_no_case("{{OneLegStart"),
+                    tag_no_case("{{NRHP former header"),
+                    tag_no_case("{{TwoLegStart"),
+                    tag_no_case("{{AFL player statistics start"),
+                    tag_no_case("{{Start NFL SBS")
                 )),
                 alt((
                     table_parser,
