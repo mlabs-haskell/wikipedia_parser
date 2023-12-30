@@ -275,9 +275,20 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                     value(String::new(), anychar)
                 )),
                 alt((
-                    terminated(
-                        tag("|}"),
-                        peek(none_of("}"))
+                    value("",
+                        tuple((
+                            tag("\n"),
+                            many0(
+                                alt((
+                                    comment_parser,
+                                    value(String::new(), one_of(" \t\r"))
+                                ))
+                            ),
+                            tag("|"),
+                            many0(comment_parser),
+                            tag("}"),
+                            peek(none_of("}"))
+                        ))
                     ),
                     peek(
                         terminated(
