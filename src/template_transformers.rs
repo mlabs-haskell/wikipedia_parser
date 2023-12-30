@@ -394,6 +394,22 @@ pub fn filter_templates(input: &str) -> Option<String> {
         return params.values().last().map(|s| s.to_string());
     }
 
+    // Handle the entire "lang" family of templates
+    if template_name == "alum" {
+        let params = rename_params(params, &["name", "year", "nota"]);
+
+        let mut output = params.get("name")?.to_string();
+        if let Some(year) = params.get("year") {
+            output += &format!(" ({})", year);
+        }
+
+        if let Some(nota) = params.get("nota") {
+            output += &format!(": {}", nota);
+        }
+
+        return Some(output);
+    }
+
     // Handle quotation blocks
     if template_name == "blockquote" ||
         template_name == "quotation" ||

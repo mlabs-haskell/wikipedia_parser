@@ -4,7 +4,7 @@ use regex::Regex;
 use nom::{IResult, Parser, InputLength};
 use nom::branch::alt;
 use nom::bytes::complete::{tag, take_until, tag_no_case};
-use nom::character::complete::{none_of, anychar, one_of, space0};
+use nom::character::complete::{none_of, anychar, one_of, space0, satisfy};
 use nom::combinator::{map, peek, eof, fail, verify, value};
 use nom::error::ParseError;
 use nom::multi::{many0, many_till, many1};
@@ -191,20 +191,60 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                     ),
 
                     // Templates that can start tables
-                    tag_no_case("{{Awards table"),
-                    tag_no_case("{{Certification Table Top"),
-                    tag_no_case("{{LegSeats3"),
-                    tag_no_case("{{NRHP header"),
-                    tag_no_case("{{col-begin"),
-                    tag_no_case("{{HS listed building header"),
-                    tag_no_case("{{election table"),
-                    tag_no_case("{{Bs out2 header"),
-                    tag_no_case("{{Bs in2 header"),
-                    tag_no_case("{{OneLegStart"),
-                    tag_no_case("{{NRHP former header"),
-                    tag_no_case("{{TwoLegStart"),
-                    tag_no_case("{{AFL player statistics start"),
-                    tag_no_case("{{Start NFL SBS")
+                    alt((
+                        alt((
+                            tag_no_case("{{Awards table"),
+                            tag_no_case("{{Certification Table Top"),
+                            tag_no_case("{{LegSeats3"),
+                            tag_no_case("{{NRHP header"),
+                            tag_no_case("{{col-begin"),
+                            tag_no_case("{{HS listed building header"),
+                            tag_no_case("{{election table"),
+                            tag_no_case("{{Bs out2 header"),
+                            tag_no_case("{{Bs in2 header"),
+                            tag_no_case("{{OneLegStart"),
+                            tag_no_case("{{NRHP former header"),
+                            tag_no_case("{{TwoLegStart"),
+                            tag_no_case("{{AFL player statistics start"),
+                            tag_no_case("{{Start NFL SBS"),
+                            tag_no_case("{{Office-table"),
+                            tag_no_case("{{MMA record start"),
+                            tag_no_case("{{International goals header"),
+                            tag_no_case("{{Cabinet table start"),
+                            tag_no_case("{{Jockey colours header"),
+                            tag_no_case("{{PresHead"),
+                            tag_no_case("{{Fb cl3 header navbar")
+                        )),
+                        tag_no_case("{{Graphic novel list/header"),
+                        tag_no_case("{{Efs start4"),
+                        tag_no_case("{{fb disc header 2"),
+                        tag_no_case("{{Ordinal US Congress change"),
+                        tag_no_case("{{Fb_kit header"),
+                        tag_no_case("{{Canadian politics/candlist header"),
+                        tag_no_case("{{College ice hockey team roster"),
+                        tag_no_case("{{Election Summary Begin"),
+                        tag_no_case("{{NZ election box begin")
+                    )),
+
+                    // Catchall for "start" and "header" table starts
+                    value("",
+                        look_ahead_delimited(
+                            tag("{{"), 
+                            satisfy(|c| c.is_alphanumeric() || c.is_whitespace()),
+                            tuple((
+                                alt((
+                                    tag_no_case("start"),
+                                    tag_no_case("header"),
+                                    tag_no_case("table")
+                                )),
+                                space0,
+                                alt((
+                                    tag("|"),
+                                    tag("}}")
+                                ))
+                            ))
+                        )
+                    )
                 )),
                 alt((
                     table_parser,
@@ -239,7 +279,12 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                         tag("|}"),
                         peek(none_of("}"))
                     ),
-                    peek(tag("\n==")),
+                    peek(
+                        terminated(
+                            tag("\n=="),
+                            none_of("=")
+                        )
+                    ),
                     eof
                 ))
             ),
