@@ -46,13 +46,27 @@ pub fn extract_text(input: &str) -> String {
     let input = "\n".to_string() + &input;
     let output = article_parser(input.as_str());
 
+    // Remove table remnants
+    let lines: Vec<_> = output
+        .lines()
+        .filter(|s| {
+            let s = s.trim();
+            !s.starts_with("|") && !s.starts_with("!") && !s.is_empty()
+        })
+        .collect();
+    let output = lines.join("\n");
+
     // Remove all double (or more) carriage returns
     let re = Regex::new(r"\n\n+").unwrap();
     let output = re.replace_all(&output, "\n");
 
     // Perform some final cleanup
     let output = output.trim().to_owned();
-    output.replace("(pronounced )", "")
+    let re = Regex::new(r"\([^a-zA-Z0-9]*\)").unwrap();
+    let output = re.replace_all(&output, "");
+    let re = Regex::new(r"  +").unwrap();
+    let output = re.replace_all(&output, " ");
+    output.to_string()
 }
 
 // Nom parser that allows us to extract needed text while knowing the article structure
@@ -195,7 +209,7 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                         alt((
                             tag_no_case("{{Awards table"),
                             tag_no_case("{{Certification Table Top"),
-                            tag_no_case("{{LegSeats3"),
+                            tag_no_case("{{LegSeats"),
                             tag_no_case("{{NRHP header"),
                             tag_no_case("{{col-begin"),
                             tag_no_case("{{HS listed building header"),
@@ -216,14 +230,19 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                             tag_no_case("{{Fb cl3 header navbar")
                         )),
                         tag_no_case("{{Graphic novel list/header"),
-                        tag_no_case("{{Efs start4"),
-                        tag_no_case("{{fb disc header 2"),
+                        tag_no_case("{{fb disc header"),
                         tag_no_case("{{Ordinal US Congress change"),
                         tag_no_case("{{Fb_kit header"),
                         tag_no_case("{{Canadian politics/candlist header"),
                         tag_no_case("{{College ice hockey team roster"),
                         tag_no_case("{{Election Summary Begin"),
-                        tag_no_case("{{NZ election box begin")
+                        tag_no_case("{{NZ election box begin"),
+                        tag_no_case("{{TLS-H2"),
+                        tag_no_case("{{col-start"),
+                        tag_no_case("{{Efs start"),
+                        tag_no_case("{{EH listed building header"),
+                        tag_no_case("{{CANelec/top"),
+                        tag_no_case("{{Vb res start")
                     )),
 
                     // Catchall for "start" and "header" table starts
