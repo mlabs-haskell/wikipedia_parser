@@ -189,8 +189,7 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
                 let text = (text_processor)(&text);
 
                 // Write the text to a file
-                let title = format!("{}_{}", article_id, title);
-                write_file(root_dir, &title, &text).unwrap();
+                write_file(root_dir, &title, &text, article_id).unwrap();
 
                 // Remove the article from the list of articles being processed
                 {
@@ -262,9 +261,10 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
     }
 }
 
-fn write_file(root_dir: String, title: &str, text: &str) -> Result<()> {
+fn write_file(root_dir: String, title: &str, text: &str, article_id: usize) -> Result<()> {
     // Figure out where to write the file
-    let filename = title.replace(|c: char| !c.is_alphanumeric(), "_");
+    let filename = format!("{}_{}", article_id, title);
+    let filename = filename.replace(|c: char| !c.is_alphanumeric(), "_");
     let filename: String = filename.chars().take(100).collect();
     let mut sub_dir: String = filename.chars().take(4).collect();
     if sub_dir.ends_with(|c: char| !c.is_numeric()) {
