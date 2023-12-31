@@ -9,10 +9,10 @@ pub struct Tree {
 }
 
 impl Tree {
-    pub fn from_string(input: &str) -> Self {
+    pub fn from_string(title: &str, input: &str) -> Self {
         let lines = input.lines();
         let mut lines = lines.peekable();
-        Self::from_string_worker(&mut lines, 1, "root")
+        Self::from_string_worker(&mut lines, 1, title)
     }
 
     fn from_string_worker(lines: &mut Peekable<Lines>, level: usize, section_name: &str) -> Self {
@@ -36,9 +36,15 @@ impl Tree {
 
                 // Get the header name
                 let header_chars: Vec<_> = line.chars().collect();
-                let header_name = &header_chars
-                    [new_header_depth .. header_chars.len() - new_header_depth];
-                let header_name: String = header_name.into_iter().collect();
+                let start_index = new_header_depth;
+                let end_index = header_chars.len() - new_header_depth;
+                let header_name: String = if start_index < end_index {
+                    let header_name = &header_chars[start_index..end_index];
+                    header_name.into_iter().collect()
+                }
+                else {
+                    "Unknown".to_string()
+                };
 
                 // If there are more = signs than current level, parse child
                 if new_header_depth > level {

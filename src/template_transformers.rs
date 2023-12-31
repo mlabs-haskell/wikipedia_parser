@@ -410,6 +410,12 @@ pub fn filter_templates(input: &str) -> Option<String> {
         return Some(output);
     }
 
+    // Handle visible anchors
+    if template_name == "visible anchor" || template_name == "vanchor" {
+        let params = rename_params(params, &["text"]);
+        return params.get("text").map(|s| s.to_string());
+    }
+
     // Handle quotation blocks
     if template_name == "blockquote" ||
         template_name == "quotation" ||

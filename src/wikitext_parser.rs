@@ -60,12 +60,15 @@ pub fn extract_text(input: &str) -> String {
     let re = Regex::new(r"\n\n+").unwrap();
     let output = re.replace_all(&output, "\n");
 
-    // Perform some final cleanup
+    // Remove empty parens
     let output = output.trim().to_owned();
     let re = Regex::new(r"\([^a-zA-Z0-9]*\)").unwrap();
     let output = re.replace_all(&output, "");
+
+    // Remove double spaces
     let re = Regex::new(r"  +").unwrap();
     let output = re.replace_all(&output, " ");
+    
     output.to_string()
 }
 

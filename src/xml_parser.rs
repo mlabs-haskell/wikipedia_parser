@@ -18,7 +18,6 @@ use rayon::{ThreadPool, ThreadPoolBuilder};
 
 use crate::tree::Tree;
 
-const DIR: &str = "text_output/";
 const NUM_THREADS: usize = 30;
 
 pub struct XMLParser<F: Fn(&str) -> String + Clone + Sync + Send + Copy + 'static> {
@@ -27,11 +26,12 @@ pub struct XMLParser<F: Fn(&str) -> String + Clone + Sync + Send + Copy + 'stati
     num_articles: usize,
     thread_pool: Option<ThreadPool>,
     processing_articles: Arc<Mutex<BTreeSet<usize>>>,
-    active_threads: Arc<Mutex<usize>>
+    active_threads: Arc<Mutex<usize>>,
+    root_dir: String
 }
 
 impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
-    pub fn new(text_processor: F, filename: &str) -> Result<Self> {
+    pub fn new(root_dir: String, text_processor: F, filename: &str) -> Result<Self> {
         let reader = Reader::from_file(filename)?;
         let thread_pool = ThreadPoolBuilder::new().num_threads(NUM_THREADS).build().unwrap();
         Ok(Self {
@@ -40,7 +40,8 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
             num_articles: 0,
             thread_pool: Some(thread_pool),
             processing_articles: Arc::new(Mutex::new(BTreeSet::new())),
-            active_threads: Arc::new(Mutex::new(0))
+            active_threads: Arc::new(Mutex::new(0)),
+            root_dir
         })
     }
 
@@ -151,6 +152,7 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
             let processing_articles = self.processing_articles.clone();
             let active_threads = self.active_threads.clone();
             let text_processor = self.text_processor;
+            let root_dir = self.root_dir.clone();
 
             // Pause until we have some free threads
             loop {
@@ -188,7 +190,7 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
 
                 // Write the text to a file
                 let title = format!("{}_{}", article_id, title);
-                write_file(&title, &text).unwrap();
+                write_file(root_dir, &title, &text).unwrap();
 
                 // Remove the article from the list of articles being processed
                 {
@@ -260,16 +262,15 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
     }
 }
 
-fn write_file(title: &str, text: &str) -> Result<()> {
+fn write_file(root_dir: String, title: &str, text: &str) -> Result<()> {
     // Figure out where to write the file
-    let dir = String::from(DIR);
-    let title = title.replace(|c: char| !c.is_alphanumeric(), "_");
-    let title: String = title.chars().take(100).collect();
-    let mut sub_dir: String = title.chars().take(4).collect();
+    let filename = title.replace(|c: char| !c.is_alphanumeric(), "_");
+    let filename: String = filename.chars().take(100).collect();
+    let mut sub_dir: String = filename.chars().take(4).collect();
     if sub_dir.ends_with(|c: char| !c.is_numeric()) {
         sub_dir = "0000".to_string();
     }
-    let path = dir + "/" + &sub_dir + "/" + &title + ".txt";
+    let path = root_dir + "/" + &sub_dir + "/" + &filename + ".json";
 
     // Create the directories that will contain the file
     let path = Path::new(&path);
@@ -277,8 +278,8 @@ fn write_file(title: &str, text: &str) -> Result<()> {
     create_dir_all(prefix)?;
 
     // Convert text to JSON
-    //let tree = Tree::from_string(text);
-    //let text = serde_json::to_string_pretty(&tree).unwrap();
+    let tree = Tree::from_string(title, text);
+    let text = serde_json::to_string_pretty(&tree).unwrap();
 
     // Write the file
     let mut file = File::create(path);
@@ -286,7 +287,7 @@ fn write_file(title: &str, text: &str) -> Result<()> {
         f.write_all(text.as_bytes())?;
     }
     else {
-        panic!("Could not write file: {}", title);
+        panic!("Could not write file: {}", filename);
     }
 
     Ok(())
