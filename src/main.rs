@@ -14,7 +14,11 @@ struct Args {
 fn main() -> Result<(), Box<dyn Error>> {
     let args = Args::parse();
 
-    let mut xml_parser = XMLParser::new(args.output_dir, extract_text, "data/wikipedia.xml")?;
+    let mut xml_parser = XMLParser::new(
+        args.output_dir,
+        extract_text,
+        "./data/enwiki-20231220-pages-articles-multistream.xml",
+    )?;
     xml_parser.parse_xml()?;
     Ok(())
 }
