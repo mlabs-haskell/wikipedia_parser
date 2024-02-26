@@ -9,7 +9,7 @@ use std::sync::{Arc, Mutex};
 use std::thread::sleep;
 use std::time::Duration;
 
-use crate::tree::Tree;
+use crate::extractors::wikitext::tree::Tree;
 
 const NUM_THREADS: usize = 64;
 

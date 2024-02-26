@@ -10,7 +10,7 @@ use nom::multi::{many0, many1, many_till};
 use nom::sequence::{delimited, preceded, terminated, tuple};
 use nom::{IResult, InputLength, Parser};
 
-use crate::template_transformers::filter_templates;
+use super::template_transformers::filter_templates;
 
 const REMOVE_SECTIONS: &[&str] = &[
     "see also",

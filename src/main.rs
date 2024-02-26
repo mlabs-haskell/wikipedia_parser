@@ -2,7 +2,7 @@ use clap::Parser;
 
 use std::error::Error;
 
-use wikipedia_parser::links;
+use wikipedia_parser::extractors::links;
 // use wikipedia_parser::wikitext_parser::extract_text;
 use wikipedia_parser::xml_parser::XMLParser;
 
