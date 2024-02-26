@@ -28,10 +28,12 @@ pub struct XMLParser<F: Fn(&str) -> String + Clone + Sync + Send + Copy + 'stati
     processing_articles: Arc<Mutex<BTreeSet<usize>>>,
     active_threads: Arc<Mutex<usize>>,
     root_dir: String,
+    file_size: u64, // for tracking progress
 }
 
 impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
     pub fn new(root_dir: String, text_processor: F, filename: &str) -> Result<Self> {
+        let file_size = std::fs::File::open(filename)?.metadata()?.len();
         let reader = Reader::from_file(filename)?;
         let thread_pool = ThreadPoolBuilder::new()
             .num_threads(NUM_THREADS)
@@ -45,6 +47,7 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
             processing_articles: Arc::new(Mutex::new(BTreeSet::new())),
             active_threads: Arc::new(Mutex::new(0)),
             root_dir,
+            file_size,
         })
     }
 
@@ -67,7 +70,12 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
     // Parse the body of the XML page
     fn parse_mediawiki(&mut self) -> Result<()> {
         let mut buffer = Vec::new();
+        let file_size = self.file_size;
         loop {
+            let pos = self.reader.buffer_position();
+            let pct = 100.0 * (pos as f64) / (file_size as f64);
+            print!("Progress: {:.2}% {}/{}\r", pct, pos, file_size);
+
             match self.reader.read_event_into(&mut buffer) {
                 Err(e) => self.terminate(e),
                 Ok(Event::Start(e)) => {
