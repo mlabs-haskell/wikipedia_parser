@@ -2,7 +2,8 @@ use clap::Parser;
 
 use std::error::Error;
 
-use wikipedia_parser::wikitext_parser::extract_text;
+use wikipedia_parser::links;
+// use wikipedia_parser::wikitext_parser::extract_text;
 use wikipedia_parser::xml_parser::XMLParser;
 
 #[derive(Parser, Debug)]
@@ -16,7 +17,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let mut xml_parser = XMLParser::new(
         args.output_dir,
-        extract_text,
+        links::extract_links,
         "./data/enwiki-20231220-pages-articles-multistream.xml",
     )?;
     xml_parser.parse_xml()?;
