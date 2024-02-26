@@ -97,6 +97,8 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
         let mut buffer = Vec::new();
         let mut title = Vec::new();
         let mut text = Vec::new();
+
+        // Parse the page
         loop {
             match self.reader.read_event_into(&mut buffer) {
                 Err(e) => self.terminate(e),
@@ -141,71 +143,73 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
 
         // Skip technical articles about Wikipedia itself
         let title = String::from_utf8(title)?;
-        if !title.starts_with("Wikipedia:")
-            && !title.starts_with("Portal:")
-            && !title.starts_with("File:")
-            && !title.starts_with("Template:")
-            && !title.starts_with("Category:")
-            && !title.starts_with("Draft:")
-            && !title.starts_with("Module:")
-            && !title.starts_with("MediaWiki:")
-            && !title.starts_with("Help:")
-            && !title.to_lowercase().ends_with("(disambiguation)")
+        if title.starts_with("Wikipedia:")
+            || title.starts_with("Portal:")
+            || title.starts_with("File:")
+            || title.starts_with("Template:")
+            || title.starts_with("Category:")
+            || title.starts_with("Draft:")
+            || title.starts_with("Module:")
+            || title.starts_with("MediaWiki:")
+            || title.starts_with("Help:")
+            || title.to_lowercase().ends_with("(disambiguation)")
         {
-            let processing_articles = self.processing_articles.clone();
-            let active_threads = self.active_threads.clone();
-            let text_processor = self.text_processor;
-            let root_dir = self.root_dir.clone();
-
-            // Pause until we have some free threads
-            loop {
-                {
-                    let active_threads = active_threads.lock().unwrap();
-                    if *active_threads < 32 * NUM_THREADS {
-                        break;
-                    }
-                }
-                sleep(Duration::from_millis(100));
-            }
-
-            let article_id = self.num_articles;
-            self.num_articles += 1;
-
-            // Increase the number of active threads
-            {
-                *active_threads.lock().unwrap() += 1;
-            }
-
-            self.thread_pool.as_mut().unwrap().spawn(move || {
-                // Add article to the list of articles being actively processed
-                {
-                    let mut processing_articles = processing_articles.lock().unwrap();
-                    processing_articles.insert(article_id);
-
-                    if article_id % 10_000 == 0 {
-                        println!("Processing the following files: {:?}", *processing_articles);
-                    }
-                }
-
-                // Process the text
-                let text = String::from_utf8(text).unwrap();
-                let text = (text_processor)(&text);
-
-                // Write the text to a file
-                write_file(root_dir, &title, &text, article_id).unwrap();
-
-                // Remove the article from the list of articles being processed
-                {
-                    let mut processing_articles = processing_articles.lock().unwrap();
-                    processing_articles.remove(&article_id);
-                }
-
-                // Decrement number of active threads
-                {
-                    *active_threads.lock().unwrap() -= 1;
-                }
-            });
+            return Ok(());
         }
+
+        let processing_articles = self.processing_articles.clone();
+        let active_threads = self.active_threads.clone();
+        let text_processor = self.text_processor;
+        let root_dir = self.root_dir.clone();
+
+        // Pause until we have some free threads
+        loop {
+            {
+                let active_threads = active_threads.lock().unwrap();
+                if *active_threads < 32 * NUM_THREADS {
+                    break;
+                }
+            }
+            sleep(Duration::from_millis(100));
+        }
+
+        let article_id = self.num_articles;
+        self.num_articles += 1;
+
+        // Increase the number of active threads
+        {
+            *active_threads.lock().unwrap() += 1;
+        }
+
+        self.thread_pool.as_mut().unwrap().spawn(move || {
+            // Add article to the list of articles being actively processed
+            {
+                let mut processing_articles = processing_articles.lock().unwrap();
+                processing_articles.insert(article_id);
+
+                if article_id % 10_000 == 0 {
+                    println!("Processing the following files: {:?}", *processing_articles);
+                }
+            }
+
+            // Process the text
+            let text = String::from_utf8(text).unwrap();
+            let text = (text_processor)(&text);
+
+            // Write the text to a file
+            write_file(root_dir, &title, &text, article_id).unwrap();
+
+            // Remove the article from the list of articles being processed
+            {
+                let mut processing_articles = processing_articles.lock().unwrap();
+                processing_articles.remove(&article_id);
+            }
+
+            // Decrement number of active threads
+            {
+                *active_threads.lock().unwrap() -= 1;
+            }
+        });
 
         Ok(())
     }
