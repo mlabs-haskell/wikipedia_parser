@@ -1,14 +1,14 @@
 use html_escape::decode_html_entities;
 use regex::Regex;
 
-use nom::{IResult, Parser, InputLength};
 use nom::branch::alt;
-use nom::bytes::complete::{tag, take_until, tag_no_case};
-use nom::character::complete::{none_of, anychar, one_of, space0, satisfy};
-use nom::combinator::{map, peek, eof, fail, verify, value};
+use nom::bytes::complete::{tag, tag_no_case, take_until};
+use nom::character::complete::{anychar, none_of, one_of, satisfy, space0};
+use nom::combinator::{eof, fail, map, peek, value, verify};
 use nom::error::ParseError;
-use nom::multi::{many0, many_till, many1};
+use nom::multi::{many0, many1, many_till};
 use nom::sequence::{delimited, preceded, terminated, tuple};
+use nom::{IResult, InputLength, Parser};
 
 use crate::template_transformers::filter_templates;
 
@@ -25,14 +25,10 @@ const REMOVE_SECTIONS: &[&str] = &[
     "general bibliography",
     "notes and references",
     "sources",
-    "further reading & references"
+    "further reading & references",
 ];
 
-const REMOVE_LINKS: &[&str] = &[
-    "file:",
-    "image:",
-    "category:"
-];
+const REMOVE_LINKS: &[&str] = &["file:", "image:", "category:"];
 
 // Take a given wikitext-formatted string and extract the useful text
 pub fn extract_text(input: &str) -> String {
@@ -68,16 +64,13 @@ pub fn extract_text(input: &str) -> String {
     // Remove double spaces
     let re = Regex::new(r"  +").unwrap();
     let output = re.replace_all(&output, " ");
-    
+
     output.to_string()
 }
 
 // Nom parser that allows us to extract needed text while knowing the article structure
 fn article_parser(input: &str) -> String {
-    let result = map(
-        many0(general_content_parser),
-        |strings| { strings.concat() }
-    )(input);
+    let result = map(many0(general_content_parser), |strings| strings.concat())(input);
 
     // This is safe because the above parser will always succeed
     let (_, output) = result.unwrap();
@@ -86,10 +79,10 @@ fn article_parser(input: &str) -> String {
 }
 
 // If next item is special, parse it. Otherwise, move forward one char
-fn general_content_parser(input: &str) -> IResult<&str, String> { 
+fn general_content_parser(input: &str) -> IResult<&str, String> {
     alt((
         table_parser,
-        template_parser, 
+        template_parser,
         section_parser,
         link_parser,
         empty_tag_parser,
@@ -98,11 +91,11 @@ fn general_content_parser(input: &str) -> IResult<&str, String> {
         list_parser,
         html_code_parser,
         no_content_tag_parser,
-        map(anychar, |c| c.to_string())
+        map(anychar, |c| c.to_string()),
     ))(input)
 }
 
-// Parsing the contents of a template when parsing a template 
+// Parsing the contents of a template when parsing a template
 // can lead to infinite recursion
 fn template_contents_parser(input: &str) -> IResult<&str, String> {
     let helper = alt((
@@ -115,13 +108,10 @@ fn template_contents_parser(input: &str) -> IResult<&str, String> {
         list_parser,
         html_code_parser,
         no_content_tag_parser,
-        map(anychar, |c| c.to_string())
+        map(anychar, |c| c.to_string()),
     ));
 
-    map(
-        many0(helper),
-        |strings| { strings.concat() }
-    )(input)
+    map(many0(helper), |strings| strings.concat())(input)
 }
 
 // For now, just remove tables
@@ -131,82 +121,56 @@ fn table_parser(input: &str) -> IResult<&str, String> {
         String::new(),
         alt((
             look_ahead_delimited(
-                tag_no_case("{{refbegin"), 
-                value(String::new(), anychar), 
+                tag_no_case("{{refbegin"),
+                value(String::new(), anychar),
                 alt((
                     value(
                         "",
-                        tuple((
-                            tag_no_case("{{refend"),
-                            many0(none_of("{}")),
-                            tag("}}")
-                        ))
+                        tuple((tag_no_case("{{refend"), many0(none_of("{}")), tag("}}"))),
                     ),
                     alt((
                         value(
                             "",
-                            tuple((
-                                tag_no_case("{{refend"),
-                                many0(none_of("{}")),
-                                tag("}}")
-                            ))
+                            tuple((tag_no_case("{{refend"), many0(none_of("{}")), tag("}}"))),
                         ),
-                        peek(tag("\n=="))
-                    ))
-                ))
-            ),
-            look_ahead_delimited(
-                tuple((
-                    tag_no_case("{{"), 
-                    many1(none_of("{}")),
-                    tag("}}")
-                )),
-                value(String::new(), none_of("{}")), 
-                tuple((
-                    alt((
-                        tag_no_case("{{end"),
-                        tag_no_case("{{s-end")
+                        peek(tag("\n==")),
                     )),
-                    many0(none_of("{}")),
-                    tag("}}")
-                ))
+                )),
             ),
             look_ahead_delimited(
+                tuple((tag_no_case("{{"), many1(none_of("{}")), tag("}}"))),
+                value(String::new(), none_of("{}")),
                 tuple((
-                    tag_no_case("{{fs start"),
+                    alt((tag_no_case("{{end"), tag_no_case("{{s-end"))),
                     many0(none_of("{}")),
-                    tag("}}")
+                    tag("}}"),
                 )),
-                value(String::new(), anychar), 
-                tuple((
-                    tag_no_case("{{fs end"),
-                    many0(none_of("{}")),
-                    tag("}}")
-                ))
+            ),
+            look_ahead_delimited(
+                tuple((tag_no_case("{{fs start"), many0(none_of("{}")), tag("}}"))),
+                value(String::new(), anychar),
+                tuple((tag_no_case("{{fs end"), many0(none_of("{}")), tag("}}"))),
             ),
             look_ahead_delimited(
                 alt((
                     // Standard start for a table
                     value(
-                        "", 
+                        "",
                         tuple((
                             tuple((
                                 tag("\n"),
-                                many0(
-                                    alt((
-                                        value(String::new(), one_of(": ")),
-                                        no_content_tag_parser,
-                                        comment_parser,
-                                        verify(template_parser, |s: &str| s.is_empty())
-                                    ))
-                                )
+                                many0(alt((
+                                    value(String::new(), one_of(": ")),
+                                    no_content_tag_parser,
+                                    comment_parser,
+                                    verify(template_parser, |s: &str| s.is_empty()),
+                                ))),
                             )),
                             tag("{"),
                             many0(comment_parser),
-                            tag("|")
-                        ))
+                            tag("|"),
+                        )),
                     ),
-
                     // Templates that can start tables
                     alt((
                         alt((
@@ -230,7 +194,7 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                             tag_no_case("{{Cabinet table start"),
                             tag_no_case("{{Jockey colours header"),
                             tag_no_case("{{PresHead"),
-                            tag_no_case("{{Fb cl3 header navbar")
+                            tag_no_case("{{Fb cl3 header navbar"),
                         )),
                         tag_no_case("{{Graphic novel list/header"),
                         tag_no_case("{{fb disc header"),
@@ -245,83 +209,55 @@ fn table_parser(input: &str) -> IResult<&str, String> {
                         tag_no_case("{{Efs start"),
                         tag_no_case("{{EH listed building header"),
                         tag_no_case("{{CANelec/top"),
-                        tag_no_case("{{Vb res start")
+                        tag_no_case("{{Vb res start"),
                     )),
-
                     // Catchall for "start" and "header" table starts
-                    value("",
+                    value(
+                        "",
                         look_ahead_delimited(
-                            tag("{{"), 
+                            tag("{{"),
                             satisfy(|c| c.is_alphanumeric() || c.is_whitespace()),
                             tuple((
                                 alt((
                                     tag_no_case("start"),
                                     tag_no_case("header"),
-                                    tag_no_case("table")
+                                    tag_no_case("table"),
                                 )),
                                 space0,
-                                alt((
-                                    tag("|"),
-                                    tag("}}")
-                                ))
-                            ))
-                        )
-                    )
+                                alt((tag("|"), tag("}}"))),
+                            )),
+                        ),
+                    ),
                 )),
                 alt((
                     table_parser,
                     value(
                         String::new(),
                         look_ahead_delimited(
-                            tuple((
-                                tag("<math"), 
-                                many0(none_of(">")),
-                                tag(">")
-                            )), 
-                            alt((
-                                html_code_parser,
-                                map(
-                                    anychar, 
-                                    |c| c.to_string()
-                                )
-                            )), 
-                            tuple((
-                                tag("</math"),  
-                                preceded(
-                                    many0(none_of(">")),
-                                    tag(">")
-                                )
-                            ))
-                        )
+                            tuple((tag("<math"), many0(none_of(">")), tag(">"))),
+                            alt((html_code_parser, map(anychar, |c| c.to_string()))),
+                            tuple((tag("</math"), preceded(many0(none_of(">")), tag(">")))),
+                        ),
                     ),
-                    value(String::new(), anychar)
+                    value(String::new(), anychar),
                 )),
                 alt((
-                    value("",
+                    value(
+                        "",
                         tuple((
                             tag("\n"),
-                            many0(
-                                alt((
-                                    comment_parser,
-                                    value(String::new(), one_of(" \t\r"))
-                                ))
-                            ),
+                            many0(alt((comment_parser, value(String::new(), one_of(" \t\r"))))),
                             tag("|"),
                             many0(comment_parser),
                             tag("}"),
-                            peek(none_of("}"))
-                        ))
+                            peek(none_of("}")),
+                        )),
                     ),
-                    peek(
-                        terminated(
-                            tag("\n=="),
-                            none_of("=")
-                        )
-                    ),
-                    eof
-                ))
+                    peek(terminated(tag("\n=="), none_of("="))),
+                    eof,
+                )),
             ),
-        ))
+        )),
     )(input)
 }
 
@@ -333,16 +269,16 @@ fn template_parser(input: &str) -> IResult<&str, String> {
             alt((
                 html_code_parser,
                 template_parser,
-                map(anychar, |c| c.to_string())
-            )), 
-            tag("}}")
+                map(anychar, |c| c.to_string()),
+            )),
+            tag("}}"),
         ),
         |input| {
             let input = input.concat();
             let (_, reparsed_input) = template_contents_parser(&input).unwrap();
             let output = filter_templates(&reparsed_input);
             output.unwrap_or(String::new())
-        }
+        },
     )(input)
 }
 
@@ -350,17 +286,11 @@ fn template_parser(input: &str) -> IResult<&str, String> {
 fn section_parser(input: &str) -> IResult<&str, String> {
     let mut header_helper = map(
         delimited(
-            tuple((
-                tag::<_, &str, _>("\n=="),
-                peek(none_of("="))
-            )), 
+            tuple((tag::<_, &str, _>("\n=="), peek(none_of("=")))),
             take_until("=="),
-            tuple((
-                tag("=="),
-                peek(none_of("="))
-            ))
+            tuple((tag("=="), peek(none_of("=")))),
         ),
-        |s| s.trim().to_lowercase()
+        |s| s.trim().to_lowercase(),
     );
 
     let (new_input, header) = header_helper(input)?;
@@ -368,21 +298,11 @@ fn section_parser(input: &str) -> IResult<&str, String> {
         value(
             String::new(),
             many_till(
-                alt((
-                    comment_parser,
-                    map(
-                        anychar, 
-                        |c| c.to_string()
-                    )
-                )), 
-                alt((
-                    peek(header_helper),
-                    value(String::new(), eof)
-                ))
-            )
+                alt((comment_parser, map(anychar, |c| c.to_string()))),
+                alt((peek(header_helper), value(String::new(), eof))),
+            ),
         )(new_input)
-    }
-    else {
+    } else {
         fail(input)
     }
 }
@@ -391,29 +311,27 @@ fn section_parser(input: &str) -> IResult<&str, String> {
 fn link_parser(input: &str) -> IResult<&str, String> {
     map(
         look_ahead_delimited(
-            tag("[["), 
-            alt((
-                link_parser, 
-                map(anychar, |c| c.to_string())
-            )), 
-            tag("]]")
+            tag("[["),
+            alt((link_parser, map(anychar, |c| c.to_string()))),
+            tag("]]"),
         ),
         |v: Vec<String>| {
             let s = v.concat();
             let s = article_parser(&s);
             let s_lower = s.to_lowercase();
-            if REMOVE_LINKS.iter().any(|prefix| s_lower.starts_with(prefix)) {
+            if REMOVE_LINKS
+                .iter()
+                .any(|prefix| s_lower.starts_with(prefix))
+            {
                 String::new()
-            }
-            else {
+            } else {
                 if let Some((_, out)) = s.split_once('|') {
                     out.to_string()
-                }
-                else {
+                } else {
                     s
                 }
             }
-        }
+        },
     )(input)
 }
 
@@ -424,24 +342,18 @@ fn empty_tag_parser<'a>(input: &'a str) -> IResult<&'a str, String> {
             let tag_opener = format!("<{}", tag_name);
 
             // Take the opening tag
-            let (input, tag_attrs) = delimited(
-                tag(tag_opener.as_str()),
-                take_until(">"),
-                tag(">")
-            )(input)?;
+            let (input, tag_attrs) =
+                delimited(tag(tag_opener.as_str()), take_until(">"), tag(">"))(input)?;
 
             // If the tag is empty, we have consumed it and we are done
             if tag_attrs.trim().ends_with('/') {
                 Ok((input, String::new()))
             }
-
             // Otherwise, consume until the end tag
             else {
                 let tag_ender = format!("</{}>", tag_name);
-                let (input, _) = terminated(
-                    take_until(tag_ender.as_str()),
-                    tag(tag_ender.as_str())
-                )(input)?;
+                let (input, _) =
+                    terminated(take_until(tag_ender.as_str()), tag(tag_ender.as_str()))(input)?;
 
                 Ok((input, String::new()))
             }
@@ -450,14 +362,11 @@ fn empty_tag_parser<'a>(input: &'a str) -> IResult<&'a str, String> {
 
     // Allow for an early bailout
     let (input, _) = peek(tag("<"))(input)?;
-    alt((
-        helper("ref"),
-        helper("nowiki")
-    ))(input)
+    alt((helper("ref"), helper("nowiki")))(input)
 }
 
-// Handle the command codes for bolds and italics 
-fn quote_parser(input: &str) -> IResult<&str, String> { 
+// Handle the command codes for bolds and italics
+fn quote_parser(input: &str) -> IResult<&str, String> {
     // Allow for an early bailout
     let (input, _) = peek(tag("''"))(input)?;
 
@@ -465,19 +374,15 @@ fn quote_parser(input: &str) -> IResult<&str, String> {
         alt((
             preceded(tag("'''''"), five_quote_state),
             preceded(tag("'''"), three_quote_state),
-            preceded(tag("''"), two_quote_state)
+            preceded(tag("''"), two_quote_state),
         )),
-        |s| article_parser(&s)
+        |s| article_parser(&s),
     )(input)
 }
 
 // Remove comments
 fn comment_parser(input: &str) -> IResult<&str, String> {
-    let (new_input, _) = delimited(
-        tag("<!--"),
-        take_until("-->"),
-        tag("-->")
-    )(input)?;
+    let (new_input, _) = delimited(tag("<!--"), take_until("-->"), tag("-->"))(input)?;
 
     Ok((new_input, String::new()))
 }
@@ -486,52 +391,33 @@ fn comment_parser(input: &str) -> IResult<&str, String> {
 fn list_parser(input: &str) -> IResult<&str, String> {
     map(
         preceded(
-            tuple((
-                tag("\n"),
-                many1(
-                    one_of("*:;#")
-                )
-            )), 
+            tuple((tag("\n"), many1(one_of("*:;#")))),
             many_till(
                 alt((
                     html_code_parser,
                     template_parser,
-                    map(anychar, |c| c.to_string())
+                    map(anychar, |c| c.to_string()),
                 )),
-                peek(tag("\n"))
-            )
+                peek(tag("\n")),
+            ),
         ),
         |(strings, _)| {
             let s = "\n".to_string() + &strings.concat();
             article_parser(&s)
-        }
+        },
     )(input)
 }
 
 fn html_code_parser(input: &str) -> IResult<&str, String> {
     let helper = |html_tag| {
         look_ahead_delimited(
-            tuple((
-                tag("<"), 
-                tag(html_tag), 
-                many0(none_of(">")),
-                tag(">")
-            )), 
-            alt((
-                html_code_parser,
-                map(
-                    anychar, 
-                    |c| c.to_string()
-                )
-            )), 
+            tuple((tag("<"), tag(html_tag), many0(none_of(">")), tag(">"))),
+            alt((html_code_parser, map(anychar, |c| c.to_string()))),
             delimited(
-                tag("</"), 
-                tag(html_tag), 
-                preceded(
-                    many0(none_of(">")),
-                    tag(">")
-                )
-            )
+                tag("</"),
+                tag(html_tag),
+                preceded(many0(none_of(">")), tag(">")),
+            ),
         )
     };
 
@@ -548,12 +434,12 @@ fn html_code_parser(input: &str) -> IResult<&str, String> {
                 helper("blockquote"),
                 helper("abbr"),
                 helper("poem"),
-                helper("syntaxhighlight")
+                helper("syntaxhighlight"),
             )),
             |strings| {
                 let s = "\n".to_string() + &strings.concat();
                 article_parser(&s).trim().to_string()
-            }
+            },
         ),
         value(
             String::new(),
@@ -563,9 +449,9 @@ fn html_code_parser(input: &str) -> IResult<&str, String> {
                 helper("math"),
                 helper("score"),
                 helper("code"),
-                helper("references")
-            ))
-        )
+                helper("references"),
+            )),
+        ),
     ))(input)
 }
 
@@ -575,34 +461,16 @@ fn no_content_tag_parser(input: &str) -> IResult<&str, String> {
         alt((
             value(
                 String::new(),
-                tuple((
-                    tag("<"),
-                    space0,
-                    tag(tag_name),
-                    take_until(">"),
-                    tag(">")
-                ))
+                tuple((tag("<"), space0, tag(tag_name), take_until(">"), tag(">"))),
             ),
             value(
                 String::new(),
-                tuple((
-                    tag("</"),
-                    space0,
-                    tag(tag_name),
-                    take_until(">"),
-                    tag(">")
-                ))
+                tuple((tag("</"), space0, tag(tag_name), take_until(">"), tag(">"))),
             ),
             value(
                 String::new(),
-                tuple((
-                    tag("<"),
-                    space0,
-                    tag(tag_name),
-                    take_until("/>"),
-                    tag("/>")
-                ))
-            )
+                tuple((tag("<"), space0, tag(tag_name), take_until("/>"), tag("/>"))),
+            ),
         ))
     };
 
@@ -612,7 +480,7 @@ fn no_content_tag_parser(input: &str) -> IResult<&str, String> {
         helper("div"),
         helper("br"),
         helper("onlyinclude"),
-        helper("section")
+        helper("section"),
     ))(input)
 }
 
@@ -620,22 +488,13 @@ fn no_content_tag_parser(input: &str) -> IResult<&str, String> {
 fn two_quote_state(input: &str) -> IResult<&str, String> {
     map(
         tuple((
-            many_till(
-                anychar, 
-                alt((
-                    peek(tag("''")),
-                    peek(tag("\n"))
-                ))
-            ),
+            many_till(anychar, alt((peek(tag("''")), peek(tag("\n"))))),
             alt((
-                preceded(
-                    tag("'''"),
-                    five_quote_state
-                ),
-                value(String::new(), tag("''"))
-            ))
+                preceded(tag("'''"), five_quote_state),
+                value(String::new(), tag("''")),
+            )),
         )),
-        |((chars, _), suffix)| chars.into_iter().collect::<String>() + &suffix
+        |((chars, _), suffix)| chars.into_iter().collect::<String>() + &suffix,
     )(input)
 }
 
@@ -643,22 +502,13 @@ fn two_quote_state(input: &str) -> IResult<&str, String> {
 fn three_quote_state(input: &str) -> IResult<&str, String> {
     map(
         tuple((
-            many_till(
-                anychar, 
-                alt((
-                    peek(tag("''")),
-                    peek(tag("\n"))
-                ))
-            ),
+            many_till(anychar, alt((peek(tag("''")), peek(tag("\n"))))),
             alt((
                 value(String::new(), tag("'''")),
-                preceded(
-                    tag("''"),
-                    five_quote_state
-                )
-            ))
+                preceded(tag("''"), five_quote_state),
+            )),
         )),
-        |((chars, _), suffix)| chars.into_iter().collect::<String>() + &suffix
+        |((chars, _), suffix)| chars.into_iter().collect::<String>() + &suffix,
     )(input)
 }
 
@@ -666,26 +516,14 @@ fn three_quote_state(input: &str) -> IResult<&str, String> {
 fn five_quote_state(input: &str) -> IResult<&str, String> {
     map(
         tuple((
-            many_till(
-                anychar, 
-                alt((
-                    peek(tag("''")),
-                    peek(tag("\n"))
-                ))
-            ),
+            many_till(anychar, alt((peek(tag("''")), peek(tag("\n"))))),
             alt((
                 value(String::new(), tag("'''''")),
-                preceded(
-                    tag("'''"),
-                    two_quote_state
-                ),
-                preceded(
-                    tag("''"),
-                    three_quote_state
-                )
-            ))
+                preceded(tag("'''"), two_quote_state),
+                preceded(tag("''"), three_quote_state),
+            )),
         )),
-        |((chars, _), suffix)| chars.into_iter().collect::<String>() + &suffix
+        |((chars, _), suffix)| chars.into_iter().collect::<String>() + &suffix,
     )(input)
 }
 
@@ -693,23 +531,14 @@ fn five_quote_state(input: &str) -> IResult<&str, String> {
 fn look_ahead_delimited<I, O1, O, O3, E, P1, P2, P3>(
     start: P1,
     body: P2,
-    end: P3
-) -> impl FnMut(I) -> IResult<I, Vec<O>, E> 
+    end: P3,
+) -> impl FnMut(I) -> IResult<I, Vec<O>, E>
 where
     P1: Parser<I, O1, E>,
     P2: Parser<I, O, E>,
     P3: Parser<I, O3, E>,
     E: ParseError<I>,
-    I: Clone + InputLength
+    I: Clone + InputLength,
 {
-    map(
-        preceded(
-            start, 
-            many_till(
-                body, 
-                end
-            )
-        ),
-        |(o1, _)| o1
-    )
+    map(preceded(start, many_till(body, end)), |(o1, _)| o1)
 }

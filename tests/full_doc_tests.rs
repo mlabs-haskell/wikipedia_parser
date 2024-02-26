@@ -8,15 +8,13 @@ const PROCESSED_DIR: &str = "resources/test/processed_articles/";
 // Load a file from the raw article directory
 fn raw_file(filename: &str) -> String {
     let filename = RAW_ARTICLE_DIR.to_string() + filename + ".txt";
-    fs::read_to_string(&filename)
-        .expect("Should have been able to read the file")
+    fs::read_to_string(&filename).expect("Should have been able to read the file")
 }
 
 // Load a file from the processed article directory
 fn processed_file(filename: &str) -> String {
     let filename = PROCESSED_DIR.to_string() + filename + ".txt";
-    fs::read_to_string(&filename)
-        .expect("Should have been able to read the file")
+    fs::read_to_string(&filename).expect("Should have been able to read the file")
 }
 
 // Load the raw and processed file of the given name, and make sure they are equal

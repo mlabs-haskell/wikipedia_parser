@@ -8,7 +8,7 @@ use wikipedia_parser::xml_parser::XMLParser;
 #[derive(Parser, Debug)]
 struct Args {
     #[arg(short, long)]
-    output_dir: String
+    output_dir: String,
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
