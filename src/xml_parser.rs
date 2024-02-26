@@ -19,36 +19,29 @@ use rayon::{ThreadPool, ThreadPoolBuilder};
 
 use crate::tree::Tree;
 
-const NUM_THREADS: usize = 30;
+const NUM_THREADS: usize = 64;
 
 pub struct XMLParser<F: Fn(&str) -> String + Clone + Sync + Send + Copy + 'static> {
     text_processor: F,
     reader: Reader<BufReader<File>>,
     num_articles: usize,
-    thread_pool: Option<ThreadPool>,
-    processing_articles: Arc<Mutex<BTreeSet<usize>>>,
-    active_threads: Arc<AtomicUsize>,
     root_dir: String,
     file_size: u64, // for tracking progress
+    work_queue: WorkQueue,
 }
 
 impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
     pub fn new(root_dir: String, text_processor: F, filename: &str) -> Result<Self> {
         let file_size = std::fs::File::open(filename)?.metadata()?.len();
         let reader = Reader::from_file(filename)?;
-        let thread_pool = ThreadPoolBuilder::new()
-            .num_threads(NUM_THREADS)
-            .build()
-            .unwrap();
+        let work_queue = WorkQueue::new();
         Ok(Self {
             text_processor,
             reader,
             num_articles: 0,
-            thread_pool: Some(thread_pool),
-            processing_articles: Arc::new(Mutex::new(BTreeSet::new())),
-            active_threads: Arc::new(AtomicUsize::new(0)),
             root_dir,
             file_size,
+            work_queue,
         })
     }
 
@@ -166,54 +159,15 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
             return Ok(());
         }
 
-        let processing_articles = self.processing_articles.clone();
-        let active_threads = self.active_threads.clone();
-        let text_processor = self.text_processor;
-        let root_dir = self.root_dir.clone();
-
-        // Pause until we have some free threads
-        loop {
-            let active_threads = active_threads.load(Ordering::Relaxed);
-            if active_threads < 32 * NUM_THREADS {
-                break;
-            }
-
-            sleep(Duration::from_millis(100));
-        }
-
         let article_id = self.num_articles;
         self.num_articles += 1;
-
-        // Increase the number of active threads
-        active_threads.fetch_add(1, Ordering::Relaxed);
-
-        self.thread_pool.as_mut().unwrap().spawn(move || {
-            // Add article to the list of articles being actively processed
-            {
-                let mut processing_articles = processing_articles.lock().unwrap();
-                processing_articles.insert(article_id);
-
-                if article_id % 10_000 == 0 {
-                    println!("Processing the following files: {:?}", *processing_articles);
-                }
-            }
-
-            // Process the text
-            let text = String::from_utf8(text).unwrap();
-            let text = (text_processor)(&text);
-
-            // Write the text to a file
-            write_file(root_dir, &title, &text, article_id).unwrap();
-
-            // Remove the article from the list of articles being processed
-            {
-                let mut processing_articles = processing_articles.lock().unwrap();
-                processing_articles.remove(&article_id);
-            }
-
-            // Decrement number of active threads
-            active_threads.fetch_sub(1, Ordering::Relaxed);
-        });
+        self.work_queue.queue(
+            article_id,
+            String::from_utf8_lossy(&text).into_owned(),
+            title,
+            self.text_processor.clone(),
+            self.root_dir.clone(),
+        );
 
         Ok(())
     }
@@ -271,7 +225,7 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
     }
 }
 
-fn write_file(root_dir: String, title: &str, text: &str, article_id: usize) -> Result<()> {
+fn write_file(root_dir: &str, title: &str, text: &str, article_id: usize) -> Result<()> {
     // Figure out where to write the file
     let filename = format!("{}_{}", article_id, title);
     let filename = filename.replace(|c: char| !c.is_alphanumeric(), "_");
@@ -280,7 +234,7 @@ fn write_file(root_dir: String, title: &str, text: &str, article_id: usize) -> R
     if sub_dir.ends_with(|c: char| !c.is_numeric()) {
         sub_dir = "0000".to_string();
     }
-    let path = root_dir + "/" + &sub_dir + "/" + &filename + ".json";
+    let path = format!("{}/{}/{}.json", root_dir, &sub_dir, &filename);
 
     // Create the directories that will contain the file
     let path = Path::new(&path);
@@ -300,4 +254,80 @@ fn write_file(root_dir: String, title: &str, text: &str, article_id: usize) -> R
     }
 
     Ok(())
+}
+
+struct WorkQueue {
+    thread_pool: ThreadPool,
+    processing_articles: Arc<Mutex<BTreeSet<usize>>>,
+    active_threads: Arc<AtomicUsize>,
+}
+
+impl WorkQueue {
+    fn new() -> Self {
+        let thread_pool = ThreadPoolBuilder::new()
+            .num_threads(NUM_THREADS)
+            .build()
+            .unwrap();
+        Self {
+            thread_pool,
+            processing_articles: Arc::new(Mutex::new(BTreeSet::new())),
+            active_threads: Arc::new(AtomicUsize::new(0)),
+        }
+    }
+
+    fn queue<F>(
+        &mut self,
+        article_id: usize,
+        text: String,
+        title: String,
+        text_processor: F,
+        root_dir: String,
+    ) where
+        F: Fn(&str) -> String + Sync + Send + 'static,
+    {
+        let processing_articles = self.processing_articles.clone();
+        let active_threads = self.active_threads.clone();
+
+        // Pause until we have some free threads
+        loop {
+            let active_threads = active_threads.load(Ordering::Relaxed);
+            if active_threads < 10 * NUM_THREADS {
+                break;
+            }
+
+            sleep(Duration::from_millis(50));
+        }
+
+        // Increase the number of active threads
+        active_threads.fetch_add(1, Ordering::Relaxed);
+
+        let root_dir = root_dir.clone();
+
+        self.thread_pool.spawn(move || {
+            // Add article to the list of articles being actively processed
+            {
+                let mut processing_articles = processing_articles.lock().unwrap();
+                processing_articles.insert(article_id);
+
+                if article_id % 10_000 == 0 {
+                    println!("Processing the following files: {:?}", *processing_articles);
+                }
+            }
+
+            // Process the text
+            let text = (text_processor)(&text);
+
+            // Write the text to a file
+            write_file(&root_dir, &title, &text, article_id).unwrap();
+
+            // Remove the article from the list of articles being processed
+            {
+                let mut processing_articles = processing_articles.lock().unwrap();
+                processing_articles.remove(&article_id);
+            }
+
+            // Decrement number of active threads
+            active_threads.fetch_sub(1, Ordering::Relaxed);
+        });
+    }
 }
