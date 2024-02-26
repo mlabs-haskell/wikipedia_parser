@@ -4,6 +4,7 @@ use std::fs::{create_dir_all, File};
 use std::io::{BufReader, Write};
 use std::path::Path;
 use std::str;
+use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex};
 use std::thread::sleep;
 use std::time::Duration;
@@ -26,7 +27,7 @@ pub struct XMLParser<F: Fn(&str) -> String + Clone + Sync + Send + Copy + 'stati
     num_articles: usize,
     thread_pool: Option<ThreadPool>,
     processing_articles: Arc<Mutex<BTreeSet<usize>>>,
-    active_threads: Arc<Mutex<usize>>,
+    active_threads: Arc<AtomicUsize>,
     root_dir: String,
     file_size: u64, // for tracking progress
 }
@@ -45,7 +46,7 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
             num_articles: 0,
             thread_pool: Some(thread_pool),
             processing_articles: Arc::new(Mutex::new(BTreeSet::new())),
-            active_threads: Arc::new(Mutex::new(0)),
+            active_threads: Arc::new(AtomicUsize::new(0)),
             root_dir,
             file_size,
         })
@@ -172,12 +173,11 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
 
         // Pause until we have some free threads
         loop {
-            {
-                let active_threads = active_threads.lock().unwrap();
-                if *active_threads < 32 * NUM_THREADS {
-                    break;
-                }
+            let active_threads = active_threads.load(Ordering::Relaxed);
+            if active_threads < 32 * NUM_THREADS {
+                break;
             }
+
             sleep(Duration::from_millis(100));
         }
 
@@ -185,9 +185,7 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
         self.num_articles += 1;
 
         // Increase the number of active threads
-        {
-            *active_threads.lock().unwrap() += 1;
-        }
+        active_threads.fetch_add(1, Ordering::Relaxed);
 
         self.thread_pool.as_mut().unwrap().spawn(move || {
             // Add article to the list of articles being actively processed
@@ -214,9 +212,7 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
             }
 
             // Decrement number of active threads
-            {
-                *active_threads.lock().unwrap() -= 1;
-            }
+            active_threads.fetch_sub(1, Ordering::Relaxed);
         });
 
         Ok(())
