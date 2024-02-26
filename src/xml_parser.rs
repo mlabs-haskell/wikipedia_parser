@@ -21,7 +21,10 @@ use crate::tree::Tree;
 
 const NUM_THREADS: usize = 64;
 
-pub struct XMLParser<F: Fn(&str) -> String + Clone + Sync + Send + Copy + 'static> {
+pub struct XMLParser<F>
+where
+    F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy + 'static,
+{
     text_processor: F,
     reader: Reader<BufReader<File>>,
     num_articles: usize,
@@ -30,7 +33,10 @@ pub struct XMLParser<F: Fn(&str) -> String + Clone + Sync + Send + Copy + 'stati
     work_queue: WorkQueue,
 }
 
-impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
+impl<F> XMLParser<F>
+where
+    F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy,
+{
     pub fn new(root_dir: String, text_processor: F, filename: &str) -> Result<Self> {
         let file_size = std::fs::File::open(filename)?.metadata()?.len();
         let reader = Reader::from_file(filename)?;
@@ -174,7 +180,7 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
         self.num_articles += 1;
         self.work_queue.queue(
             article_id,
-            String::from_utf8_lossy(&text).into_owned(),
+            text,
             title,
             self.text_processor.clone(),
             self.root_dir.clone(),
@@ -289,12 +295,12 @@ impl WorkQueue {
     fn queue<F>(
         &mut self,
         article_id: usize,
-        text: String,
+        text: Vec<u8>,
         title: String,
         text_processor: F,
         root_dir: String,
     ) where
-        F: Fn(&str) -> String + Sync + Send + 'static,
+        F: Fn(&[u8]) -> String + Sync + Send + 'static,
     {
         let processing_articles = self.processing_articles.clone();
         let active_threads = self.active_threads.clone();
