@@ -7,7 +7,7 @@ use std::str;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex};
 use std::thread::sleep;
-use std::time::Duration;
+use std::time::{Duration, SystemTime};
 
 use quick_xml::events::Event;
 use quick_xml::name::QName;
@@ -65,10 +65,21 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
     fn parse_mediawiki(&mut self) -> Result<()> {
         let mut buffer = Vec::new();
         let file_size = self.file_size;
+        let start_time = SystemTime::now();
         loop {
             let pos = self.reader.buffer_position();
             let pct = 100.0 * (pos as f64) / (file_size as f64);
-            print!("Progress: {:.2}% {}/{}\r", pct, pos, file_size);
+
+            let elapsed = start_time.elapsed().unwrap();
+            let rate = pos as f64 / elapsed.as_secs_f64();
+            let rate_mb = rate / 1024.0 / 1024.0;
+            let eta_secs = file_size as f64 / rate;
+            let eta_mins = eta_secs / 60.0;
+
+            print!(
+                "Progress: {:.2}% {}/{} | {:.2} MB/sec {:.2} mins ETA \r",
+                pct, pos, file_size, rate_mb, eta_mins
+            );
 
             match self.reader.read_event_into(&mut buffer) {
                 Err(e) => self.terminate(e),
