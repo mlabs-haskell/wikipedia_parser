@@ -70,12 +70,16 @@ where
             let elapsed = start_time.elapsed().unwrap();
             let rate = pos as f64 / elapsed.as_secs_f64();
             let rate_mb = rate / 1024.0 / 1024.0;
-            let eta_secs = file_size as f64 / rate;
+
+            let eta_secs = (file_size - (pos as u64)) as f64 / rate;
             let eta_mins = eta_secs / 60.0;
 
+            let eta_total_secs = file_size as f64 / rate;
+            let eta_total_mins = eta_total_secs / 60.0;
+
             print!(
-                "Progress: {:.2}% {}/{} | {:.2} MB/sec {:.2} mins ETA \r",
-                pct, pos, file_size, rate_mb, eta_mins
+                "Progress: {:.2}% {}/{} | {:.2} MB/sec {:.2} mins ETA ({:.2} mins total) \r",
+                pct, pos, file_size, rate_mb, eta_mins, eta_total_mins
             );
 
             match self.reader.read_event_into(&mut buffer) {
