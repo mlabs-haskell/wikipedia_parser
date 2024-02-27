@@ -9,8 +9,6 @@ use std::sync::{Arc, Mutex};
 use std::thread::sleep;
 use std::time::Duration;
 
-use crate::extractors::wikitext::tree::Tree;
-
 const NUM_THREADS: usize = 64;
 
 pub struct WorkQueue {
@@ -40,7 +38,7 @@ impl WorkQueue {
         text_processor: F,
         root_dir: String,
     ) where
-        F: Fn(&[u8]) -> String + Sync + Send + 'static,
+        F: Fn(&[u8], &str) -> String + Sync + Send + 'static,
     {
         let processing_articles = self.processing_articles.clone();
         let active_threads = self.active_threads.clone();
@@ -72,7 +70,7 @@ impl WorkQueue {
             }
 
             // Process the text
-            let text = (text_processor)(&text);
+            let text = (text_processor)(&text, &title);
 
             // Write the text to a file
             write_file(&root_dir, &title, &text, article_id).unwrap();
@@ -89,7 +87,7 @@ impl WorkQueue {
     }
 }
 
-fn write_file(root_dir: &str, title: &str, text: &str, article_id: usize) -> Result<()> {
+fn write_file(root_dir: &str, title: &str, contents: &str, article_id: usize) -> Result<()> {
     // Figure out where to write the file
     let filename = format!("{}_{}", article_id, title);
     let filename = filename.replace(|c: char| !c.is_alphanumeric(), "_");
@@ -105,14 +103,10 @@ fn write_file(root_dir: &str, title: &str, text: &str, article_id: usize) -> Res
     let prefix = path.parent().unwrap();
     create_dir_all(prefix)?;
 
-    // Convert text to JSON
-    let tree = Tree::from_string(title, text);
-    let text = serde_json::to_string_pretty(&tree).unwrap();
-
     // Write the file
     let mut file = File::create(path);
     if let Ok(f) = file.as_mut() {
-        f.write_all(text.as_bytes())?;
+        f.write_all(contents.as_bytes())?;
     } else {
         panic!("Could not write file: {}", filename);
     }

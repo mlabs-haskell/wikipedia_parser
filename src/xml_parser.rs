@@ -14,7 +14,7 @@ use crate::work_queue::WorkQueue;
 
 pub struct XMLParser<F>
 where
-    F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy + 'static,
+    F: Fn(&[u8], &str) -> String + Clone + Sync + Send + Copy + 'static,
 {
     text_processor: F,
     reader: Reader<BufReader<File>>,
@@ -26,7 +26,7 @@ where
 
 impl<F> XMLParser<F>
 where
-    F: Fn(&[u8]) -> String + Clone + Sync + Send + Copy,
+    F: Fn(&[u8], &str) -> String + Clone + Sync + Send + Copy,
 {
     pub fn new(root_dir: String, text_processor: F, filename: &str) -> Result<Self> {
         let file_size = std::fs::File::open(filename)?.metadata()?.len();
