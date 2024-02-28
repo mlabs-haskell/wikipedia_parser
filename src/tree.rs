@@ -1,11 +1,11 @@
 use serde::{Deserialize, Serialize};
-use std::{str::Lines, iter::Peekable};
+use std::{iter::Peekable, str::Lines};
 
 #[derive(Deserialize, Serialize)]
 pub struct Tree {
     section_name: String,
     text: String,
-    children: Vec<Tree>
+    children: Vec<Tree>,
 }
 
 impl Tree {
@@ -29,10 +29,7 @@ impl Tree {
             // Handle headers
             if line.starts_with("==") {
                 // Count how many = signs there are for this header
-                let new_header_depth = line
-                    .chars()
-                    .take_while(|&c| c == '=')
-                    .count();
+                let new_header_depth = line.chars().take_while(|&c| c == '=').count();
 
                 // Get the header name
                 let header_chars: Vec<_> = line.chars().collect();
@@ -41,32 +38,26 @@ impl Tree {
                 let header_name: String = if start_index < end_index {
                     let header_name = &header_chars[start_index..end_index];
                     header_name.into_iter().collect()
-                }
-                else {
+                } else {
                     "Unknown".to_string()
                 };
 
                 // If there are more = signs than current level, parse child
                 if new_header_depth > level {
                     lines.next();
-                    let child = Self::from_string_worker(
-                        lines, 
-                        new_header_depth, 
-                        header_name.trim()
-                    );
+                    let child =
+                        Self::from_string_worker(lines, new_header_depth, header_name.trim());
 
                     // Don't add empty sections
                     if !child.text.is_empty() || !child.children.is_empty() {
                         children.push(child);
                     }
                 }
-
                 // Otherwise, there are no more children
                 else {
                     break;
                 }
             }
-
             // Accumulate non-header text
             else {
                 text_acc += line;
@@ -78,7 +69,7 @@ impl Tree {
         Self {
             section_name: section_name.to_string(),
             text: text_acc,
-            children
+            children,
         }
     }
 }

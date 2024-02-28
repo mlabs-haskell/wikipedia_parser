@@ -1,17 +1,17 @@
 use core::panic;
 use std::collections::BTreeSet;
-use std::fs::{File, create_dir_all};
-use std::io::{Write, BufReader};
+use std::fs::{create_dir_all, File};
+use std::io::{BufReader, Write};
 use std::path::Path;
 use std::str;
-use std::sync::{Mutex, Arc};
+use std::sync::{Arc, Mutex};
 use std::thread::sleep;
 use std::time::Duration;
 
-use quick_xml::Error;
 use quick_xml::events::Event;
 use quick_xml::name::QName;
 use quick_xml::reader::Reader;
+use quick_xml::Error;
 use quick_xml::Result;
 
 use rayon::{ThreadPool, ThreadPoolBuilder};
@@ -27,13 +27,16 @@ pub struct XMLParser<F: Fn(&str) -> String + Clone + Sync + Send + Copy + 'stati
     thread_pool: Option<ThreadPool>,
     processing_articles: Arc<Mutex<BTreeSet<usize>>>,
     active_threads: Arc<Mutex<usize>>,
-    root_dir: String
+    root_dir: String,
 }
 
 impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
     pub fn new(root_dir: String, text_processor: F, filename: &str) -> Result<Self> {
         let reader = Reader::from_file(filename)?;
-        let thread_pool = ThreadPoolBuilder::new().num_threads(NUM_THREADS).build().unwrap();
+        let thread_pool = ThreadPoolBuilder::new()
+            .num_threads(NUM_THREADS)
+            .build()
+            .unwrap();
         Ok(Self {
             text_processor,
             reader,
@@ -41,7 +44,7 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
             thread_pool: Some(thread_pool),
             processing_articles: Arc::new(Mutex::new(BTreeSet::new())),
             active_threads: Arc::new(Mutex::new(0)),
-            root_dir
+            root_dir,
         })
     }
 
@@ -50,14 +53,14 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
         let mut buffer = Vec::new();
         match self.reader.read_event_into(&mut buffer) {
             Err(e) => self.terminate(e),
-            Ok(Event::Start(e)) => 
+            Ok(Event::Start(e)) => {
                 if e.name().into_inner() == b"mediawiki" {
                     self.parse_mediawiki()
-                }
-                else {
+                } else {
                     Err(Error::TextNotFound)
-                },
-            _ => Err(Error::TextNotFound)
+                }
+            }
+            _ => Err(Error::TextNotFound),
         }
     }
 
@@ -81,9 +84,9 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
                             self.reader.read_to_end_into(QName(tag), &mut garbage)?;
                         }
                     }
-                },
+                }
                 Ok(Event::Eof) => break,
-                _ => ()
+                _ => (),
             }
         }
 
@@ -103,23 +106,21 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
                         // We don't care about redirect pages
                         let mut garbage = Vec::new();
                         self.reader.read_to_end_into(QName(b"page"), &mut garbage)?;
-                        return Ok(())
+                        return Ok(());
                     }
-                },
+                }
                 Ok(Event::Start(e)) => {
                     let tag = e.name().into_inner();
                     match tag {
-                        b"title" => {
-                            match self.reader.read_event_into(&mut title) {
-                                Err(e) => self.terminate(e),
-                                Ok(Event::Text(_)) => (),
-                                _ => return Err(Error::TextNotFound)
-                            }
+                        b"title" => match self.reader.read_event_into(&mut title) {
+                            Err(e) => self.terminate(e),
+                            Ok(Event::Text(_)) => (),
+                            _ => return Err(Error::TextNotFound),
                         },
                         b"ns" | b"id" => {
                             let mut garbage = Vec::new();
                             self.reader.read_to_end_into(QName(tag), &mut garbage)?;
-                        },
+                        }
                         b"revision" => self.parse_revision(&mut text)?,
                         _ => {
                             println!("Unknown tag: {}", String::from_utf8_lossy(tag));
@@ -127,22 +128,24 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
                             self.reader.read_to_end_into(QName(tag), &mut garbage)?;
                         }
                     }
-                },
-                Ok(Event::End(e)) => if e.name().into_inner() == b"page" {
-                    break
-                },
+                }
+                Ok(Event::End(e)) => {
+                    if e.name().into_inner() == b"page" {
+                        break;
+                    }
+                }
                 Ok(Event::Eof) => break,
-                _ => ()
+                _ => (),
             }
         }
-    
+
         // Skip technical articles about Wikipedia itself
         let title = String::from_utf8(title)?;
-        if !title.starts_with("Wikipedia:") 
-            && !title.starts_with("Portal:") 
-            && !title.starts_with("File:") 
-            && !title.starts_with("Template:") 
-            && !title.starts_with("Category:") 
+        if !title.starts_with("Wikipedia:")
+            && !title.starts_with("Portal:")
+            && !title.starts_with("File:")
+            && !title.starts_with("Template:")
+            && !title.starts_with("Category:")
             && !title.starts_with("Draft:")
             && !title.starts_with("Module:")
             && !title.starts_with("MediaWiki:")
@@ -178,7 +181,7 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
                 {
                     let mut processing_articles = processing_articles.lock().unwrap();
                     processing_articles.insert(article_id);
-    
+
                     if article_id % 10_000 == 0 {
                         println!("Processing the following files: {:?}", *processing_articles);
                     }
@@ -203,7 +206,7 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
                 }
             });
         }
-    
+
         Ok(())
     }
 
@@ -215,49 +218,48 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
                 Ok(Event::Start(e)) => {
                     let tag = e.name().into_inner();
                     match tag {
-                        b"id" | 
-                        b"parentid" | 
-                        b"timestamp" | 
-                        b"contributor" | 
-                        b"minor" | 
-                        b"comment" | 
-                        b"model" | 
-                        b"format" |
-                        b"sha1" => {
+                        b"id" | b"parentid" | b"timestamp" | b"contributor" | b"minor"
+                        | b"comment" | b"model" | b"format" | b"sha1" => {
                             let mut garbage = Vec::new();
                             self.reader.read_to_end_into(QName(tag), &mut garbage)?;
-                        },
+                        }
                         b"text" => {
                             let mut text_buffer = Vec::new();
                             match self.reader.read_event_into(&mut text_buffer) {
                                 Err(e) => self.terminate(e),
                                 Ok(Event::Text(e)) => {
                                     *text = e.to_vec();
-                                },
-                                _ => return Err(Error::TextNotFound)
+                                }
+                                _ => return Err(Error::TextNotFound),
                             }
-                        },
+                        }
                         _ => {
                             println!("Unknown tag: {}", String::from_utf8_lossy(tag));
                             let mut garbage = Vec::new();
                             self.reader.read_to_end_into(QName(tag), &mut garbage)?;
                         }
                     }
-                },
-                Ok(Event::End(e)) => if e.name().into_inner() == b"revision" {
-                    break
+                }
+                Ok(Event::End(e)) => {
+                    if e.name().into_inner() == b"revision" {
+                        break;
+                    }
                 }
                 Ok(Event::Eof) => return Err(Error::TextNotFound),
-                _ => ()
+                _ => (),
             }
         }
-    
+
         Ok(())
     }
 
     // Universal error
     fn terminate(&self, e: Error) -> ! {
-        panic!("Error at position {}: {:?}", self.reader.buffer_position(), e)
+        panic!(
+            "Error at position {}: {:?}",
+            self.reader.buffer_position(),
+            e
+        )
     }
 }
 
@@ -285,8 +287,7 @@ fn write_file(root_dir: String, title: &str, text: &str, article_id: usize) -> R
     let mut file = File::create(path);
     if let Ok(f) = file.as_mut() {
         f.write_all(text.as_bytes())?;
-    }
-    else {
+    } else {
         panic!("Could not write file: {}", filename);
     }
 
