@@ -1,11 +1,10 @@
 use quick_xml::Result;
 use rayon::{ThreadPool, ThreadPoolBuilder};
-use std::collections::BTreeSet;
 use std::fs::{create_dir_all, File};
 use std::io::Write;
 use std::path::Path;
 use std::sync::atomic::{AtomicUsize, Ordering};
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
 use std::thread::sleep;
 use std::time::Duration;
 
@@ -13,7 +12,6 @@ const NUM_THREADS: usize = 64;
 
 pub struct WorkQueue {
     thread_pool: ThreadPool,
-    processing_articles: Arc<Mutex<BTreeSet<usize>>>,
     active_threads: Arc<AtomicUsize>,
 }
 
@@ -25,7 +23,6 @@ impl WorkQueue {
             .unwrap();
         Self {
             thread_pool,
-            processing_articles: Arc::new(Mutex::new(BTreeSet::new())),
             active_threads: Arc::new(AtomicUsize::new(0)),
         }
     }
@@ -40,7 +37,6 @@ impl WorkQueue {
     ) where
         F: Fn(&[u8], &str) -> String + Sync + Send + 'static,
     {
-        let processing_articles = self.processing_articles.clone();
         let active_threads = self.active_threads.clone();
 
         // Pause until we have some free threads
@@ -59,27 +55,11 @@ impl WorkQueue {
         let root_dir = root_dir.clone();
 
         self.thread_pool.spawn(move || {
-            // Add article to the list of articles being actively processed
-            {
-                let mut processing_articles = processing_articles.lock().unwrap();
-                processing_articles.insert(article_id);
-
-                if article_id % 10_000 == 0 {
-                    println!("Processing the following files: {:?}", *processing_articles);
-                }
-            }
-
             // Process the text
             let text = (text_processor)(&text, &title);
 
             // Write the text to a file
             write_file(&root_dir, &title, &text, article_id).unwrap();
-
-            // Remove the article from the list of articles being processed
-            {
-                let mut processing_articles = processing_articles.lock().unwrap();
-                processing_articles.remove(&article_id);
-            }
 
             // Decrement number of active threads
             active_threads.fetch_sub(1, Ordering::Relaxed);
