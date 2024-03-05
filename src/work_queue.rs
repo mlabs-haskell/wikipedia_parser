@@ -8,7 +8,9 @@ use std::sync::Arc;
 use std::thread::sleep;
 use std::time::Duration;
 
-const NUM_THREADS: usize = 64;
+const NUM_THREADS: usize = 32;
+const THREAD_QUEUE: usize = 10;
+const BUSY_WAIT_THREAD_POOL_MS: u64 = 100;
 
 pub struct WorkQueue {
     thread_pool: ThreadPool,
@@ -42,11 +44,11 @@ impl WorkQueue {
         // Pause until we have some free threads
         loop {
             let active_threads = active_threads.load(Ordering::Relaxed);
-            if active_threads < 10 * NUM_THREADS {
+            if active_threads < THREAD_QUEUE * NUM_THREADS {
                 break;
             }
 
-            sleep(Duration::from_millis(50));
+            sleep(Duration::from_millis(BUSY_WAIT_THREAD_POOL_MS));
         }
 
         // Increase the number of active threads
