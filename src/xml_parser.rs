@@ -1,12 +1,8 @@
 use core::panic;
-use std::collections::BTreeSet;
-use std::fs::{create_dir_all, File};
-use std::io::{BufReader, Write};
-use std::path::Path;
+use std::fs::File;
+use std::io::BufReader;
 use std::str;
-use std::sync::{Arc, Mutex};
-use std::thread::sleep;
-use std::time::Duration;
+use std::time::SystemTime;
 
 use quick_xml::events::Event;
 use quick_xml::name::QName;
@@ -14,37 +10,35 @@ use quick_xml::reader::Reader;
 use quick_xml::Error;
 use quick_xml::Result;
 
-use rayon::{ThreadPool, ThreadPoolBuilder};
+use crate::work_queue::WorkQueue;
 
-use crate::tree::Tree;
-
-const NUM_THREADS: usize = 30;
-
-pub struct XMLParser<F: Fn(&str) -> String + Clone + Sync + Send + Copy + 'static> {
+pub struct XMLParser<F>
+where
+    F: Fn(&[u8], &str) -> String + Clone + Sync + Send + Copy + 'static,
+{
     text_processor: F,
     reader: Reader<BufReader<File>>,
     num_articles: usize,
-    thread_pool: Option<ThreadPool>,
-    processing_articles: Arc<Mutex<BTreeSet<usize>>>,
-    active_threads: Arc<Mutex<usize>>,
     root_dir: String,
+    file_size: u64, // for tracking progress
+    work_queue: WorkQueue,
 }
 
-impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
+impl<F> XMLParser<F>
+where
+    F: Fn(&[u8], &str) -> String + Clone + Sync + Send + Copy,
+{
     pub fn new(root_dir: String, text_processor: F, filename: &str) -> Result<Self> {
+        let file_size = std::fs::File::open(filename)?.metadata()?.len();
         let reader = Reader::from_file(filename)?;
-        let thread_pool = ThreadPoolBuilder::new()
-            .num_threads(NUM_THREADS)
-            .build()
-            .unwrap();
+        let work_queue = WorkQueue::new();
         Ok(Self {
             text_processor,
             reader,
             num_articles: 0,
-            thread_pool: Some(thread_pool),
-            processing_articles: Arc::new(Mutex::new(BTreeSet::new())),
-            active_threads: Arc::new(Mutex::new(0)),
             root_dir,
+            file_size,
+            work_queue,
         })
     }
 
@@ -67,7 +61,27 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
     // Parse the body of the XML page
     fn parse_mediawiki(&mut self) -> Result<()> {
         let mut buffer = Vec::new();
+        let file_size = self.file_size;
+        let start_time = SystemTime::now();
         loop {
+            let pos = self.reader.buffer_position();
+            let pct = 100.0 * (pos as f64) / (file_size as f64);
+
+            let elapsed = start_time.elapsed().unwrap();
+            let rate = pos as f64 / elapsed.as_secs_f64();
+            let rate_mb = rate / 1024.0 / 1024.0;
+
+            let eta_secs = (file_size - (pos as u64)) as f64 / rate;
+            let eta_mins = eta_secs / 60.0;
+
+            let eta_total_secs = file_size as f64 / rate;
+            let eta_total_mins = eta_total_secs / 60.0;
+
+            print!(
+                "Progress: {:.2}% {}/{} | {:.2} MB/sec {:.2} mins ETA ({:.2} mins total) \r",
+                pct, pos, file_size, rate_mb, eta_mins, eta_total_mins
+            );
+
             match self.reader.read_event_into(&mut buffer) {
                 Err(e) => self.terminate(e),
                 Ok(Event::Start(e)) => {
@@ -97,6 +111,8 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
         let mut buffer = Vec::new();
         let mut title = Vec::new();
         let mut text = Vec::new();
+
+        // Parse the page
         loop {
             match self.reader.read_event_into(&mut buffer) {
                 Err(e) => self.terminate(e),
@@ -141,71 +157,29 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
 
         // Skip technical articles about Wikipedia itself
         let title = String::from_utf8(title)?;
-        if !title.starts_with("Wikipedia:")
-            && !title.starts_with("Portal:")
-            && !title.starts_with("File:")
-            && !title.starts_with("Template:")
-            && !title.starts_with("Category:")
-            && !title.starts_with("Draft:")
-            && !title.starts_with("Module:")
-            && !title.starts_with("MediaWiki:")
-            && !title.starts_with("Help:")
-            && !title.to_lowercase().ends_with("(disambiguation)")
+        if title.starts_with("Wikipedia:")
+            || title.starts_with("Portal:")
+            || title.starts_with("File:")
+            || title.starts_with("Template:")
+            || title.starts_with("Category:")
+            || title.starts_with("Draft:")
+            || title.starts_with("Module:")
+            || title.starts_with("MediaWiki:")
+            || title.starts_with("Help:")
+            || title.to_lowercase().ends_with("(disambiguation)")
         {
-            let processing_articles = self.processing_articles.clone();
-            let active_threads = self.active_threads.clone();
-            let text_processor = self.text_processor;
-            let root_dir = self.root_dir.clone();
-
-            // Pause until we have some free threads
-            loop {
-                {
-                    let active_threads = active_threads.lock().unwrap();
-                    if *active_threads < 32 * NUM_THREADS {
-                        break;
-                    }
-                }
-                sleep(Duration::from_millis(100));
-            }
-
-            let article_id = self.num_articles;
-            self.num_articles += 1;
-
-            // Increase the number of active threads
-            {
-                *active_threads.lock().unwrap() += 1;
-            }
-
-            self.thread_pool.as_mut().unwrap().spawn(move || {
-                // Add article to the list of articles being actively processed
-                {
-                    let mut processing_articles = processing_articles.lock().unwrap();
-                    processing_articles.insert(article_id);
-
-                    if article_id % 10_000 == 0 {
-                        println!("Processing the following files: {:?}", *processing_articles);
-                    }
-                }
-
-                // Process the text
-                let text = String::from_utf8(text).unwrap();
-                let text = (text_processor)(&text);
-
-                // Write the text to a file
-                write_file(root_dir, &title, &text, article_id).unwrap();
-
-                // Remove the article from the list of articles being processed
-                {
-                    let mut processing_articles = processing_articles.lock().unwrap();
-                    processing_articles.remove(&article_id);
-                }
-
-                // Decrement number of active threads
-                {
-                    *active_threads.lock().unwrap() -= 1;
-                }
-            });
+            return Ok(());
         }
+
+        let article_id = self.num_articles;
+        self.num_articles += 1;
+        self.work_queue.queue(
+            article_id,
+            text,
+            title,
+            self.text_processor.clone(),
+            self.root_dir.clone(),
+        );
 
         Ok(())
     }
@@ -261,35 +235,4 @@ impl<F: Fn(&str) -> String + Clone + Sync + Send + Copy> XMLParser<F> {
             e
         )
     }
-}
-
-fn write_file(root_dir: String, title: &str, text: &str, article_id: usize) -> Result<()> {
-    // Figure out where to write the file
-    let filename = format!("{}_{}", article_id, title);
-    let filename = filename.replace(|c: char| !c.is_alphanumeric(), "_");
-    let filename: String = filename.chars().take(100).collect();
-    let mut sub_dir: String = filename.chars().take(4).collect();
-    if sub_dir.ends_with(|c: char| !c.is_numeric()) {
-        sub_dir = "0000".to_string();
-    }
-    let path = root_dir + "/" + &sub_dir + "/" + &filename + ".json";
-
-    // Create the directories that will contain the file
-    let path = Path::new(&path);
-    let prefix = path.parent().unwrap();
-    create_dir_all(prefix)?;
-
-    // Convert text to JSON
-    let tree = Tree::from_string(title, text);
-    let text = serde_json::to_string_pretty(&tree).unwrap();
-
-    // Write the file
-    let mut file = File::create(path);
-    if let Ok(f) = file.as_mut() {
-        f.write_all(text.as_bytes())?;
-    } else {
-        panic!("Could not write file: {}", filename);
-    }
-
-    Ok(())
 }

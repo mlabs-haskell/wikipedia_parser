@@ -10,7 +10,7 @@ use nom::multi::{many0, many1, many_till};
 use nom::sequence::{delimited, preceded, terminated, tuple};
 use nom::{IResult, InputLength, Parser};
 
-use crate::template_transformers::filter_templates;
+use super::template_transformers::filter_templates;
 
 const REMOVE_SECTIONS: &[&str] = &[
     "see also",
@@ -31,9 +31,10 @@ const REMOVE_SECTIONS: &[&str] = &[
 const REMOVE_LINKS: &[&str] = &["file:", "image:", "category:"];
 
 // Take a given wikitext-formatted string and extract the useful text
-pub fn extract_text(input: &str) -> String {
+pub fn extract_text(input: &[u8]) -> String {
+    let input = String::from_utf8_lossy(input);
     // Convert html codes to their proper characters
-    let input = decode_html_entities(input).to_string();
+    let input = decode_html_entities(&input).to_string();
     let input = input.replace("&ndash;", "\u{2013}");
     let input = input.replace("&nbsp;", "\u{00a0}");
     let input = input.replace("&minus;", "-");
