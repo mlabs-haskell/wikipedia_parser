@@ -1,97 +1,85 @@
-use quick_xml::Result;
-use rayon::{ThreadPool, ThreadPoolBuilder};
-use std::fs::{create_dir_all, File};
-use std::io::Write;
-use std::path::Path;
-use std::sync::atomic::{AtomicUsize, Ordering};
-use std::sync::Arc;
-use std::thread::sleep;
-use std::time::Duration;
+use rayon::iter::{ParallelBridge, ParallelIterator};
+use std::fs::File;
+use std::io::{BufWriter, Write};
+use std::sync::mpsc;
 
-const NUM_THREADS: usize = 32;
-const THREAD_QUEUE: usize = 10;
-const BUSY_WAIT_THREAD_POOL_MS: u64 = 100;
+const QUEUE_SIZE: usize = 1024;
+const OUTPUT_FILENAME: &'static str = "output.jsonl";
+const INDEX_FILENAME: &'static str = "output-index.txt";
+
+const K: usize = 1024;
+const M: usize = 1024 * K;
+const G: usize = 1024 * M;
+const OUTPUT_BUFFER_SIZE: usize = 2 * G;
+const INDEX_BUFFER_SIZE: usize = 1 * G;
 
 pub struct WorkQueue {
-    thread_pool: ThreadPool,
-    active_threads: Arc<AtomicUsize>,
+    parser_sender: mpsc::SyncSender<(String, Vec<u8>)>,
 }
 
 impl WorkQueue {
-    pub fn new() -> Self {
-        let thread_pool = ThreadPoolBuilder::new()
-            .num_threads(NUM_THREADS)
-            .build()
-            .unwrap();
-        Self {
-            thread_pool,
-            active_threads: Arc::new(AtomicUsize::new(0)),
-        }
-    }
-
-    pub fn queue<F>(
-        &mut self,
-        article_id: usize,
-        text: Vec<u8>,
-        title: String,
-        text_processor: F,
-        root_dir: String,
-    ) where
+    pub fn new<F>(root_dir: String, text_processor: F) -> Self
+    where
         F: Fn(&[u8], &str) -> String + Sync + Send + 'static,
     {
-        let active_threads = self.active_threads.clone();
+        let (writer_sender, writer_receiver) = mpsc::sync_channel::<(String, String)>(QUEUE_SIZE);
+        let (parser_sender, parser_receiver) = mpsc::sync_channel::<(String, Vec<u8>)>(QUEUE_SIZE);
 
-        // Pause until we have some free threads
-        loop {
-            let active_threads = active_threads.load(Ordering::Relaxed);
-            if active_threads < THREAD_QUEUE * NUM_THREADS {
-                break;
-            }
+        // Start the writer thread
+        std::thread::spawn(move || file_writer(root_dir, writer_receiver));
 
-            sleep(Duration::from_millis(BUSY_WAIT_THREAD_POOL_MS));
-        }
+        // Iterate over the elements in the parser channel parallely, and run text_processor in a
+        // thread pool. Send the result over to the writer thread.
+        std::thread::spawn(move || {
+            parser_receiver.into_iter().par_bridge().for_each_with(
+                writer_sender,
+                |writer_sender, (title, contents)| {
+                    // Process the text
+                    let text = (text_processor)(&contents, &title);
 
-        // Increase the number of active threads
-        active_threads.fetch_add(1, Ordering::Relaxed);
-
-        let root_dir = root_dir.clone();
-
-        self.thread_pool.spawn(move || {
-            // Process the text
-            let text = (text_processor)(&text, &title);
-
-            // Write the text to a file
-            write_file(&root_dir, &title, &text, article_id).unwrap();
-
-            // Decrement number of active threads
-            active_threads.fetch_sub(1, Ordering::Relaxed);
+                    // Send the output to the writer thread
+                    writer_sender.send((title, text)).unwrap();
+                },
+            )
         });
+
+        Self { parser_sender }
+    }
+
+    pub fn queue(&mut self, text: Vec<u8>, title: String) {
+        self.parser_sender.send((title, text)).unwrap();
     }
 }
 
-fn write_file(root_dir: &str, title: &str, contents: &str, article_id: usize) -> Result<()> {
-    // Figure out where to write the file
-    let filename = format!("{}_{}", article_id, title);
-    let filename = filename.replace(|c: char| !c.is_alphanumeric(), "_");
-    let filename: String = filename.chars().take(100).collect();
-    let mut sub_dir: String = filename.chars().take(4).collect();
-    if sub_dir.ends_with(|c: char| !c.is_numeric()) {
-        sub_dir = "0000".to_string();
+fn file_writer(root_dir: String, rx: mpsc::Receiver<(String, String)>) {
+    std::fs::create_dir_all(&root_dir).unwrap();
+
+    let file = File::create(format!("{}/{}", root_dir, OUTPUT_FILENAME)).unwrap();
+    let mut file_writer = BufWriter::with_capacity(OUTPUT_BUFFER_SIZE, file);
+
+    let index_file = File::create(format!("{}/{}", root_dir, INDEX_FILENAME)).unwrap();
+    let mut index_file_writer = BufWriter::with_capacity(INDEX_BUFFER_SIZE, index_file);
+
+    let mut pos = 0;
+
+    loop {
+        let (name, contents) = match rx.recv() {
+            Err(_) => break,
+            Ok(x) => x,
+        };
+
+        let bytes = contents.as_bytes();
+        let bytes_written = file_writer.write(bytes).unwrap();
+
+        // This should be the case. Just in case this assumption is wrong, do an early exit.
+        assert!(bytes_written == bytes.len());
+
+        index_file_writer
+            .write(format!("{}: {}\n", pos, name).as_bytes())
+            .unwrap();
+
+        pos += bytes_written;
     }
-    let path = format!("{}/{}/{}.json", root_dir, &sub_dir, &filename);
 
-    // Create the directories that will contain the file
-    let path = Path::new(&path);
-    let prefix = path.parent().unwrap();
-    create_dir_all(prefix)?;
-
-    // Write the file
-    let mut file = File::create(path);
-    if let Ok(f) = file.as_mut() {
-        f.write_all(contents.as_bytes())?;
-    } else {
-        panic!("Could not write file: {}", filename);
-    }
-
-    Ok(())
+    file_writer.flush().unwrap();
 }

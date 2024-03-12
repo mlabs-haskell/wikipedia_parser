@@ -13,31 +13,25 @@ use quick_xml::Result;
 use crate::progress::progress;
 use crate::work_queue::WorkQueue;
 
-pub struct XMLParser<F>
-where
-    F: Fn(&[u8], &str) -> String + Clone + Sync + Send + Copy + 'static,
-{
-    text_processor: F,
+pub struct XMLParser {
     reader: Reader<BufReader<File>>,
-    num_articles: usize,
-    root_dir: String,
     file_size: u64, // for tracking progress
     work_queue: WorkQueue,
 }
 
-impl<F> XMLParser<F>
-where
-    F: Fn(&[u8], &str) -> String + Clone + Sync + Send + Copy,
-{
-    pub fn new(root_dir: String, text_processor: F, filename: &str) -> Result<Self> {
-        let file_size = std::fs::File::open(filename)?.metadata()?.len();
-        let reader = Reader::from_file(filename)?;
-        let work_queue = WorkQueue::new();
+impl XMLParser {
+    pub fn new<F>(root_dir: String, text_processor: F, filename: &str) -> Result<Self>
+    where
+        F: Fn(&[u8], &str) -> String + Clone + Sync + Send + Copy + 'static,
+    {
+        let file = File::open(filename)?;
+        let file_size = file.metadata()?.len();
+        let reader = BufReader::with_capacity(4 * 1024 * 1024, file);
+        let reader = Reader::from_reader(reader);
+        let work_queue = WorkQueue::new(root_dir, text_processor);
+
         Ok(Self {
-            text_processor,
             reader,
-            num_articles: 0,
-            root_dir,
             file_size,
             work_queue,
         })
@@ -167,15 +161,7 @@ where
             return Ok(());
         }
 
-        let article_id = self.num_articles;
-        self.num_articles += 1;
-        self.work_queue.queue(
-            article_id,
-            text,
-            title,
-            self.text_processor.clone(),
-            self.root_dir.clone(),
-        );
+        self.work_queue.queue(text, title);
 
         Ok(())
     }
