@@ -2,6 +2,7 @@ use core::panic;
 use std::fs::File;
 use std::io::BufReader;
 use std::str;
+use std::time::Duration;
 use std::time::SystemTime;
 
 use quick_xml::events::Event;
@@ -57,18 +58,19 @@ impl XMLParser {
     fn parse_mediawiki(&mut self) -> Result<()> {
         let mut buffer = Vec::new();
         let file_size = self.file_size;
-        let start_time = SystemTime::now();
+
+        let mut progress = Progress {
+            total: file_size,
+            rate_divider: 1024.0 * 1024.0,
+            rate_unit: "MB/s",
+            window_length: Duration::from_secs(5),
+            start: SystemTime::now(),
+            start_count: 0,
+        };
         loop {
             let pos = self.reader.buffer_position();
 
-            let progress_str = progress(
-                pos as _,
-                file_size,
-                1024.0 * 1024.0,
-                "MB/s",
-                start_time,
-                SystemTime::now(),
-            );
+            let progress_str = progress.progress(pos as _, SystemTime::now());
 
             print!("Progress: {} \r", progress_str);
 
