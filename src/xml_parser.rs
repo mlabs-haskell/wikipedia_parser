@@ -10,6 +10,7 @@ use quick_xml::reader::Reader;
 use quick_xml::Error;
 use quick_xml::Result;
 
+use crate::progress::progress;
 use crate::work_queue::WorkQueue;
 
 pub struct XMLParser<F>
@@ -65,22 +66,17 @@ where
         let start_time = SystemTime::now();
         loop {
             let pos = self.reader.buffer_position();
-            let pct = 100.0 * (pos as f64) / (file_size as f64);
 
-            let elapsed = start_time.elapsed().unwrap();
-            let rate = pos as f64 / elapsed.as_secs_f64();
-            let rate_mb = rate / 1024.0 / 1024.0;
-
-            let eta_secs = (file_size - (pos as u64)) as f64 / rate;
-            let eta_mins = eta_secs / 60.0;
-
-            let eta_total_secs = file_size as f64 / rate;
-            let eta_total_mins = eta_total_secs / 60.0;
-
-            print!(
-                "Progress: {:.2}% {}/{} | {:.2} MB/sec {:.2} mins ETA ({:.2} mins total) \r",
-                pct, pos, file_size, rate_mb, eta_mins, eta_total_mins
+            let progress_str = progress(
+                pos as _,
+                file_size,
+                1024.0 * 1024.0,
+                "MB/s",
+                start_time,
+                SystemTime::now(),
             );
+
+            print!("Progress: {} \r", progress_str);
 
             match self.reader.read_event_into(&mut buffer) {
                 Err(e) => self.terminate(e),
