@@ -1,3 +1,4 @@
+pub mod par_file;
 mod work_queue;
 pub mod xml_parser;
 
