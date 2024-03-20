@@ -11,7 +11,7 @@ use quick_xml::reader::Reader;
 use quick_xml::Error;
 use quick_xml::Result;
 
-use crate::progress::progress;
+use crate::progress::Progress;
 use crate::work_queue::WorkQueue;
 
 pub struct XMLParser {
@@ -63,9 +63,10 @@ impl XMLParser {
             total: file_size,
             rate_divider: 1024.0 * 1024.0,
             rate_unit: "MB/s",
-            window_length: Duration::from_secs(5),
             start: SystemTime::now(),
-            start_count: 0,
+            window_length: Duration::from_secs(5),
+            window_start: SystemTime::now(),
+            window_count: 0,
         };
         loop {
             let pos = self.reader.buffer_position();
