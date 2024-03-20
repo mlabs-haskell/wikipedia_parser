@@ -24,7 +24,7 @@ enum Extractor {
     Contents,
 }
 
-const PAR_FILE_BLOCK_SIZE: usize = 4 * 1024 * 1024 * 1024;
+const PAR_FILE_BLOCK_SIZE: usize = 100 * 1024 * 1024;
 const PAR_FILE_QUEUE_SIZE: u64 = 1;
 const PAR_FILE_NUM_THREADS: u64 = 16;
 
