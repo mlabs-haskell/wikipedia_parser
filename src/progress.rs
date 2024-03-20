@@ -26,7 +26,7 @@ impl Progress {
         let eta_remaining_secs_part = (eta_remaining_secs % 60.0).floor();
 
         let eta_total_secs =
-            eta_remaining_secs + now.duration_since(self.window_start).unwrap().as_secs_f64();
+            eta_remaining_secs + now.duration_since(self.start).unwrap().as_secs_f64();
         let eta_total_mins_part = (eta_total_secs / 60.0).floor();
         let eta_total_secs_part = (eta_total_secs % 60.0).floor();
 
