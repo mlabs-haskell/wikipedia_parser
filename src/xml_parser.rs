@@ -64,12 +64,16 @@ impl<R: BufRead> XMLParser<R> {
             window_start: SystemTime::now(),
             window_count: 0,
         };
+
+        let mut last_pos = 0;
         loop {
             let pos = self.reader.buffer_position();
+            if (pos - last_pos) > 1024 * 1024 * 100 {
+                last_pos = pos;
+                let progress_str = progress.progress(pos as _, SystemTime::now());
 
-            let progress_str = progress.progress(pos as _, SystemTime::now());
-
-            print!("Progress: {} \r", progress_str);
+                print!("Progress: {} \r", progress_str);
+            }
 
             buffer.clear();
             garbage.clear();
@@ -92,6 +96,8 @@ impl<R: BufRead> XMLParser<R> {
                 _ => (),
             }
         }
+
+        println!();
 
         Ok(())
     }
