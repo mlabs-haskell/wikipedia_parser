@@ -82,4 +82,5 @@ fn file_writer(root_dir: String, rx: mpsc::Receiver<(String, String)>) {
     }
 
     file_writer.flush().unwrap();
+    index_file_writer.flush().unwrap();
 }
