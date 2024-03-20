@@ -1,4 +1,3 @@
-use core::panic;
 use std::fs::File;
 use std::io::BufReader;
 use std::str;
@@ -57,6 +56,7 @@ impl XMLParser {
     // Parse the body of the XML page
     fn parse_mediawiki(&mut self) -> Result<()> {
         let mut buffer = Vec::new();
+        let mut garbage = Vec::new();
         let file_size = self.file_size;
 
         let mut progress = Progress {
@@ -75,19 +75,19 @@ impl XMLParser {
 
             print!("Progress: {} \r", progress_str);
 
+            buffer.clear();
+            garbage.clear();
             match self.reader.read_event_into(&mut buffer) {
                 Err(e) => self.terminate(e),
                 Ok(Event::Start(e)) => {
                     let tag = e.name().into_inner();
                     match tag {
-                        b"page" => self.parse_page()?,
+                        b"page" => self.parse_page(&mut buffer, &mut garbage)?,
                         b"siteinfo" => {
-                            let mut garbage = Vec::new();
                             self.reader.read_to_end_into(QName(tag), &mut garbage)?;
                         }
                         _ => {
                             println!("Unknown tag: {}", String::from_utf8_lossy(tag));
-                            let mut garbage = Vec::new();
                             self.reader.read_to_end_into(QName(tag), &mut garbage)?;
                         }
                     }
@@ -100,21 +100,19 @@ impl XMLParser {
         Ok(())
     }
 
-    fn parse_page(&mut self) -> Result<()> {
-        let mut buffer = Vec::new();
+    fn parse_page(&mut self, buffer: &mut Vec<u8>, garbage: &mut Vec<u8>) -> Result<()> {
         let mut title = Vec::new();
         let mut text = Vec::new();
 
         // Parse the page
         loop {
-            match self.reader.read_event_into(&mut buffer) {
+            match self.reader.read_event_into(buffer) {
                 Err(e) => self.terminate(e),
                 Ok(Event::Empty(e)) => {
                     let tag = e.name().into_inner();
                     if tag == b"redirect" {
                         // We don't care about redirect pages
-                        let mut garbage = Vec::new();
-                        self.reader.read_to_end_into(QName(b"page"), &mut garbage)?;
+                        self.reader.read_to_end_into(QName(b"page"), garbage)?;
                         return Ok(());
                     }
                 }
@@ -127,14 +125,12 @@ impl XMLParser {
                             _ => return Err(Error::TextNotFound),
                         },
                         b"ns" | b"id" => {
-                            let mut garbage = Vec::new();
-                            self.reader.read_to_end_into(QName(tag), &mut garbage)?;
+                            self.reader.read_to_end_into(QName(tag), garbage)?;
                         }
-                        b"revision" => self.parse_revision(&mut text)?,
+                        b"revision" => self.parse_revision(&mut text, buffer, garbage)?,
                         _ => {
                             println!("Unknown tag: {}", String::from_utf8_lossy(tag));
-                            let mut garbage = Vec::new();
-                            self.reader.read_to_end_into(QName(tag), &mut garbage)?;
+                            self.reader.read_to_end_into(QName(tag), garbage)?;
                         }
                     }
                 }
@@ -169,33 +165,32 @@ impl XMLParser {
         Ok(())
     }
 
-    fn parse_revision(&mut self, text: &mut Vec<u8>) -> Result<()> {
-        let mut buffer = Vec::new();
+    fn parse_revision(
+        &mut self,
+        text: &mut Vec<u8>,
+        buffer: &mut Vec<u8>,
+        garbage: &mut Vec<u8>,
+    ) -> Result<()> {
         loop {
-            match self.reader.read_event_into(&mut buffer) {
+            match self.reader.read_event_into(buffer) {
                 Err(e) => self.terminate(e),
                 Ok(Event::Start(e)) => {
                     let tag = e.name().into_inner();
                     match tag {
                         b"id" | b"parentid" | b"timestamp" | b"contributor" | b"minor"
                         | b"comment" | b"model" | b"format" | b"sha1" => {
-                            let mut garbage = Vec::new();
-                            self.reader.read_to_end_into(QName(tag), &mut garbage)?;
+                            self.reader.read_to_end_into(QName(tag), garbage)?;
                         }
-                        b"text" => {
-                            let mut text_buffer = Vec::new();
-                            match self.reader.read_event_into(&mut text_buffer) {
-                                Err(e) => self.terminate(e),
-                                Ok(Event::Text(e)) => {
-                                    *text = e.to_vec();
-                                }
-                                _ => return Err(Error::TextNotFound),
+                        b"text" => match self.reader.read_event_into(buffer) {
+                            Err(e) => self.terminate(e),
+                            Ok(Event::Text(e)) => {
+                                *text = e.to_vec();
                             }
-                        }
+                            _ => return Err(Error::TextNotFound),
+                        },
                         _ => {
                             println!("Unknown tag: {}", String::from_utf8_lossy(tag));
-                            let mut garbage = Vec::new();
-                            self.reader.read_to_end_into(QName(tag), &mut garbage)?;
+                            self.reader.read_to_end_into(QName(tag), garbage)?;
                         }
                     }
                 }
