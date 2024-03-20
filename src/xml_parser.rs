@@ -34,19 +34,21 @@ impl<R: BufRead> XMLParser<R> {
     }
 
     // Main XML parsing function
-    pub fn parse_xml(&mut self) -> Result<()> {
+    pub fn parse_xml(mut self) -> Result<()> {
         let mut buffer = Vec::new();
         match self.reader.read_event_into(&mut buffer) {
             Err(e) => self.terminate(e),
             Ok(Event::Start(e)) => {
                 if e.name().into_inner() == b"mediawiki" {
-                    self.parse_mediawiki()
+                    self.parse_mediawiki()?;
                 } else {
-                    Err(Error::TextNotFound)
+                    return Err(Error::TextNotFound);
                 }
             }
-            _ => Err(Error::TextNotFound),
-        }
+            _ => return Err(Error::TextNotFound),
+        };
+        self.work_queue.wait_for_completion();
+        Ok(())
     }
 
     // Parse the body of the XML page

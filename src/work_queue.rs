@@ -2,6 +2,7 @@ use rayon::iter::{ParallelBridge, ParallelIterator};
 use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::sync::mpsc;
+use std::thread::JoinHandle;
 
 const QUEUE_SIZE: usize = 1024;
 const OUTPUT_FILENAME: &'static str = "output.jsonl";
@@ -14,7 +15,9 @@ const OUTPUT_BUFFER_SIZE: usize = 2 * G;
 const INDEX_BUFFER_SIZE: usize = 1 * G;
 
 pub struct WorkQueue {
-    parser_sender: mpsc::SyncSender<(String, Vec<u8>)>,
+    parser_sender: Option<mpsc::SyncSender<(String, Vec<u8>)>>,
+    parser_thread: JoinHandle<()>,
+    writer_thread: JoinHandle<()>,
 }
 
 impl WorkQueue {
@@ -26,11 +29,11 @@ impl WorkQueue {
         let (parser_sender, parser_receiver) = mpsc::sync_channel::<(String, Vec<u8>)>(QUEUE_SIZE);
 
         // Start the writer thread
-        std::thread::spawn(move || file_writer(root_dir, writer_receiver));
+        let writer_thread = std::thread::spawn(move || file_writer(root_dir, writer_receiver));
 
         // Iterate over the elements in the parser channel parallely, and run text_processor in a
         // thread pool. Send the result over to the writer thread.
-        std::thread::spawn(move || {
+        let parser_thread = std::thread::spawn(move || {
             parser_receiver.into_iter().par_bridge().for_each_with(
                 writer_sender,
                 |writer_sender, (title, contents)| {
@@ -43,11 +46,25 @@ impl WorkQueue {
             )
         });
 
-        Self { parser_sender }
+        Self {
+            parser_sender: Some(parser_sender),
+            parser_thread,
+            writer_thread,
+        }
     }
 
     pub fn queue(&mut self, text: Vec<u8>, title: String) {
-        self.parser_sender.send((title, text)).unwrap();
+        self.parser_sender
+            .as_ref()
+            .unwrap()
+            .send((title, text))
+            .unwrap();
+    }
+
+    pub fn wait_for_completion(mut self) {
+        drop(self.parser_sender.take());
+        self.parser_thread.join().unwrap();
+        self.writer_thread.join().unwrap();
     }
 }
 
@@ -74,9 +91,10 @@ fn file_writer(root_dir: String, rx: mpsc::Receiver<(String, String)>) {
         // This should be the case. Just in case this assumption is wrong, do an early exit.
         assert!(bytes_written == bytes.len());
 
-        index_file_writer
+        let written = index_file_writer
             .write(format!("{}: {}\n", pos, name).as_bytes())
             .unwrap();
+        assert!(written != 0);
 
         pos += bytes_written;
     }
