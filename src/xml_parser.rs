@@ -1,5 +1,4 @@
-use std::fs::File;
-use std::io::BufReader;
+use std::io::BufRead;
 use std::str;
 use std::time::Duration;
 use std::time::SystemTime;
@@ -13,20 +12,17 @@ use quick_xml::Result;
 use crate::progress::Progress;
 use crate::work_queue::WorkQueue;
 
-pub struct XMLParser {
-    reader: Reader<BufReader<File>>,
+pub struct XMLParser<R: BufRead> {
+    reader: Reader<R>,
     file_size: u64, // for tracking progress
     work_queue: WorkQueue,
 }
 
-impl XMLParser {
-    pub fn new<F>(root_dir: String, text_processor: F, filename: &str) -> Result<Self>
+impl<R: BufRead> XMLParser<R> {
+    pub fn new<F>(root_dir: String, text_processor: F, reader: R, file_size: u64) -> Result<Self>
     where
         F: Fn(&[u8], &str) -> String + Clone + Sync + Send + Copy + 'static,
     {
-        let file = File::open(filename)?;
-        let file_size = file.metadata()?.len();
-        let reader = BufReader::with_capacity(4 * 1024 * 1024, file);
         let reader = Reader::from_reader(reader);
         let work_queue = WorkQueue::new(root_dir, text_processor);
 
