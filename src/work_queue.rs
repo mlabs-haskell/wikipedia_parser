@@ -5,8 +5,6 @@ use std::sync::mpsc;
 use std::thread::JoinHandle;
 
 const QUEUE_SIZE: usize = 1024;
-const OUTPUT_FILENAME: &'static str = "output.jsonl";
-const INDEX_FILENAME: &'static str = "output-index.txt";
 
 const K: usize = 1024;
 const M: usize = 1024 * K;
@@ -21,7 +19,7 @@ pub struct WorkQueue {
 }
 
 impl WorkQueue {
-    pub fn new<F>(root_dir: String, text_processor: F) -> Self
+    pub fn new<F>(data_file: String, index_file: String, text_processor: F) -> Self
     where
         F: Fn(&[u8], &str) -> String + Sync + Send + 'static,
     {
@@ -29,7 +27,8 @@ impl WorkQueue {
         let (parser_sender, parser_receiver) = mpsc::sync_channel::<(String, Vec<u8>)>(QUEUE_SIZE);
 
         // Start the writer thread
-        let writer_thread = std::thread::spawn(move || file_writer(root_dir, writer_receiver));
+        let writer_thread =
+            std::thread::spawn(move || file_writer(data_file, index_file, writer_receiver));
 
         // Iterate over the elements in the parser channel parallely, and run text_processor in a
         // thread pool. Send the result over to the writer thread.
@@ -68,13 +67,11 @@ impl WorkQueue {
     }
 }
 
-fn file_writer(root_dir: String, rx: mpsc::Receiver<(String, String)>) {
-    std::fs::create_dir_all(&root_dir).unwrap();
+fn file_writer(data_file: String, index_file: String, rx: mpsc::Receiver<(String, String)>) {
+    let data_file = File::create(data_file).unwrap();
+    let mut data_file_writer = BufWriter::with_capacity(OUTPUT_BUFFER_SIZE, data_file);
 
-    let file = File::create(format!("{}/{}", root_dir, OUTPUT_FILENAME)).unwrap();
-    let mut file_writer = BufWriter::with_capacity(OUTPUT_BUFFER_SIZE, file);
-
-    let index_file = File::create(format!("{}/{}", root_dir, INDEX_FILENAME)).unwrap();
+    let index_file = File::create(index_file).unwrap();
     let mut index_file_writer = BufWriter::with_capacity(INDEX_BUFFER_SIZE, index_file);
 
     let mut pos = 0;
@@ -86,7 +83,7 @@ fn file_writer(root_dir: String, rx: mpsc::Receiver<(String, String)>) {
         };
 
         let bytes = contents.as_bytes();
-        let bytes_written = file_writer.write(bytes).unwrap();
+        let bytes_written = data_file_writer.write(bytes).unwrap();
 
         // This should be the case. Just in case this assumption is wrong, do an early exit.
         assert!(bytes_written == bytes.len());
@@ -99,6 +96,6 @@ fn file_writer(root_dir: String, rx: mpsc::Receiver<(String, String)>) {
         pos += bytes_written;
     }
 
-    file_writer.flush().unwrap();
+    data_file_writer.flush().unwrap();
     index_file_writer.flush().unwrap();
 }

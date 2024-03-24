@@ -19,12 +19,18 @@ pub struct XMLParser<R: BufRead> {
 }
 
 impl<R: BufRead> XMLParser<R> {
-    pub fn new<F>(root_dir: String, text_processor: F, reader: R, file_size: u64) -> Result<Self>
+    pub fn new<F>(
+        data_file: String,
+        index_file: String,
+        text_processor: F,
+        reader: R,
+        file_size: u64,
+    ) -> Result<Self>
     where
         F: Fn(&[u8], &str) -> String + Clone + Sync + Send + Copy + 'static,
     {
         let reader = Reader::from_reader(reader);
-        let work_queue = WorkQueue::new(root_dir, text_processor);
+        let work_queue = WorkQueue::new(data_file, index_file, text_processor);
 
         Ok(Self {
             reader,
