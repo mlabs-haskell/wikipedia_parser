@@ -1,4 +1,4 @@
-use wikipedia_parser::wikitext_parser::extract_text;
+use wikipedia_parser::extractors::wikitext::extract;
 
 use std::fs;
 
@@ -6,9 +6,9 @@ const RAW_ARTICLE_DIR: &str = "resources/test/raw_articles/";
 const PROCESSED_DIR: &str = "resources/test/processed_articles/";
 
 // Load a file from the raw article directory
-fn raw_file(filename: &str) -> String {
+fn raw_file(filename: &str) -> Vec<u8> {
     let filename = RAW_ARTICLE_DIR.to_string() + filename + ".txt";
-    fs::read_to_string(&filename).expect("Should have been able to read the file")
+    fs::read(&filename).expect("Should have been able to read the file")
 }
 
 // Load a file from the processed article directory
@@ -20,7 +20,7 @@ fn processed_file(filename: &str) -> String {
 // Load the raw and processed file of the given name, and make sure they are equal
 fn test_full_doc(article_name: &str) {
     let raw = raw_file(article_name);
-    let output = extract_text(&raw);
+    let output = extract(&raw, &article_name);
 
     let processed = processed_file(article_name);
 
