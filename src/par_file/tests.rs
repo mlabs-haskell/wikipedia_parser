@@ -1,9 +1,4 @@
-use std::{
-    io::Read,
-    sync::{atomic::Ordering, mpsc},
-    thread,
-    time::Duration,
-};
+use std::{io::Read, sync::atomic::Ordering, thread, time::Duration};
 
 use super::ParFile;
 
