@@ -118,6 +118,8 @@ impl Read for ParFile {
             if self.current_thread >= self.threads.len() {
                 self.current_thread = 0;
             }
+        } else {
+            self.current_buffer_offset += n;
         }
 
         Ok(n)
