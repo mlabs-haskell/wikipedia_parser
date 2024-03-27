@@ -3,6 +3,14 @@ name = "wikipedia_parser"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "parser"
+path = "src/main.rs"
+
+[[bin]]
+name = "subgraph-extractor"
+path = "src/main_subgraph.rs"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -16,3 +24,8 @@ rayon = "1.8.0"
 regex = "1.10.2"
 serde = { version = "1.0.193", features = ["derive"] }
 serde_json = "1.0.108"
+tempfile = "3.10.1"
+thiserror = "1.0.58"
+
+[profile.release]
+debug = 1

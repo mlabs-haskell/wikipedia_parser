@@ -6,6 +6,7 @@ output/*
 text_output/*
 vanilla_output/*
 json_output/*
+scratch/*
 
 counts.csv
 priority_templates.csv

@@ -1,6 +1,6 @@
 mod template_transformers;
 mod tree;
-mod wikitext_parser;
+pub mod wikitext_parser;
 
 pub fn extract(input: &[u8], title: &str) -> String {
     let text = wikitext_parser::extract_text(input);
