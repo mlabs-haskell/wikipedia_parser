@@ -188,7 +188,7 @@ impl<R: BufRead> XMLParser<R> {
                     let tag = e.name().into_inner();
                     match tag {
                         b"id" | b"parentid" | b"timestamp" | b"contributor" | b"minor"
-                        | b"comment" | b"model" | b"format" | b"sha1" => {
+                        | b"comment" | b"model" | b"format" | b"sha1" | b"origin" => {
                             self.reader.read_to_end_into(QName(tag), garbage)?;
                         }
                         b"text" => match self.reader.read_event_into(buffer) {
