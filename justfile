@@ -1,4 +1,4 @@
-input_file := "data/enwiki-20231220-pages-articles-multistream.xml"	
+input_file := "data/enwiki-20231220-pages-articles-multistream.xml"
 
 _default:
 	just -l
@@ -30,8 +30,8 @@ extract-subgraph root depth:
 		--input-index-file "output/links/index.txt"	\
 		--output-file "output/subgraph/{{root}}.txt" \
 		--input-file-threads 16 \
-		--root-page {{root}} \
-		--depth {{depth}} 
+		--root-page "{{root}}" \
+		--depth {{depth}}
 
 extract-subgraph-fanout root depth fanout-factor:
 	{{subgraph-extractor}} \
@@ -40,6 +40,6 @@ extract-subgraph-fanout root depth fanout-factor:
 		--input-index-file "output/links/index.txt"	\
 		--output-file "output/subgraph/root.txt" \
 		--input-file-threads 16 \
-		--root-page {{root}} \
+		--root-page "{{root}}" \
 		--depth {{depth}} \
-		--fanout {{fanout-factor}} 
+		--fanout {{fanout-factor}}
