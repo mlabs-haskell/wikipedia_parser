@@ -1,4 +1,4 @@
-input_file := "data/enwiki-20231220-pages-articles-multistream.xml"
+input_file := "data/wikipedia.xml"
 
 _default:
 	just -l
